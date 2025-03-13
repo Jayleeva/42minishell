@@ -1,2 +1,3 @@
 # 42minishell
-Projet du 4eme cercle du cursus 42
+Projet de groupe du 4eme cercle du cursus 42
+
