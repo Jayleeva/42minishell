@@ -12,6 +12,6 @@ Projet de groupe du 4ème cercle du cursus 42
 - gérer ``$?`` qui doit s'étendre au statut exit(?) du foreground pipeline(?) exécuté en dernier 
 - mode interactif(?) -> ctrl-C : rendre la commande (afficher un message, j'imagine un truc genre "user@post:~$" et attendre input), ctrl-D : sort du shell, ctrl-\ : ne fait rien. Doivent se comporter comme dans bash (que si pas en mode interactif?).
 - implémenter les "builtin" suivants: echo (avec l'option -n), cd (avec path relatif et absolu, rien d'autre), pwd, export, unset, env (ni options ni arguments), exit. 
-- droit à une globale mais ne doit permettre qu'à indiquer la réception d'un signal et ne doit ni accéder à ni fournir aucune autre donnée. Il est donc interdit de mettre une structure de type "normes" en globale.
+- droit à une globale mais ne doit servir qu'à indiquer la réception d'un signal et ne doit ni accéder à ni fournir aucune autre donnée. Il est donc interdit de mettre une structure de type "normes" en globale.
 - pas besoin de gérer les éventuels leaks de readline(), mais les autres oui
 - en cas de doute utiliser bash comme référence
