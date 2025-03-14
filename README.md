@@ -8,7 +8,9 @@ Projet de groupe du 4ème cercle du cursus 42
 - ne pas gérer les quotes non fermés ni les char spéciaux non requis comme \ et ; 
 - gérer les single et double quotes
 - gérer les redirections(?) <, << (donner un délimiteur(?)), >, >> (rediriger en mode append(?))
-- mode interactif(?) -> ctrl-C : rendre la commande (afficher un message, j'imagine un truc genre "user@post:~$" et attendre input), ctrl-D : sort du shell, ctrl-\ : ne fait rien. Si pas dans en mode interatif? doivent se comporter comme dans bash.
+- gérer les variables d'environnement(?) qui doivent s'étendre à leurs valeurs(???)
+- gérer ``$?`` qui doit s'étendre au statut exit(?) du foreground pipeline(?) exécuté en dernier 
+- mode interactif(?) -> ctrl-C : rendre la commande (afficher un message, j'imagine un truc genre "user@post:~$" et attendre input), ctrl-D : sort du shell, ctrl-\ : ne fait rien. Doivent se comporter comme dans bash (que si pas en mode interactif?).
 - implémenter les "builtin" suivants: echo (avec l'option -n), cd (avec path relatif et absolu, rien d'autre), pwd, export, unset, env (ni options ni arguments), exit. 
 - droit à une globale mais ne doit permettre qu'à indiquer la réception d'un signal et ne doit ni accéder à ni fournir aucune autre donnée.
 - pas besoin de gérer les éventuels leaks de readline(), mais les autres oui
