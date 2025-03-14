@@ -15,3 +15,5 @@ Projet de groupe du 4ème cercle du cursus 42
 - droit à une globale mais ne doit servir qu'à indiquer la réception d'un signal et ne doit ni accéder à ni fournir aucune autre donnée. Il est donc interdit de mettre une structure de type "normes" en globale.
 - pas besoin de gérer les éventuels leaks de readline(), mais les autres oui
 - en cas de doute utiliser bash comme référence
+
+Se renseigner sur les fonctions autorisées encore inconnues: https://web.mit.edu/gnu/doc/html/rlman_2.html
