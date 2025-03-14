@@ -4,7 +4,7 @@ Projet de groupe du 4ème cercle du cursus 42
 - recréer un "serveur" et un "client" comme pour minitalk, mais combinés dans le même programme? On doit pouvoir envoyer des commandes au "serveur" qui les exécute et nous rend la commande // affiche des messages d'erreurs. Utiliser signaux et bit shifting pour envoyer les prompt? ou scanf?
 - doit pouvoir traiter des commandes multiples grâce au |: utiliser fork comme dans pipex. Peut-être aussi besoin pour d'autres parties. Comprendre | comme: exécuter la première commande, puis exécuter la deuxième en fonction du résultat de la première. "The output of each command in the pipeline is connected to the input of the next command via a pipe"
 - "your shell should have a working history": juste pas effacer les commandes précédentes? ou autre chose?
-- gérer les chemins absolus ET relatifs ou utiliser PATH(?) pour chercher et lancer les exécutables
+- gérer les chemins absolus ET relatifs ou utiliser (define?) une variable PATH pour chercher et lancer les exécutables
 - ne pas gérer les quotes non fermés ni les char spéciaux non requis comme \ et ; 
 - gérer les single et double quotes
 - gérer les redirections(?) <, << (donner un délimiteur(?)), >, >> (rediriger en mode append(?))
