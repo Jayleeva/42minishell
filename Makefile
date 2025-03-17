@@ -10,12 +10,12 @@ OBJ = $(SRC:.c=.o)
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc -lreadline
+CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_LIB)
-	@${CC} ${CFLAGS} ${OBJ} $(LIBFT_LIB) -o $(NAME)
+	@${CC} ${CFLAGS} ${OBJ} $(LIBFT_LIB) -o $(NAME) -lreadline
 
 $(LIBFT_LIB):
 	@${MAKE} -C libft
