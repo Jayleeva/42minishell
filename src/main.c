@@ -7,4 +7,9 @@ int	main(void)
 	line_read = readline("Enter a line: ");
 	add_history(line_read);
 	printf("%s\n", ttyname(1));
+	
 }
+
+
+
+
