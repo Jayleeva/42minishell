@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
+#include "../inc/minishell.h"
+#include "../libft/inc/libft.h"
 
 int	main(void)
 {
