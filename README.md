@@ -1,16 +1,31 @@
 Projet de groupe du 4ème cercle du cursus 42
 
 # Stratégie
-Create a program that runs as long as the user needs it and closes on command. Use a loop that stops only once the user gives a closing input? And that lets the user give as many inputs as they want via realine().
+Create a program that runs as long as the user needs it and closes on command. Use a loop that stops only once the user gives a closing input? And that lets the user give as many inputs as they want via readline().
 
-Stock the inputs in a history via addhistory(). Where? In what format? how can we access it?
+Stock the inputs in a history via add_history(). Where? In what format? how can we access it? should work like in the terminal: call precedent command with a up arrow key. 
 
-Handle echo, cd, pwd, export, unset, env, and exit. Recreate their bash behavior.
+Handle echo, cd, pwd, export, unset, env, and exit. Recreate their bash behavior. 
+  - we must access files beyond the one of the program then? how? by using env to get the path?
+  - how do we execute the commands? with execve?
+
+Source to understand environement variables better: https://opensource.com/article/19/8/what-are-environment-variables
+
+Sources to understand how a terminal should work:
+
+https://brennan.io/2015/01/16/write-a-shell-in-c/
+
+https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+
+
+Steps:
+- Create a loop that stops only when receiving an exit command, and that allows the user to give as many inputs as they want, one by one. DONE
+- Implement a first, simple command like **pwd** for example: figure out how to find a path, and print it if found, print error if not.
 
 
 - recréer un "serveur" et un "client" comme pour minitalk, mais combinés dans le même programme? On doit pouvoir envoyer des commandes au "serveur" qui les exécute et nous rend la commande // affiche des messages d'erreurs. Utiliser signaux et bit shifting pour envoyer les prompt? pensé à scanf() mais pas autorisé. Rôle de la fonction readline(): lit et retourne la ligne du terminal.
 - doit pouvoir traiter des commandes multiples grâce au |: utiliser fork comme dans pipex. Peut-être aussi besoin pour d'autres parties. Comprendre | comme: exécuter la première commande, puis exécuter la deuxième en fonction du résultat de la première. "The output of each command in the pipeline is connected to the input of the next command via a pipe"
-- "your shell should have a working history": juste pas effacer les commandes précédentes? ou autre chose?
+- "your shell should have a working history": on doit pouvoir appeler la commande precedente en utilisant la touche fleche haut par ex.
 - gérer les chemins absolus ET relatifs ou utiliser (define?) une variable PATH pour chercher et lancer les exécutables
 - ne pas gérer les quotes non fermés ni les char spéciaux non requis comme \ et ; 
 - gérer les single et double quotes
