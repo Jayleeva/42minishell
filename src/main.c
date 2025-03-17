@@ -26,7 +26,7 @@ int	main(void)
 		line_read = readline("Enter a line: ");
 		//add_history(line_read);
 		if (ft_strncmp(line_read, "cd", 3) == 0)
-			ft_printf("cd");
+			ft_printf("cd\n");
 		if (ft_strncmp(line_read, "exit", 5) == 0)
 			break;
 	}
