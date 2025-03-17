@@ -22,7 +22,7 @@ Steps:
 - Create a loop that stops only when receiving an exit command, and that allows the user to give as many inputs as they want, one by one. DONE
 - Implement a first, simple command like **pwd** for example: figure out how to find a path, and print it if found, print error if not.
 
-
+.
 - recréer un "serveur" et un "client" comme pour minitalk, mais combinés dans le même programme? On doit pouvoir envoyer des commandes au "serveur" qui les exécute et nous rend la commande // affiche des messages d'erreurs. Utiliser signaux et bit shifting pour envoyer les prompt? pensé à scanf() mais pas autorisé. Rôle de la fonction readline(): lit et retourne la ligne du terminal.
 - doit pouvoir traiter des commandes multiples grâce au |: utiliser fork comme dans pipex. Peut-être aussi besoin pour d'autres parties. Comprendre | comme: exécuter la première commande, puis exécuter la deuxième en fonction du résultat de la première. "The output of each command in the pipeline is connected to the input of the next command via a pipe"
 - "your shell should have a working history": on doit pouvoir appeler la commande precedente en utilisant la touche fleche haut par ex.
