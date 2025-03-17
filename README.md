@@ -1,6 +1,13 @@
 Projet de groupe du 4ème cercle du cursus 42
 
 # Stratégie
+Create a program that runs as long as the user needs it and closes on command. Use a loop that stops only once the user gives a closing input? And that lets the user give as many inputs as they want via realine().
+
+Stock the inputs in a history via addhistory(). Where? In what format? how can we access it?
+
+Handle echo, cd, pwd, export, unset, env, and exit. Recreate their bash behavior.
+
+
 - recréer un "serveur" et un "client" comme pour minitalk, mais combinés dans le même programme? On doit pouvoir envoyer des commandes au "serveur" qui les exécute et nous rend la commande // affiche des messages d'erreurs. Utiliser signaux et bit shifting pour envoyer les prompt? pensé à scanf() mais pas autorisé. Rôle de la fonction readline(): lit et retourne la ligne du terminal.
 - doit pouvoir traiter des commandes multiples grâce au |: utiliser fork comme dans pipex. Peut-être aussi besoin pour d'autres parties. Comprendre | comme: exécuter la première commande, puis exécuter la deuxième en fonction du résultat de la première. "The output of each command in the pipeline is connected to the input of the next command via a pipe"
 - "your shell should have a working history": juste pas effacer les commandes précédentes? ou autre chose?
