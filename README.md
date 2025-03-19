@@ -9,6 +9,13 @@ Handle echo, cd, pwd, export, unset, env, and exit. Recreate their bash behavior
   - we must access files beyond the one of the program then? how? by using env to get the path?
   - how do we execute the commands? with execve?
 
+Handle ctrl c (SIGINT: interruption from keyboard), ctrl \ (SIGQUIT: quit from keyboard), ctrl d (pas de signal: met un EOF, et il faut lire et gerer le EOF).
+
+- ctrl + C redonne un prompt que la ligne soit vide ou pleine ou qu'on soit dans une commande bloquante comme cat
+- ctrl + D exit si la ligne est vide et redonne un prompt dans un commande bloquante comme grep ""
+- ctrl + \ ne fait rien sauf dans une commande bloquante, il permet de kill le process avec un message d'erreur.
+
+
 Source to understand environement variables better: https://opensource.com/article/19/8/what-are-environment-variables
 
 Sources to understand how a terminal should work:
