@@ -25,6 +25,8 @@ https://brennan.io/2015/01/16/write-a-shell-in-c/
 https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 
 
+when you type a command, the only reason your computer knows how to find the application corresponding to that command is that the PATH environment variable tells it where to look.
+
 Steps:
 - Create a loop that stops only when receiving an exit command, and that allows the user to give as many inputs as they want, one by one. DONE
 - Implement a first, simple command like **pwd** for example: figure out how to find a path, and print it if found, print error if not.
@@ -39,7 +41,7 @@ env = affiche toutes les variables d'environnement, dont les PATH dont on a beso
 - gérer les single et double quotes
 - gérer les redirections(?) <, << (donner un délimiteur(?)), >, >> (rediriger en mode append(?))
 - gérer les variables d'environnement(?) qui doivent s'étendre à leurs valeurs(???)
-- gérer ``$?`` qui doit s'étendre au statut exit(?) du foreground pipeline(?) exécuté en dernier 
+- gérer ``$?`` qui doit s'étendre au statut exit(?) du foreground pipeline(?) exécuté en dernier : doit donner la valeur d'exit du dernier process.
 - mode interactif(?) -> ctrl-C : rendre la commande (afficher un message, j'imagine un truc genre "user@post:~$" et attendre input), ctrl-D : sort du shell, ctrl-\ : ne fait rien. Doivent se comporter comme dans bash (que si pas en mode interactif?).
 - implémenter les "builtin" suivants: **echo** (avec l'option **-n**), **cd** (avec path relatif et absolu, rien d'autre), **pwd**, **export**, **unset**, **env** (ni options ni arguments), **exit**. 
 - droit à une globale mais ne doit servir qu'à indiquer la réception d'un signal et ne doit ni accéder à ni fournir aucune autre donnée. Il est donc interdit de mettre une structure de type "normes" en globale.
