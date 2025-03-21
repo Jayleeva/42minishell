@@ -13,9 +13,29 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	}
 }
 
-int	main(void)
+void setup_environment(char **envp)
 {
-	char 		*line_read = (char *)NULL;
+    // Setup environment variables, signal handlers, etc.
+
+}
+
+void process_input(char *input)
+{
+    // Parse the input and execute the corresponding commands
+    // This might involve tokenizing the input, handling pipes, redirections, etc.
+    printf("Processing: %s\n", input);  // Placeholder for actual processing
+}
+
+void cleanup_environment()
+{
+    // Free any allocated resources, close files, etc.
+}
+
+int main(int argc, char **argv, char **envp)
+{
+    char *input;
+    (void)argc;  // Unused parameters
+    (void)argv;
 	sigset_t			set;
 	struct sigaction	shell;
 
@@ -25,17 +45,28 @@ int	main(void)
 	shell.sa_flags = SA_SIGINFO | SA_RESTART;
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
-
-	while (1)
+    // Initialize anything you need here (e.g., environment setup, signal handling)
+    setup_environment(envp);
+    while (1)
 	{
 		sigaction(SIGINT, &shell, NULL);
 		sigaction(SIGQUIT, &shell, NULL);
-		line_read = readline("Enter a line: ");
-		//add_history(line_read);
-		if (ft_strncmp(line_read, "cd", 3) == 0)
-			ft_printf("cd\n");
-		if (ft_strncmp(line_read, "exit", 5) == 0)
-			break;
-	}
-	//printf("%s\n", ttyname(1));
+        // Display prompt and read input
+        input = readline("minishell> ");
+        if (!input)
+		{
+            printf("exit\n");  // Handle EOF (Ctrl+D)
+            break;
+        }
+        // If input is not empty, add to history and process
+        if (*input)
+		{
+            add_history(input);
+            process_input(input);  // Your function to parse and execute commands
+        }
+        free(input);  // Free the input line after processing
+    }
+    // Cleanup before exit
+    cleanup_environment();
+    return 0;
 }
