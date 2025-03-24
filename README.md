@@ -15,6 +15,9 @@ Handle ctrl c (SIGINT: interruption from keyboard), ctrl \ (SIGQUIT: quit from k
 - ctrl + D exit si la ligne est vide et redonne un prompt dans un commande bloquante comme grep ""
 - ctrl + \ ne fait rien sauf dans une commande bloquante, il permet de kill le process avec un message d'erreur ("exit"?).
 
+On doit pouvoir utiliser les commandes qui existent dans les PATH et les executer avec execve(). On doit pouvoir lancer un programme (.sh, so_long, minishell!, ...) depuis minishell.
+
+On peut lancer minishell en mode interactif ou non interactif (?). Pour lancer en non interactif, il faut ajouter le flag -c dans l'execution, d'ou la verification arg == 3 (pourquoi 3? le nom du programme, le flag, et?). Je ne sais pas a quoi ca sert ni si c'est vraiment demande. Aucun souvenir d'avoir du tester ca en eval; le sujet precise comment handle les ctrl en mode interactif, mais rien sur le mode non interactif.
 
 Source to understand environement variables better: https://opensource.com/article/19/8/what-are-environment-variables
 
@@ -25,7 +28,7 @@ https://brennan.io/2015/01/16/write-a-shell-in-c/
 https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 
 
-when you type a command, the only reason your computer knows how to find the application corresponding to that command is that the PATH environment variable tells it where to look.
+when you type a command, the only reason your computer knows how to find the application corresponding to that command is that the PATH environment variable tells it where to look. Les commandes ont besoin des differents paths de la norme PATH? comment je sais lequel exactement, et commentj'y accede?
 
 Steps:
 - Create a loop that stops only when receiving an exit command, and that allows the user to give as many inputs as they want, one by one. DONE

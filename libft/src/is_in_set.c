@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   is_in_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:46:48 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/24 14:09:40 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/03/24 14:11:37 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/03/24 14:11:40 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+int	is_in_set(char const *set, char c)
 {
-	size_t		start;
-	size_t		end;
-	size_t		len;
-	char		*result;
+	size_t	i;
 
-	end = ft_strlen(s1);
-	start = 0;
-	while (is_in_set(set, s1[start]) == 1)
-		start ++;
-	if (start >= end)
-		return (ft_strdup(""));
-	while (is_in_set(set, s1[end -1]) == 1)
-		end --;
-	len = end - start;
-	result = ft_substr(s1, start, len);
-	return (result);
+	i = 0;
+	while (set[i])
+	{
+		if (set[i] == c)
+			return (1);
+		i ++;
+	}
+	return (0);
 }

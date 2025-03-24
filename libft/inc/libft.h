@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:56:42 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 12:01:40 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:11:15 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*ft_strdup(const char *src);
 //fonctions absentes/differentes de la libc
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
-int	is_in_set(char const *set, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const*s, char c);
 char	*ft_itoa(int n);
@@ -80,4 +79,7 @@ ssize_t	end_of_line(char *s);
 char	*update_stash(char *stash, int eol);
 ssize_t	strchr_(char *s, char c);
 ssize_t	ft_strlen_(const char *str);
+
+//persos
+int	    is_in_set(char const *set, char c);
 #endif
