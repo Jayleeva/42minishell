@@ -1,5 +1,6 @@
 #include "../inc/minishell.h"
 #include "../libft/inc/libft.h"
+#include "../inc/shell_data.h"
 
 void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
@@ -38,6 +39,29 @@ void process_input(char *input)
     //printf("Processing: %s\n", input);  // Placeholder for actual processing
 }
 
+t_bool	process_input1(t_data *data, char *input)
+{
+	if (!check_open_quotes(data, input))
+	{
+		return (FALSE);
+	}
+	if (!create_token_list(&data->token, input))
+	{
+		token_clear(&(data->token));
+		return (FALSE);
+	}
+	print_token_list(data->token);
+	token_clear(&(data->token));
+	return (TRUE);
+}
+
+void	init_data(t_data *data)
+{
+	data->exit_code = 0;
+	data->token = NULL;
+}
+
+
 /*void cleanup_environment()
 {
     // Free any allocated resources, close files, etc.
@@ -51,6 +75,7 @@ int main(int argc, char **argv, char **envp)
     (void)envp;
 	sigset_t			set;
 	struct sigaction	shell;
+	t_data	data;
 
 	sigemptyset(&set);
 	sigaddset(&set, SIGINT);
@@ -60,7 +85,10 @@ int main(int argc, char **argv, char **envp)
 	shell.sa_sigaction = &handle_signal;
     // Initialize anything you need here (e.g., environment setup, signal handling)
     //setup_environment(envp);
-    while (1)
+	
+	init_data(&data); //#yishan added here
+    
+	while (1)
 	{
 		sigaction(SIGINT, &shell, NULL);
 		sigaction(SIGQUIT, &shell, NULL);
@@ -77,6 +105,12 @@ int main(int argc, char **argv, char **envp)
 		{
             add_history(input);
             process_input(input);  // Your function to parse and execute commands
+
+			if(!process_input1(&data, input))//#yishan input
+			{
+				free(input);
+				return (1);
+			} 
         }
         free(input); // Free the input line after processing 
     }
