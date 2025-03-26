@@ -1,4 +1,6 @@
 #include "../inc/minishell.h"
+#include "../inc/shell_data.h"
+#include "../inc/token.h"
 #include "../libft/inc/libft.h"
 
 t_sig   g_sig;
