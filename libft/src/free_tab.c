@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_in_set.c                                        :+:      :+:    :+:   */
+/*   free_tab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,15 @@
 
 #include "libft.h"
 
-int	is_in_set(char const *set, char c)
+void	free_tab(char **tab)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (set[i])
+	while (tab[i])
 	{
-		if (set[i] == c)
-			return (1);
+		free(tab[i]);
 		i ++;
 	}
-	return (0);
+	free(tab);
 }

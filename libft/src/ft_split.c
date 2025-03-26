@@ -12,19 +12,6 @@
 
 #include "libft.h"
 
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i ++;
-	}
-	free(tab);
-}
-
 static char	*fill_tab(const char *array, char c)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:56:42 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/24 14:11:15 by cyglardo         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:01:40 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	free_tab(char **tab);
 
 //printf
 int		putchar_fd_pf(char c, int fd, int result);
@@ -81,5 +80,6 @@ ssize_t	strchr_(char *s, char c);
 ssize_t	ft_strlen_(const char *str);
 
 //persos
-int	    is_in_set(char const *set, char c);
+int		is_in_set(char const *set, char c);
+void	free_tab(char **tab);
 #endif
