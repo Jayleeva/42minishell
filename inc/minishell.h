@@ -8,11 +8,18 @@
 
 typedef struct s_sig
 {
-    int exit_status;
+	int exit_status;
 }       t_sig;
 
-void process_input(char *input);
-
+char    *first_word(const char *s);
+void	process_cmd(char *input, t_sig *g_sig);
+void	process_cd(char *cmd, t_sig *g_sig);
+void    process_pwd(t_sig *g_sig);
+void    process_env(char *cmd, t_sig *g_sig);
+//void	process_export(char *cmd, t_sig *g_sig);
+//void	process_unset(char *cmd, t_sig *g_sig);
+void    process_echo(char *cmd, t_sig *g_sig);
+void    process_exit(void);
 /*
 * <
 * <<

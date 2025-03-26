@@ -4,7 +4,7 @@ LIBFT_DIR := ./libft
 LIBFT_LIB := $(LIBFT_DIR)/$(LIBFT)
 
 SRC_DIR = ./src
-SRC = main.c process_input.c
+SRC = main.c process_cmd.c process_builtin1.c process_builtin2.c
 OBJ = $(SRC:.c=.o)
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))

@@ -46,11 +46,12 @@ void setup_environment(char **envp)
 
 void    minishell_interactive(int argc, char **argv, char **envp)
 {
+    //t_token             *head;
     char                *input;
 	sigset_t			set;
 	struct sigaction	shell;
 
-    (void)argc;  // Unused parameters
+    (void)argc;
     (void)argv;
     (void)envp;
 	sigemptyset(&set);
@@ -59,14 +60,13 @@ void    minishell_interactive(int argc, char **argv, char **envp)
 	shell.sa_flags = SA_SIGINFO | SA_RESTART;
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
-    // Initialize anything you need here (e.g., environment setup, signal handling)
-    setup_environment(envp);
+    setup_environment(envp); // Initialize anything you need here (e.g., environment setup, signal handling)
     while (1)
 	{
 		sigaction(SIGINT, &shell, NULL);
 		sigaction(SIGQUIT, &shell, NULL);
         input = NULL; // (re)initialize the input to avoid situations where it's uninitialized AND to reset it between every call
-        input = readline("minishell> "); // Display prompt and read input
+        input = readline("minishell> ");
         if (!input)
 		{
             printf("exit\n");  // Handle EOF (Ctrl+D)
@@ -75,13 +75,15 @@ void    minishell_interactive(int argc, char **argv, char **envp)
         if (*input) // If input is not empty, add to history and process
 		{
             add_history(input);
-            process_input(input);  // Your function to parse and execute commands
+            //create_token_list(&head, input);
+            //we need a function here to identify every command and pass it to process_cmd
+            process_cmd(input, &g_sig);
         }
         free(input); // Free the input line after processing 
     }
+    free(input);
     input = NULL;
-    // Cleanup before exit
-   // cleanup_environment();
+   // cleanup_environment(); // Cleanup before exit
 }
 
 int main(int argc, char **argv, char **envp)

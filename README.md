@@ -53,19 +53,43 @@ env = affiche toutes les variables d'environnement, dont les PATH dont on a beso
 
 Se renseigner sur les fonctions autorisées encore inconnues: https://web.mit.edu/gnu/doc/html/rlman_2.html
 
-Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de compilation.
+
+# Readline
+Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de compilation. Dans le header, ajouter les includes suivants:
 
 ```
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <unistd.h>
+```
 
+# Recevoir des inputs
+Basiquement, on appelle readline dans une boucle infinie. Un break l'arrête si l'input est interrompu par un EOF (ctrl+D). Attention: d'autres façon de fermer le programme devront être gérées: la commande ``exit`` et le raccourci clavier ``ctrl+\`` (si pas dans une commande bloquante).
+
+```
 int	main(void)
 {
-	static char *line_read = (char *)NULL;
-	line_read = readline("Enter a line: ");
-	add_history(line_read);
-	printf("%s\n", ttyname(1));
+	char *input;
+	
+	while (1)
+	{
+		input = NULL;
+		input = readline("minishell: ");
+		if (!input)
+			break ;
+		if (*input)
+		{
+			add_history(input);
+			process_input(input);
+		}
+		free(input);
+	}
+	free(input);
+	input = NULL;
 }
 ```
+
+# Historique
+Si la fonction add_history() est utilisée, les arrow keys font le taff toutes seules, pas besoin de coder la navigation dans l'historique.
+
+# Signaux
+Les seuls signaux à gérer dans ce projet sont les raccourcis claviers ``ctrl+C`` (SIGINT) et ``ctrl+\`` (SIGQUIT). En effet, ``ctrl+D`` est géré par le if (!input) dans la boucle décrite tout à l'heure: il remplace automatiquement l'input par un EOF, et rentre ainsi dans la condition qui mène au break.
