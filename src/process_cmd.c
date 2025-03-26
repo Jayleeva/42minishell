@@ -14,28 +14,13 @@ void    process_other(char *cmd, t_sig *g_sig)
     char    *s;
 
     s = NULL;
-    s = first_word(cmd); //là, pris que le premier mot: incomplet car si pipe, premier peut etre juste
+    s = cutstr(cmd, cmd[0], ' '); //là, pris que le premier mot: incomplet car si pipe, premier peut etre juste
     if (s == NULL)
         s = ft_strdup(cmd);
     ft_strlcat(s, ": command not found", ft_strlen(s) + 20);
     g_sig->exit_status = 127;
     ft_printf("%s\n", s);
     free(s);
-}
-
-char    *first_word(const char *s)
-{
-    size_t  i;
-    char    *res;
-
-    res = NULL;
-    i = 0;
-    while (s[i] != ' ')
-        i ++;
-    res = (char*)malloc((i) * sizeof(char));
-    res = ft_memcpy(res, s, i);
-    res[i] = '\0';
-    return (res);
 }
 
 void    process_cmd(char *cmd, t_sig *g_sig)
