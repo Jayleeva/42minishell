@@ -128,6 +128,8 @@ Si bonnes conditions, utiliser **exit(0)**.
 # Built-in
 Les commandes dites "built-in" se distinguent de celles présentes dans les PATH de l'environnement (?).
 
+Attention: il faut gérer leur **exit status**: si elles foirent pour une raison ou une autre, il faut changer la valeur de l'exit status, sinon, on le laisse à 0.
+
 ## pwd
 *Affiche le current directory.*
 
