@@ -63,7 +63,9 @@ Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de com
 ```
 
 # Recevoir des inputs
-Basiquement, on appelle readline dans une boucle infinie. Un break l'arrête si l'input est interrompu par un EOF (ctrl+D). Attention: d'autres façon de fermer le programme devront être gérées: la commande ``exit`` et le raccourci clavier ``ctrl+\`` (si pas dans une commande bloquante).
+Basiquement, on appelle **readline()** dans une boucle infinie. Un break l'arrête si l'input est interrompu par un EOF (``ctrl+D``).
+
+Attention: d'autres façon de fermer le programme devront être gérées: la commande ``exit`` et le raccourci clavier ``ctrl+\`` (si pas dans une commande bloquante).
 
 ```
 int	main(void)
@@ -89,7 +91,60 @@ int	main(void)
 ```
 
 # Historique
-Si la fonction add_history() est utilisée, les arrow keys font le taff toutes seules, pas besoin de coder la navigation dans l'historique.
+Si la fonction **add_history()** est utilisée, les arrow keys font le taff toutes seules, pas besoin de coder la navigation dans l'historique.
 
 # Signaux
-Les seuls signaux à gérer dans ce projet sont les raccourcis claviers ``ctrl+C`` (SIGINT) et ``ctrl+\`` (SIGQUIT). En effet, ``ctrl+D`` est géré par le if (!input) dans la boucle décrite tout à l'heure: il remplace automatiquement l'input par un EOF, et rentre ainsi dans la condition qui mène au break.
+Les seuls signaux à gérer dans ce projet sont les raccourcis claviers ``ctrl+C`` (**SIGINT**) et ``ctrl+\`` (**SIGQUIT**). En effet, ``ctrl+D`` est géré par le if (!input) dans la boucle décrite tout à l'heure: il remplace automatiquement l'input par un EOF, et rentre ainsi dans la condition qui mène au break.
+
+Utiliser **sigaction()** dans la boucle pour les deux signaux:
+```
+sigaction(SIGINT, &your_sigaction_struct, NULL);
+sigaction(SIGQUIT, &your_sigaction_struct, NULL);
+```
+
+Et faire une fonction **handle_signal()** qui gère le comportement du programme en fonction du signal reçu.
+
+## SIGINT
+Interrompt le process et rend la commande.
+
+## SIGQUIT
+Si pas dans une commande bloquante, ferme le programme.
+
+# Built-in
+Les commandes dites "built-in" se distinguent de celles présentes dans les PATH de l'environnement (?).
+
+## pwd
+*Affiche le current directory.*
+
+Appeler **getcwd()** et afficher le résultat.
+
+## cd
+*Change le current directory.*
+
+Appeler **chdir()** en lui passant le chemin reçu en arguments. Si n'existe pas, message d'erreur. 
+
+## env
+*Affiche toutes les variables de l'environnement.*
+
+## export
+*Crée la nouvelle variable d'environnement passée en argument.*
+
+## unset
+*Supprime la variable d'environnement passée en argument.*
+
+## echo
+*Imprime ce qu'on lui passe en argument et termine par un retour à la ligne. Par défaut, il imprime dans le terminal, mais on peut lui faire imprimer ailleurs avec une redirection.*
+
+### echo -n
+*Pareil, mais sans retour à la ligne à la fin.*
+
+## exit
+*Ferme le programme.*
+
+Appeler **exit(0)**.
+
+# Autres commandes
+Notre minishell doit pouvoir gérer toutes les commandes existantes dans l'environnement.
+
+## $?
+*Retourne l'exit status de la dernière commande.*
