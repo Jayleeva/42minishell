@@ -77,7 +77,7 @@ int	main(void)
 	while (1)
 	{
 		input = NULL;
-		input = readline("minishell: ");
+		input = readline("minishell> ");
 		if (!input)
 			break ;
 		if (*input)
