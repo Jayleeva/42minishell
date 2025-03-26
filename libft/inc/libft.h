@@ -83,5 +83,5 @@ ssize_t	ft_strlen_(const char *str);
 int		is_in_set(char const *set, char c);
 void	free_tab(char **tab);
 int		strchri(const char *s, int c);
-char	*cutstr(char const *s, char c1, char c2);
+char	*cutstr(char const *s, char c1, char *set);
 #endif

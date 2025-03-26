@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Makefile                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/21 09:20:12 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/03/26 11:20:03 by cyglardo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 #include <stdio.h>
@@ -6,20 +18,18 @@
 #include <unistd.h>
 #include <signal.h>
 
-typedef struct s_sig
+/*typedef struct s_sig
 {
 	int exit_status;
-}       t_sig;
+}       t_sig;*/
 
-char    *first_word(const char *s);
-void	process_cmd(char *input, t_sig *g_sig);
-void	process_cd(char *cmd, t_sig *g_sig);
-void    process_pwd(t_sig *g_sig);
-void    process_env(char *cmd, t_sig *g_sig);
-//void	process_export(char *cmd, t_sig *g_sig);
-//void	process_unset(char *cmd, t_sig *g_sig);
-void    process_echo(char *cmd, t_sig *g_sig);
-void    process_exit(void);
+/*typedef struct	s_env
+{
+	char			*value;
+	struct s_env	*next;
+}					t_env;*/
+
+
 /*
 * <
 * <<

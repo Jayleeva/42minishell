@@ -14,7 +14,7 @@
 
 int	strchri(const char *s, int c)
 {
-	size_t	i;
+	int	i;
 
 	c = (unsigned char)c;
 	i = 0;
@@ -24,5 +24,5 @@ int	strchri(const char *s, int c)
 			return (i);
 		i ++;
 	}
-	return (i);
+	return (-1);
 }

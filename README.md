@@ -143,6 +143,8 @@ Appeler **chdir()** en lui passant le chemin reçu en arguments. Si n'existe pas
 ## env
 *Affiche toutes les variables de l'environnement.*
 
+Parcourir tout le tableau d'environnement reçu en argument à l'exécution de minishell et imprimer. 
+
 ## export
 *Crée la nouvelle variable d'environnement passée en argument.*
 
@@ -165,3 +167,7 @@ Notre minishell doit pouvoir gérer toutes les commandes existantes dans l'envir
 
 ## $?
 *Retourne l'exit status de la dernière commande.*
+
+----- 
+
+ATTENTION: ne pas free après un getenv(), car il ne malloc pas.

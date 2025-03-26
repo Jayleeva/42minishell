@@ -12,18 +12,28 @@
 
 #include "libft.h"
 
-char	*cutstr(char const *s, char c1, char c2)
+char	*cutstr(char const *s, char c1, char *set)
 {
 	char	*result;
-	size_t	len;
-	size_t	j;
-	size_t	end;
-	size_t	start;
+	int	len;
+	int	j;
+	int	end;
+	int	start;
 
 	if (s == NULL)
 		return (NULL);
 	start = strchri(s, c1);
-	end = strchri(s, c2) - 1;
+	j = 0;
+	while (set[j])
+	{
+		end = strchri(s, set[j]) - 1;
+		if (end < 0)
+			j ++;
+		else
+			break;
+	}
+	if (start < 0 || end < 0)
+		return (NULL);
 	len = end - start + 1;
 	result = (char *)malloc((len) * sizeof(char));
 	if (result == NULL)
