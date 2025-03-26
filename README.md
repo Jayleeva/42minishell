@@ -55,7 +55,9 @@ Se renseigner sur les fonctions autorisées encore inconnues: https://web.mit.ed
 
 
 # Readline
-Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de compilation. Dans le header, ajouter les includes suivants:
+Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de compilation. 
+
+Dans le header, ajouter les includes suivants:
 
 ```
 #include <readline/readline.h>
@@ -105,10 +107,23 @@ sigaction(SIGQUIT, &your_sigaction_struct, NULL);
 Et faire une fonction **handle_signal()** qui gère le comportement du programme en fonction du signal reçu.
 
 ## SIGINT
-Interrompt le process et rend la commande.
+*Interrompt le process et rend la commande.*
+
+Créer une fonction qui permet de reset le prompt:
+```
+void    reset_prompt()
+{
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+```
 
 ## SIGQUIT
-Si pas dans une commande bloquante, ferme le programme.
+*Si pas dans une commande bloquante, ferme le programme. Sinon, ne fait rien.*
+
+Si bonnes conditions, utiliser **exit(0)**.
 
 # Built-in
 Les commandes dites "built-in" se distinguent de celles présentes dans les PATH de l'environnement (?).
