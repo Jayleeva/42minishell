@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_manage.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:58:58 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/25 15:57:56 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/26 13:36:51 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/token.h"
+#include "../../inc/linked_list.h"
 
 t_token	*token_getlast(t_token *head)
 {

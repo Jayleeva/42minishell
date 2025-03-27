@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:00:00 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/25 14:40:12 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/26 12:44:18 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/token.h"
+#include "../../inc/linked_list.h"
 
 t_token	*token_create(const char *str, int type)
 {

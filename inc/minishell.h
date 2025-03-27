@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:29 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/25 16:08:39 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:54:43 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ typedef enum e_token_type
 typedef unsigned char	t_bool;
 # define TRUE 1
 # define FALSE 0
+
 
 #endif

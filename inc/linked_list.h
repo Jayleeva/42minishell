@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   linked_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:49:27 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/25 16:06:38 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:00:10 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H
-# define TOKEN_H
+#ifndef LINKED_LIST_H
+# define LINKED_LIST_H
 
 # include "minishell.h"
 
@@ -23,7 +23,13 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-//FUNCTION
+typedef struct s_env
+{
+	char			*str;
+	struct s_env	*next;
+}	t_env;
+
+//TOKEN FUNCTION
 t_token	*token_create(const char *str, int type);
 t_bool	token_init(t_token *token, const	char *str, int type);
 
@@ -33,5 +39,7 @@ t_bool	token_put_in(t_token **head, const	char *str, int type);
 
 void	token_clear(t_token **token);
 
+//ENV FUNCTION
+size_t	env_lenght(t_env *list);
 
-#endif //TOKEN_H
+#endif
