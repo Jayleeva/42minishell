@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:25:48 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/25 15:53:27 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/26 14:52:17 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ static void	copy_token(char *input, int length, char *str, int i)
 	quote_char = 0;
 	while (i < length && input[i])
 	{
-		if (input[i] == '"' || input[i] == '\'')
+		if (input[i] == '\"' || input[i] == '\'')
 		{
-			quote_char = input[i];
-			i++;
+			quote_char = input[i++];
 			while (i < length && input[i] && input[i] != quote_char)
 				str[j++] = input[i++];
 			if (i < length && input[i] == quote_char)
@@ -54,7 +53,7 @@ static int	command_length(char *input, int *quotes)
 	(*quotes) = 0;
 	while (input[i] && !ft_is_space(input[i]) && !ft_is_special(input + i))
 	{
-		if (input[i] == '"' || input[i] == '\'')
+		if (input[i] == '\"' || input[i] == '\'')
 		{
 			(*quotes)++;
 			quote_char = input[i];
@@ -84,10 +83,10 @@ static t_bool	add_command(t_token **head, char **input)
 	length = command_length(*input, &quotes);
 	if (((length) - (2 * quotes)) < 0)
 		return (TRUE);
-	str = ft_calloc(sizeof(char), ((length + 1) - (2 * quotes)));
+	str = ft_calloc(sizeof(char), ((length + 1) - quotes));
 	if (!str)
 		return (FALSE);
-	copy_token(*input, length - (2 * quotes), str, i);
+	copy_token(*input, (length - quotes), str, i);
 	if (!token_put_in(head, str, CMD))
 	{
 		free(str);

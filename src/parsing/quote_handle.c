@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
-#include "../../inc/shell_data.h"
-#include "../../inc/token.h"
 #include "../../libft/inc/libft.h"
 /*checks if the current character is a quote (' or ")
 If it’s a quote and not already inside a quote, it starts a new quote(' or ")
