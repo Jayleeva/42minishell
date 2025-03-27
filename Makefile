@@ -18,7 +18,7 @@ OBJ = $(SRC:.c=.o)
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -fsanitize=leak -I ./inc -I ./libft/inc 
 
 all: $(NAME)
 
