@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_cmd2.c                                     :+:      :+:    :+:   */
+/*   process_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/26 13:08:31 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:42:36 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    process_other(char *cmd, t_data *data)
     char    *s;
 
     s = NULL;
-    s = cutstr(cmd, cmd[0], " "); //là, pris que le premier mot: incomplet car si pipe, premier peut etre juste
+    s = cutstr(cmd, cmd[0], ' '); //là, pris que le premier mot: incomplet car si pipe, premier peut etre juste
     if (s == NULL)
         s = ft_strdup(cmd);
     ft_strlcat(s, ": command not found", ft_strlen(s) + 20);
@@ -47,8 +47,8 @@ void    process_cmd(char *cmd, t_data *data, char ***envp)
         process_echo(cmd, data);
     else if (ft_strncmp(cmd, "env", 4) == 0)
         process_env(data, envp);
-    /*else if (ft_strncmp(cmd, "export", 6) == 0)
-        process_export(cmd, data, envp);*/
+    else if (ft_strncmp(cmd, "export", 6) == 0)
+        process_export(cmd, data, envp);
     /*else if (ft_strncmp(cmd, "unset", 6) == 0)
         process_unset(cmd);*/
     else if (ft_strncmp(cmd, "$?", 3) == 0)

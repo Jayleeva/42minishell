@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:33:08 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 12:47:08 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:03:47 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**ft_split(char const *s, char c)
 	int		i;
 	int		j;
 
-	tab = (char **)malloc((get_nelem(s, c) + 1) * sizeof(char *));
+	tab = ft_calloc(get_nelem(s, c) + 1, sizeof(char *));
 	if (tab == NULL)
 		return (NULL);
 	i = 0;

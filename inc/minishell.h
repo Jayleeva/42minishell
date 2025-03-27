@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Makefile                                           :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/26 11:20:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:56:08 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@
 	int exit_status;
 }       t_sig;*/
 
-/*typedef struct	s_env
+typedef struct s_var
 {
-	char			*value;
+	char	*name;
+	char	*value;
+}			t_var;
+
+typedef struct	s_env
+{
+	t_var			*var;
 	struct s_env	*next;
-}					t_env;*/
+}					t_env;
 
 
 /*

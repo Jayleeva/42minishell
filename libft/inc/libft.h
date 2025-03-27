@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:56:42 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 12:01:40 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 10:39:31 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,5 @@ ssize_t	ft_strlen_(const char *str);
 int		is_in_set(char const *set, char c);
 void	free_tab(char **tab);
 int		strchri(const char *s, int c);
-char	*cutstr(char const *s, char c1, char *set);
+char	*cutstr(char const *s, char c1, char c2);
 #endif

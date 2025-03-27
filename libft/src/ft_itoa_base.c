@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:19:41 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/11/19 16:29:45 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:03:16 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_itoa_base(unsigned long long n, unsigned long long base)
 	int		k;
 
 	nelem = get_nelem_base(n, base);
-	str = (char *)malloc((nelem + 1) * sizeof(char));
+	str = ft_calloc(nelem + 1, sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	k = nelem -1;
