@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 13:37:00 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 14:51:45 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,21 @@ void	init_data(t_data *data)
 	data->env = NULL;
 }
 
-int main(void) 
+int main(int argc, char **argv, char **envp) 
 {
+	(void)argc;
+	(void)argv;
 	char *input;
 	t_data	data;
 
 	init_data(&data);
-	 
-	// Initialize anything you need here (e.g., environment setup, signal handling)
+
 	//setup_environment(envp);
 	 while (1) {
 		 // Display prompt and read input
 		 input = readline("minishell> ");
 		 if (!input) {
-			 printf("exit\n");  // Handle EOF (Ctrl+D)
+			 printf("exit\n");
 			 break;
 		 }
 		 if (*input) {
