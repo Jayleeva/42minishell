@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:01:43 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:42:33 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	}
 }
 
-void    minishell_interactive(int argc, char **argv, t_data *data, char ***envp)
+void    minishell_interactive(int argc, char **argv, t_data *data)
 {
     //t_token             *head;
     char                *input;
@@ -78,7 +78,7 @@ void    minishell_interactive(int argc, char **argv, t_data *data, char ***envp)
             add_history(input);
             //create_token_list(&head, input);
             //we need a function here to identify every command and pass it to process_cmd
-            process_cmd(input, data, envp);
+            process_cmd(input, data);
         }
         free(input); // Free the input line after processing 
     }

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:49:27 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 12:05:25 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:43:03 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_var
 
 typedef struct s_env
 {
+	char			*vartest;
 	t_var			var;
 	struct s_env	*next;
 }	t_env;

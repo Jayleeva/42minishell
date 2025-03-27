@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 12:22:32 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:53:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ void	print_error(char *msg);
 void	print_token_list(t_token *head);
 
 //builtin
-void    process_cmd(char *cmd, t_data *data, char ***envp);
+void    process_cmd(char *cmd, t_data *data);
 char    *first_word(const char *s);
 void	process_cd(char *cmd, t_data *data);
 void    process_pwd(t_data *data);
-void    process_env(t_data *data, char ***envp);
-void	process_export(char *cmd, t_data *data, char ***envp);
+void    process_env(t_data *data);
+void	process_export(char *cmd, t_data *data);
 //void	process_unset(char *cmd, t_data *data);
 void    process_echo(char *cmd, t_data *data);
 void    process_exit(void);
 
 //other
-void    minishell_interactive(int argc, char **argv, t_data *data, char ***envp);
+void    minishell_interactive(int argc, char **argv, t_data *data);
 
 #endif

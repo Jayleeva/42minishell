@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:27:52 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:51:49 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void    process_other(char *cmd, t_data *data)
     free(s);
 }
 
-void    process_cmd(char *cmd, t_data *data, char ***envp)
+void    process_cmd(char *cmd, t_data *data)
 {
     if (ft_strncmp(cmd, "exit", 5) == 0)
         process_exit();
@@ -46,9 +46,9 @@ void    process_cmd(char *cmd, t_data *data, char ***envp)
     else if (ft_strncmp(cmd, "echo", 4) == 0)
         process_echo(cmd, data);
     else if (ft_strncmp(cmd, "env", 4) == 0)
-        process_env(data, envp);
+        process_env(data);
     /*else if (ft_strncmp(cmd, "export", 6) == 0)
-        process_export(cmd, data, envp);*/
+        process_export(cmd, data);*/
     /*else if (ft_strncmp(cmd, "unset", 6) == 0)
         process_unset(cmd);*/
     else if (ft_strncmp(cmd, "$?", 3) == 0)

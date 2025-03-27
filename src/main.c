@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 11:32:36 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:45:57 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,50 @@ t_bool	process_input(t_data *data, char *input)
 	token_clear(&(data->token));
 	return (TRUE);
 }
+int	count_var(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i ++;
+	return (i);
+}
+
+t_env	*init_env(char **envp, int nvar)
+{
+	int		i;
+	//char	**tab;
+	t_env	*env;
+	t_env	*current;
+
+	env = (t_env *)malloc(sizeof(t_env));
+	if (env == NULL)
+		return (NULL);
+	/*tab = ft_split(envp[0], '=');
+	env->var.name = ft_strdup(tab[0]);
+	env->var.value = ft_strdup(tab[1]);*/
+	env->vartest = envp[0];
+	env->next = NULL;
+	i = 1;
+	current = env;
+	while (i < nvar)
+	{
+		while (current->next != NULL)
+			current = current->next;
+		current->next = (t_env *)malloc(sizeof(t_env));
+		if (current->next == NULL)
+			return (NULL);
+		/*tab = ft_split(envp[i], '=');
+		current->next->var.name = ft_strdup(tab[0]);
+		current->next->var.value = ft_strdup(tab[1]);*/
+		current->next->vartest = envp[i];
+		current->next->next = NULL;
+		//ft_printf("%s\n", current->next->vartest);
+		i ++;
+	}
+	return (env);
+}
 
 void	init_data(t_data *data)
 {
@@ -41,12 +85,13 @@ void	init_data(t_data *data)
 int main(int argc, char **argv, char **envp)
 {
     t_data  data;
+	int		nvar;
 
-	init_data(&data);
     if (argc == 3)
-        return (1);
-    /*if (init_env(envp))
-        return (1);*/
-    minishell_interactive(argc, argv, &data, &envp);
-    return (0);
+		return (1);
+	init_data(&data);
+	nvar = count_var(envp);
+	data.env = init_env(envp, nvar);
+	minishell_interactive(argc, argv, &data);
+	return (0);
 }

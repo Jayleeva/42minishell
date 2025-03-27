@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:28:13 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:46:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,48 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
+char	*first_word(const char *s)
+{
+	char	*res;
+
+	res = cutstr(s, s[0], ' ');
+	if (!res)
+		return (NULL);
+	return (res);
+}
+
 void    process_cd(char *cmd, t_data *data)
 {
     char    *path;
-	char	*set;
-	int		i;
+	//char	*set;
+	//int		i;
 
-	set = ft_calloc(11, sizeof(char));
+	data->exit_code = 0;
+	/*set = ft_calloc(11, sizeof(char));
 	if (set == NULL)
 		return ;
-	set = "\0 \t\n\r\b";
-	data->exit_code = 0;
+	set = "\0\n\t ";*/
     path = NULL;
     path = ft_substr(cmd, 3, ft_strlen(cmd));
-	i = 0;
+	if (strchri(path, ' ') != -1 && path[strchri(path, ' ') + 1] > 32) 
+	{
+		ft_printf("cd: too many arguments\n");
+		return ;
+	}
+	/*i = 0;
 	while (set[i])
     {
+		write(1, &set[i], 1);
 		path = cutstr(path, path[0], set[i]); //ATTENTION: si autre chose après le path, n'est pas pris en compte + pour l'instant ne gère pas les quotes
 		i ++;
-	} 
+	}*/
+	if (path[ft_strlen(path)] == ' ')
+	path = cutstr(path, path[0], ' ');
 	//gerer les quotes;
     if (chdir(path) == -1)
 	{
 		data->exit_code = 1;
-        ft_printf("cd: %s: No such file or directory\n", path);
+        ft_printf("cd: %s: No such file or directory\n", first_word(path));
 	}
     free(path);
 }
@@ -58,20 +76,19 @@ void    process_pwd(t_data *data)
     free(path);
 }
 
-void    process_env(t_data *data, char ***envp)
+void    process_env(t_data *data)
 {
-	int		i;
 
 	data->exit_code = 0;
-	i = 0;
-	while (envp[i])
+	while (data->env->next != NULL)
 	{
-		ft_printf("%s\n", envp[i]);
-		i ++;
+		ft_printf("%s\n", data->env->vartest);
+		//ft_printf("%s=%s\n", data->env->var.name, data->env->var.value);
+		data->env = data->env->next;
 	}
 }
 
-/*void	process_export(char *cmd, t_data *data, char ***envp)
+/*void	process_export(char *cmd, t_data *data, char **envp)
 {
 	char	*var;
 	//int		i;
