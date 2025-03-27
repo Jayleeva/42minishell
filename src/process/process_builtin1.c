@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 16:18:23 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:54:56 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,24 @@ void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit
 	//ft_printf("%s\n", current->next->vartest);
 }
 
-/*void	process_unset(char *cmd, t_sig *g_sig, t_data *data)
+void	process_unset(char *cmd, t_data *data)
 {
-	
-}*/
+	t_env	*current;
+
+	cmd = ft_substr(cmd, 6, ft_strlen(cmd));
+	if (cmd == NULL)
+	{
+		data->exit_code = 1;
+		return ;
+	}
+	current = data->env;
+	while (current->next->next != NULL)
+	{
+		if (!ft_strncmp(current->next->vartest, cmd, strchri(current->next->vartest, '=')))
+			break;
+		current = current->next;
+	}
+	ft_printf("to delete : %s\n", current->next->vartest);
+	current->next = current->next->next;
+	//free? what?
+}

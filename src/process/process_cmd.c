@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 15:56:57 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:36:26 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void    process_cmd(char *cmd, t_data *data)
         process_env(data);
     else if (ft_strncmp(cmd, "export", 6) == 0)
         process_export(cmd, data);
-    /*else if (ft_strncmp(cmd, "unset", 6) == 0)
-        process_unset(cmd);*/
+    else if (ft_strncmp(cmd, "unset", 5) == 0)
+        process_unset(cmd, data);
     else if (ft_strncmp(cmd, "$?", 3) == 0)
         ft_printf("%d\n", data->exit_code);
     else

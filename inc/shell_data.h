@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 14:53:43 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:20:28 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	process_cd(char *cmd, t_data *data);
 void    process_pwd(t_data *data);
 void    process_env(t_data *data);
 void	process_export(char *cmd, t_data *data);
-//void	process_unset(char *cmd, t_data *data);
+void	process_unset(char *cmd, t_data *data);
 void    process_echo(char *cmd, t_data *data);
 void    process_exit(void);
 
