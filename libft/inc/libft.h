@@ -54,6 +54,7 @@ char	*ft_strdup(const char *src);
 //fonctions absentes/differentes de la libc
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+int	is_in_set(char const *set, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const*s, char c);
 char	*ft_itoa(int n);
@@ -63,6 +64,7 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+void	free_tab(char **tab);
 
 //printf
 int		putchar_fd_pf(char c, int fd, int result);
@@ -78,10 +80,13 @@ ssize_t	end_of_line(char *s);
 char	*update_stash(char *stash, int eol);
 ssize_t	strchr_(char *s, char c);
 ssize_t	ft_strlen_(const char *str);
+<<<<<<< HEAD
 
 //persos
 int		is_in_set(char const *set, char c);
 void	free_tab(char **tab);
 int		strchri(const char *s, int c);
 char	*cutstr(char const *s, char c1, char c2);
+=======
+>>>>>>> b7779d5241eff116b0d516aa20b858e6715f34b1
 #endif
