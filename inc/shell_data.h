@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 11:55:16 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:19:03 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_data
 	t_token	*token;
 	t_quote	quote;
 }		t_data;
-
 
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);

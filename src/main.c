@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 11:31:16 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 13:37:00 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_bool	process_input(t_data *data, char *input)
 	{
 		return (FALSE);
 	}
-	if (!create_token_list(&data->token, input) || !dollar_handle(&input, data))
+	if (!dollar_handle(&input, data) || !create_token_list(&data->token, input))
 	{
 		token_clear(&(data->token));
 		return (FALSE);

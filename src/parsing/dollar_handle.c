@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/26 17:32:11 by yishan           ###   ########.fr       */
+/*   Updated: 2025/03/27 13:56:35 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	dollar_handle(char **input, t_data *data)
 	str = ft_strdup("");
 	while ((*input)[i])
 	{
-        //handle_quotes();
+		handle_quotes(str, &data->quote);
 		if ((*input)[i] && (*input)[i + 1] && (*input)[i] == '$' &&
 			((*input)[i + 1] != '\'' && (*input)[i + 1] != '"') &&
 			(ft_isalpha((*input)[i + 1]) || (*input)[i + 1] == '?' ||
