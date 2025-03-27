@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 15:45:57 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:51:26 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,12 @@ int	count_var(char **envp)
 t_env	*init_env(char **envp, int nvar)
 {
 	int		i;
-	//char	**tab;
 	t_env	*env;
 	t_env	*current;
 
 	env = (t_env *)malloc(sizeof(t_env));
 	if (env == NULL)
 		return (NULL);
-	/*tab = ft_split(envp[0], '=');
-	env->var.name = ft_strdup(tab[0]);
-	env->var.value = ft_strdup(tab[1]);*/
 	env->vartest = envp[0];
 	env->next = NULL;
 	i = 1;
@@ -64,9 +60,6 @@ t_env	*init_env(char **envp, int nvar)
 		current->next = (t_env *)malloc(sizeof(t_env));
 		if (current->next == NULL)
 			return (NULL);
-		/*tab = ft_split(envp[i], '=');
-		current->next->var.name = ft_strdup(tab[0]);
-		current->next->var.value = ft_strdup(tab[1]);*/
 		current->next->vartest = envp[i];
 		current->next->next = NULL;
 		//ft_printf("%s\n", current->next->vartest);

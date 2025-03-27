@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 15:46:43 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:53:17 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,14 @@ void    process_pwd(t_data *data)
 
 void    process_env(t_data *data)
 {
+	t_env	*current;
 
+	current = data->env;
 	data->exit_code = 0;
-	while (data->env->next != NULL)
+	while (current->next != NULL)
 	{
-		ft_printf("%s\n", data->env->vartest);
-		//ft_printf("%s=%s\n", data->env->var.name, data->env->var.value);
-		data->env = data->env->next;
+		ft_printf("%s\n", current->vartest);
+		current = current->next;
 	}
 }
 
