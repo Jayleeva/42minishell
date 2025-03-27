@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 15:53:17 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:14:22 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,46 +89,42 @@ void    process_env(t_data *data)
 	}
 }
 
-/*void	process_export(char *cmd, t_data *data, char **envp)
+void	process_export(char *cmd, t_data *data)
 {
-	char	*var;
-	//int		i;
-	int		len;
+	//char	*name;
+	//int		len;
+	t_env	*current;
 
-	(void)envp;
 	cmd = ft_substr(cmd, 7, ft_strlen(cmd));
 	if (cmd == NULL)
 	{
 		data->exit_code = 1;
 		return ;
 	}
-	len = strchri(cmd, '=');
+	/*len = strchri(cmd, '=');
 	if (len == -1)
 	{
 		data->exit_code = 1;
 		return ;
 	}
-	var = ft_calloc(len, sizeof(char));
-	if (var == NULL)
+	name = ft_calloc(len, sizeof(char));
+	if (name == NULL)
 		return ;
-	var = ft_memcpy(var, cmd, len);
-	var[len] = '\0';
-	if (getenv(var))
-	{
-		ft_printf("%s exists already\n", var);
-	}
-	else
-	{
-		//ajouter var en dernière ligne à envp
-		while (envp->next != NULL)
-			envp = envp->next;
-		envp->next = NULL;
-		envp->var->name = var;
-		envp->var->value = value;
-		ft_printf("%s was created\n", var);
-	}
-	free(var);
-}*/
+	name = ft_memcpy(name, cmd, len);
+	name[len] = '\0';
+	if (getenv(name)) // getenv() ne marche pas puisque modifie pas l'env mais la copie, ok?
+		ft_printf("%s exists already\n", name);*/
+	current = data->env;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = (t_env *)malloc(sizeof(t_env));
+	if (current->next == NULL)
+		return ;
+	current->next->vartest = cmd;
+	current->next->next = NULL;
+	ft_printf("%s\n", current->next->vartest);
+	//free(name);
+}
 
 /*void	process_unset(char *cmd, t_sig *g_sig, t_data *data)
 {
