@@ -6,13 +6,12 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 11:02:28 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:28:13 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../inc/shell_data.h"
-#include "../../inc/token.h"
 #include "../../libft/inc/libft.h"
 
 void    process_cd(char *cmd, t_data *data)
@@ -72,7 +71,7 @@ void    process_env(t_data *data, char ***envp)
 	}
 }
 
-void	process_export(char *cmd, t_data *data, char ***envp)
+/*void	process_export(char *cmd, t_data *data, char ***envp)
 {
 	char	*var;
 	//int		i;
@@ -111,7 +110,7 @@ void	process_export(char *cmd, t_data *data, char ***envp)
 		ft_printf("%s was created\n", var);
 	}
 	free(var);
-}
+}*/
 
 /*void	process_unset(char *cmd, t_sig *g_sig, t_data *data)
 {

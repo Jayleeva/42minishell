@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 10:46:02 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 12:22:32 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ typedef struct s_quote
 	t_bool	double_quote;
 	t_bool	single_quote;
 }	t_quote;
+
+typedef struct s_data
+{
+	int		exit_code;
+	t_env	*env;
+	t_token	*token;
+	t_quote	quote;
+}		t_data;
 
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);
@@ -38,5 +46,19 @@ int		ft_is_space(char c);
 int		ft_is_special(char *str);
 void	print_error(char *msg);
 void	print_token_list(t_token *head);
+
+//builtin
+void    process_cmd(char *cmd, t_data *data, char ***envp);
+char    *first_word(const char *s);
+void	process_cd(char *cmd, t_data *data);
+void    process_pwd(t_data *data);
+void    process_env(t_data *data, char ***envp);
+void	process_export(char *cmd, t_data *data, char ***envp);
+//void	process_unset(char *cmd, t_data *data);
+void    process_echo(char *cmd, t_data *data);
+void    process_exit(void);
+
+//other
+void    minishell_interactive(int argc, char **argv, t_data *data, char ***envp);
 
 #endif

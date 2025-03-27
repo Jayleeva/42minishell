@@ -6,13 +6,13 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 10:42:36 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:27:52 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../inc/shell_data.h"
-#include "../../inc/token.h"
+#include "../../inc/linked_list.h"
 #include "../../libft/inc/libft.h"
 
 void    process_exit(void)
@@ -47,8 +47,8 @@ void    process_cmd(char *cmd, t_data *data, char ***envp)
         process_echo(cmd, data);
     else if (ft_strncmp(cmd, "env", 4) == 0)
         process_env(data, envp);
-    else if (ft_strncmp(cmd, "export", 6) == 0)
-        process_export(cmd, data, envp);
+    /*else if (ft_strncmp(cmd, "export", 6) == 0)
+        process_export(cmd, data, envp);*/
     /*else if (ft_strncmp(cmd, "unset", 6) == 0)
         process_unset(cmd);*/
     else if (ft_strncmp(cmd, "$?", 3) == 0)

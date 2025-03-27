@@ -5,15 +5,17 @@ LIBFT_LIB := $(LIBFT_DIR)/$(LIBFT)
 
 SRC_DIR = ./src
 SRC = main.c \
+	interactive.c \
 	parsing/utils.c \
 	parsing/quote_handle.c \
-	parsing/dollar_handle.c \
-	parsing/dollar_utils.c \
 	parsing/token_handle.c \
 	parsing/token/token_init.c \
 	parsing/token/token_clear.c \
 	parsing/token/token_manage.c \
-	parsing/env/env_init.c
+	parsing/env/list_init.c \
+	process/process_cmd.c \
+	process/process_builtin1.c \
+	process/process_builtin2.c \
 
 OBJ = $(SRC:.c=.o)
 

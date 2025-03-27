@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 11:22:09 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/03/25 14:11:29 by yisho             #+#    #+#             */
+/*   Updated: 2025/03/27 12:21:59 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,7 @@
 # include <unistd.h>
 # include <signal.h>
 
-/*typedef struct s_sig
-{
-	int exit_status;
-}       t_sig;*/
-
-/*typedef struct	s_env
-{
-	char			*value;
-	struct s_env	*next;
-}					t_env;*/
-
+# include "../libft/inc/libft.h"
 
 /*
 * <
@@ -51,17 +41,8 @@ typedef enum e_token_type
 	ARG,
 }	t_token_type;
 
-typedef struct s_data
-{
-	int		exit_code;
-	t_env	*env;
-	t_token	*token;
-	t_quote	quote;
-}		t_data;
-
 typedef unsigned char	t_bool;
 # define TRUE 1
 # define FALSE 0
-
 
 #endif

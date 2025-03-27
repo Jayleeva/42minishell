@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 10:24:47 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/27 11:32:36 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,15 @@ void	init_data(t_data *data)
 	data->env = NULL;
 }
 
-int main(void) 
+int main(int argc, char **argv, char **envp)
 {
-	char *input;
-	t_data	data;
+    t_data  data;
 
 	init_data(&data);
-	 
-	// Initialize anything you need here (e.g., environment setup, signal handling)
-	//setup_environment(envp);
-	 while (1) {
-		 // Display prompt and read input
-		 input = readline("minishell> ");
-		 if (!input) {
-			 printf("exit\n");  // Handle EOF (Ctrl+D)
-			 break;
-		 }
-		 if (*input) {
-			 add_history(input);
-			 if(!process_input(&data, input))
-			{
-				free(input);
-				return (1);
-			} 
-		 }
-		 free(input);
-	 }
-	 // Cleanup before exit
-	 //cleanup_environment();
-	 return 0;
- }
+    if (argc == 3)
+        return (1);
+    /*if (init_env(envp))
+        return (1);*/
+    minishell_interactive(argc, argv, &data, &envp);
+    return (0);
+}

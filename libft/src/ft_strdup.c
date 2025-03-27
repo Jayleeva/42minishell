@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 10:00:43 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 11:03:59 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:29:21 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strdup(const char *src)
 	int		i;
 	char	*copy;
 
-	copy = ft_calloc((ft_strlen(src) +1, sizeof(char));
+	copy = ft_calloc(ft_strlen(src) +1, sizeof(char));
 	if (copy == NULL)
 		return (NULL);
 	i = 0;

@@ -6,13 +6,12 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/26 13:08:31 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:27:19 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../inc/shell_data.h"
-#include "../../inc/token.h"
 #include "../../libft/inc/libft.h"
 
 void    process_echo(char *cmd, t_data *data)
