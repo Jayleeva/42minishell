@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 16:14:22 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:18:23 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,8 @@ void    process_env(t_data *data)
 	}
 }
 
-void	process_export(char *cmd, t_data *data)
+void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche
 {
-	//char	*name;
-	//int		len;
 	t_env	*current;
 
 	cmd = ft_substr(cmd, 7, ft_strlen(cmd));
@@ -101,19 +99,6 @@ void	process_export(char *cmd, t_data *data)
 		data->exit_code = 1;
 		return ;
 	}
-	/*len = strchri(cmd, '=');
-	if (len == -1)
-	{
-		data->exit_code = 1;
-		return ;
-	}
-	name = ft_calloc(len, sizeof(char));
-	if (name == NULL)
-		return ;
-	name = ft_memcpy(name, cmd, len);
-	name[len] = '\0';
-	if (getenv(name)) // getenv() ne marche pas puisque modifie pas l'env mais la copie, ok?
-		ft_printf("%s exists already\n", name);*/
 	current = data->env;
 	while (current->next != NULL)
 		current = current->next;
@@ -122,8 +107,7 @@ void	process_export(char *cmd, t_data *data)
 		return ;
 	current->next->vartest = cmd;
 	current->next->next = NULL;
-	ft_printf("%s\n", current->next->vartest);
-	//free(name);
+	//ft_printf("%s\n", current->next->vartest);
 }
 
 /*void	process_unset(char *cmd, t_sig *g_sig, t_data *data)
