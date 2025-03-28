@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/28 10:53:12 by yishan           ###   ########.fr       */
+/*   Updated: 2025/03/28 10:55:11 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,44 @@ t_bool	process_input(t_data *data, char *input)
 	print_token_list(data->token);
 	token_clear(&(data->token));
 	return (TRUE);
+}
+
+int	count_var(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i ++;
+	return (i);
+}
+
+t_env	*init_env(char **envp, int nvar)
+{
+	int		i;
+	t_env	*env;
+	t_env	*current;
+
+	env = (t_env *)malloc(sizeof(t_env));
+	if (env == NULL)
+		return (NULL);
+	env->vartest = envp[0];
+	env->next = NULL;
+	i = 1;
+	current = env;
+	while (i < nvar)
+	{
+		while (current->next != NULL)
+			current = current->next;
+		current->next = (t_env *)malloc(sizeof(t_env));
+		if (current->next == NULL)
+			return (NULL);
+		current->next->vartest = envp[i];
+		current->next->next = NULL;
+		//ft_printf("%s\n", current->next->vartest);
+		i ++;
+	}
+	return (env);
 }
 
 void	init_data(t_data *data)
