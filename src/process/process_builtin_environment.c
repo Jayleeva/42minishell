@@ -30,33 +30,61 @@ void    process_env(t_data *data)
 void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche : garde chaque itération en mémoire somehow mais ne l'affiche que après 2 itérations...
 {
 	t_env	*current;
-	char	*var;
+	char	*name;
+	char 	*value;
+	int		i;
 
+	data->exit_code = 0;
 	cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (cmd == NULL)
-	{
-		data->exit_code = 1;
 		return ;
-	}
-	var = ft_substr(cmd, 0, strchri(cmd, '='));
-	if (var == NULL)
+	i = strchri(cmd, '=');
+	if (i < 0)
 		return ;
+	name = ft_substr(cmd, 0, i);
+	if (name == NULL)
+		return ;
+	value = NULL;
+	if (cmd[i +1])
+		value = ft_substr(cmd, i + 1, ft_strlen(cmd));
 	current = data->env;
 	while (current->next != NULL)
 	{
-		if (!ft_strncmp(current->vartest, cmd, ft_strlen(cmd)))
+		if (!ft_strncmp(current->vartest, name, ft_strlen(name))) 
+		{
+			ft_printf("-- already exists -- \n");
+			if (value == NULL) // si même var mais value vide, réécrire "var="
+			{
+				name = ft_strjoin(name, "=");
+				current->vartest = ft_strdup(name);
+				ft_printf("-- value empty --\n");
+				return ;
+			}
+			if (!ft_strncmp(current->vartest, cmd, ft_strlen(cmd))) // si exactement le même input, ne rien faire
+				ft_printf("-- no changes --\n");
+			else // si même var mais pas même value, remplacer value; PAS DE MALLOC
+			{
+				free(current->vartest);
+				current->vartest = NULL;
+				current->vartest = ft_strdup(cmd);
+				ft_printf("-- has been changed -- \n");
+				return;
+			}
 			return ;
-		else
-			ft_printf("%s\n", var);
-		current = current->next;
+		}
+		else // sinon, finir la liste 
+			current = current->next;
 	}
-	current->next = (t_env *)malloc(sizeof(t_env));
+	current->next = (t_env *)malloc(sizeof(t_env)); // malloc pour créer nouvelle var
 	if (current->next == NULL)
 		return ;
 	current->next->vartest = ft_strdup(cmd); // peut aussi juste assigner cmd mais du coup même pointeur que la liste donc peut pas être free séparément, à voir ce qui est le mieux; si utilise strdup, ajouter protection.
 	current->next->next = NULL;
+	ft_printf("-- has been created -- \n");
 	free(cmd);
-	//ft_printf("%s\n", current->next->vartest);
+	free(name);
+	free(value);
+	//ft_printf("var = %s\n", current->next->vartest);
 }
 
 void	process_unset(char *cmd, t_data *data)
@@ -76,7 +104,6 @@ void	process_unset(char *cmd, t_data *data)
 			break;
 		current = current->next;
 	}
-	//ft_printf("to delete : %s\n", current->next->vartest);
 	current->next = current->next->next;
 	//free? what?
 }
