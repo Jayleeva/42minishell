@@ -23,16 +23,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_var
+/*typedef struct s_var
 {
 	char	*name;
 	char	*value;
-}			t_var;
+}			t_var;*/
 
 typedef struct s_env
 {
-	char			*vartest;
-	t_var			var;
+	char			*var;
+	//t_var			var;
 	struct s_env	*next;
 }	t_env;
 
