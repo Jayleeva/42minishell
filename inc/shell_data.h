@@ -49,7 +49,7 @@ void	print_token_list(t_token *head);
 
 //builtin
 void    process_cmd(char *cmd, t_data *data);
-char    *first_word(const char *s);
+char    *first_word(char *s);
 void	process_cd(char *cmd, t_data *data);
 void    process_pwd(t_data *data);
 void    process_env(t_data *data);

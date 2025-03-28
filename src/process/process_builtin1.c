@@ -14,43 +14,41 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-char	*first_word(const char *s)
+char	*first_word(char *s)
 {
 	char	*res;
+	int		i;
 
-	res = cutstr(s, s[0], ' ');
-	if (!res)
-		return (NULL);
-	return (res);
+	res = NULL;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == ' ')
+		{
+			res = cutstr(s, s[0], ' ');
+			if (!res)
+				return (NULL);
+			return (res);
+		}
+		i ++;
+	}
+	return (s);
 }
 
 void    process_cd(char *cmd, t_data *data)
 {
     char    *path;
-	//char	*set;
-	//int		i;
 
 	data->exit_code = 0;
-	/*set = ft_calloc(11, sizeof(char));
-	if (set == NULL)
-		return ;
-	set = "\0\n\t ";*/
     path = NULL;
-    path = ft_substr(cmd, 3, ft_strlen(cmd));
+    path = ft_substr(cmd, 3, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (strchri(path, ' ') != -1 && path[strchri(path, ' ') + 1] > 32) 
 	{
 		ft_printf("cd: too many arguments\n");
 		return ;
 	}
-	/*i = 0;
-	while (set[i])
-    {
-		write(1, &set[i], 1);
-		path = cutstr(path, path[0], set[i]); //ATTENTION: si autre chose après le path, n'est pas pris en compte + pour l'instant ne gère pas les quotes
-		i ++;
-	}*/
-	if (path[ft_strlen(path)] == ' ')
-	path = cutstr(path, path[0], ' ');
+	if (path[ft_strlen(path) -1] == ' ')  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
+		path = cutstr(path, path[0], ' ');
 	//gerer les quotes;
     if (chdir(path) == -1)
 	{
@@ -89,11 +87,11 @@ void    process_env(t_data *data)
 	}
 }
 
-void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche
+void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche 
 {
 	t_env	*current;
 
-	cmd = ft_substr(cmd, 7, ft_strlen(cmd));
+	cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (cmd == NULL)
 	{
 		data->exit_code = 1;
@@ -105,8 +103,9 @@ void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
 		return ;
-	current->next->vartest = cmd;
+	current->next->vartest = ft_strdup(cmd); // peut aussi juste assigner cmd mais du coup même pointeur que la liste donc peut pas être free séparément, à voir ce qui est le mieux; si utilise strdup, ajouter protection.
 	current->next->next = NULL;
+	free(cmd);
 	//ft_printf("%s\n", current->next->vartest);
 }
 
@@ -114,7 +113,7 @@ void	process_unset(char *cmd, t_data *data)
 {
 	t_env	*current;
 
-	cmd = ft_substr(cmd, 6, ft_strlen(cmd));
+	cmd = ft_substr(cmd, 6, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (cmd == NULL)
 	{
 		data->exit_code = 1;
@@ -127,7 +126,7 @@ void	process_unset(char *cmd, t_data *data)
 			break;
 		current = current->next;
 	}
-	ft_printf("to delete : %s\n", current->next->vartest);
+	//ft_printf("to delete : %s\n", current->next->vartest);
 	current->next = current->next->next;
 	//free? what?
 }
