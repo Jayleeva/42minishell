@@ -26,7 +26,7 @@ void    process_other(char *cmd, t_data *data)
     char    *s;
 
     s = NULL;
-    s = cutstr(cmd, cmd[0], ' '); //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
+    s = ft_substr(cmd, 0, strchri(cmd, ' ') -1); //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
     if (s == NULL)
         s = ft_strdup(cmd);
     ft_strlcat(s, ": command not found", ft_strlen(s) + 20);

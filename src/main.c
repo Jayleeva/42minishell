@@ -30,6 +30,7 @@ t_bool	process_input(t_data *data, char *input)
 	token_clear(&(data->token));
 	return (TRUE);
 }
+
 int	count_var(char **envp)
 {
 	int	i;

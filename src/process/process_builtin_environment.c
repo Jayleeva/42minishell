@@ -18,8 +18,8 @@ void    process_env(t_data *data)
 {
 	t_env	*current;
 
-	current = data->env;
 	data->exit_code = 0;
+	current = data->env;
 	while (current->next != NULL)
 	{
 		ft_printf("%s\n", current->vartest);
@@ -27,9 +27,10 @@ void    process_env(t_data *data)
 	}
 }
 
-void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche 
+void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche : garde chaque itération en mémoire somehow mais ne l'affiche que après 2 itérations...
 {
 	t_env	*current;
+	char	*var;
 
 	cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (cmd == NULL)
@@ -37,9 +38,18 @@ void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit
 		data->exit_code = 1;
 		return ;
 	}
+	var = ft_substr(cmd, 0, strchri(cmd, '='));
+	if (var == NULL)
+		return ;
 	current = data->env;
 	while (current->next != NULL)
+	{
+		if (!ft_strncmp(current->vartest, cmd, ft_strlen(cmd)))
+			return ;
+		else
+			ft_printf("%s\n", var);
 		current = current->next;
+	}
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
 		return ;
