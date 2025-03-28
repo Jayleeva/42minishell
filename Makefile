@@ -6,6 +6,8 @@ LIBFT_LIB := $(LIBFT_DIR)/$(LIBFT)
 SRC_DIR = ./src
 SRC = main.c \
 	parsing/utils.c \
+	parsing/dollar_handle.c \
+	parsing/dollar_utils.c \
 	parsing/quote_handle.c \
 	parsing/token_handle.c \
 	parsing/token/token_init.c \

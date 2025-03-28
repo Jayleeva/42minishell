@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 14:51:45 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/28 10:49:23 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ void	init_data(t_data *data)
 	data->env = NULL;
 }
 
-int main(int argc, char **argv, char **envp) 
+int main(void) 
 {
-	(void)argc;
-	(void)argv;
 	char *input;
 	t_data	data;
 
@@ -63,7 +61,7 @@ int main(int argc, char **argv, char **envp)
 				return (1);
 			} 
 		 }
-		 free(input);
+		 //free(input);
 	 }
 	 // Cleanup before exit
 	 //cleanup_environment();

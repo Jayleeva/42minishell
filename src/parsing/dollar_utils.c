@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/27 10:54:07 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/28 10:49:48 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,26 +66,43 @@ static int	get_name_length(char *var_name, char *env_var)
 //($? = last exit code, $$ = process ID)
 int	check_env_variable(char *input, int *i, t_data *data)
 {
-	t_env	*list_env;
+	t_env	*env_list;
 	int		env_list_size;
 	int		var_name_length;
+	char	var_name[256];
 
 	if (input[*i + 1] == '?' || input[*i + 1] == '$')
 		return (2);
-	list_env = data->env;
-	env_list_size = env_lenght(list_env);
+	env_list = data->env;
+	env_list_size = env_lenght(env_list);
+
+	// ✅ Extract variable name for debugging
+	int j = 0;
+	(*i)++;
+	while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
+		var_name[j++] = input[(*i)++];
+	var_name[j] = '\0';
+
+	// ✅ Debug with getenv()
+	char *value = getenv(var_name);
+	if (value)
+		printf("[DEBUG] getenv(\"%s\") = %s\n", var_name, value);
+
+	// ✅ Reset index after extracting the name
+	(*i) -= j;
 
 	while (env_list_size--)
 	{
-		var_name_length = get_name_length(&input[*i + 1], list_env->str);
-		if (ft_strncmp(list_env->str,
+		var_name_length = get_name_length(&input[*i + 1], env_list->str);
+		if (ft_strncmp(env_list->str,
 				&input[*i + 1], var_name_length) == 0)
 		{
-			*i += ft_strlen(list_env->str)
-				- ft_strlen(ft_strchr(list_env->str, '=')) + 1;
+			printf("[DEBUG] Found in data->env: %s\n", env_list->str);
+			*i += ft_strlen(env_list->str)
+				- ft_strlen(ft_strchr(env_list->str, '=')) + 1;
 			return (1);
 		}
-		list_env = list_env->next;
+		env_list = env_list->next;
 	}
 	return (0);
 }

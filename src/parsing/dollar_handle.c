@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/27 13:56:35 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/28 10:36:47 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@
 int	put_dollar(char *input, int *i, char **buffer, t_data *data)
 {
 	int	value;
-	int	org_i;
+	//int	org_i;
 
-	org_i = *i;
+	//org_i = *i;
 	value = check_env_variable(input, i, data);
 	if (value == 1)
 	{
-		return (handle_env_variable(data, &input[org_i],
-				*i - org_i, buffer));
+		//return (handle_env_variable(data, &input[org_i],
+		//		*i - org_i, buffer));
+		return 1;
 	}
 	else if (value == 2)
 	{
@@ -73,7 +74,7 @@ int	dollar_handle(char **input, t_data *data)
 	str = ft_strdup("");
 	while ((*input)[i])
 	{
-		handle_quotes(str, &data->quote);
+		handle_quotes((*input)[i], &data->quote);
 		if ((*input)[i] && (*input)[i + 1] && (*input)[i] == '$' &&
 			((*input)[i + 1] != '\'' && (*input)[i + 1] != '"') &&
 			(ft_isalpha((*input)[i + 1]) || (*input)[i + 1] == '?' ||
