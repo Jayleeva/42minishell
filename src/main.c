@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/28 10:49:23 by yishan           ###   ########.fr       */
+/*   Updated: 2025/03/28 10:53:12 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(void)
 	t_data	data;
 
 	init_data(&data);
-
+	data.env = init_env(envp, nvar);
 	//setup_environment(envp);
 	 while (1) {
 		 // Display prompt and read input
