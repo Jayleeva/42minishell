@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/shell_data.h"
+#include "../inc/linked_list.h"
 #include "../libft/inc/libft.h"
 
 // Parse the input and execute the corresponding commands

@@ -28,9 +28,56 @@ void    process_env(t_data *data)
 	ft_printf("%s\n", current->var);
 }
 
-void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche : garde chaque itération en mémoire somehow mais ne l'affiche que après 2 itérations...
+void	update_var(char *var, char *cmd, char *name, char *value)
+{
+	ft_printf("-- already exists -- \n");
+	if (value == NULL) // si même var mais value vide, réécrire "var="
+	{
+		name = ft_strjoin(name, "=");
+		var = ft_strdup(name);
+		ft_printf("-- value empty --\n");
+		return ;
+	}
+	if (!ft_strncmp(var, cmd, ft_strlen(cmd))) // si exactement le même input, ne rien faire
+		ft_printf("-- no changes --\n");
+	else // si même var mais pas même value, remplacer value; PAS DE MALLOC
+	{
+		free(var);
+		var = NULL;
+		var = ft_strdup(cmd);
+		ft_printf("-- has been changed -- \n");
+		return ;
+	}
+}
+
+void	update(t_data *data, char *cmd, char *name, char *value)
 {
 	t_env	*current;
+
+	current = data->env;
+	while (current->next != NULL)
+	{
+		if (!ft_strncmp(current->var, name, ft_strlen(name))) 
+			update_var(current->var, cmd, name, value);
+		else // sinon, finir la liste 
+			current = current->next;
+	}
+	if (!ft_strncmp(current->var, name, ft_strlen(name)))
+	{ 
+		update_var(current->var, cmd, name, value);
+		return ;
+	}
+	current->next = (t_env *)malloc(sizeof(t_env)); // malloc pour créer nouvelle var
+	if (current->next == NULL)
+		return ;
+	current->next->var = ft_strdup(cmd); // peut aussi juste assigner cmd mais du coup même pointeur que la liste donc peut pas être free séparément, à voir ce qui est le mieux; si utilise strdup, ajouter protection.
+	current->next->next = NULL;
+	ft_printf("-- has been created -- \n");
+}
+
+void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche : garde chaque itération en mémoire somehow mais ne l'affiche que après 2 itérations...
+{
+
 	char	*name;
 	char 	*value;
 	int		i;
@@ -48,66 +95,10 @@ void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit
 	value = NULL;
 	if (cmd[i +1])
 		value = ft_substr(cmd, i + 1, ft_strlen(cmd));
-	current = data->env;
-	while (current->next != NULL)
-	{
-		if (!ft_strncmp(current->var, name, ft_strlen(name))) 
-		{
-			ft_printf("-- already exists -- \n");
-			if (value == NULL) // si même var mais value vide, réécrire "var="
-			{
-				name = ft_strjoin(name, "=");
-				current->var = ft_strdup(name);
-				ft_printf("-- value empty --\n");
-				return ;
-			}
-			if (!ft_strncmp(current->var, cmd, ft_strlen(cmd))) // si exactement le même input, ne rien faire
-				ft_printf("-- no changes --\n");
-			else // si même var mais pas même value, remplacer value; PAS DE MALLOC
-			{
-				free(current->var);
-				current->var = NULL;
-				current->var = ft_strdup(cmd);
-				ft_printf("-- has been changed -- \n");
-				return ;
-			}
-			return ;
-		}
-		else // sinon, finir la liste 
-			current = current->next;
-	}
-	if (!ft_strncmp(current->var, name, ft_strlen(name))) 
-	{
-		ft_printf("-- already exists -- \n");
-		if (value == NULL) // si même var mais value vide, réécrire "var="
-		{
-			name = ft_strjoin(name, "=");
-			current->var = ft_strdup(name);
-			ft_printf("-- value empty --\n");
-			return ;
-		}
-		if (!ft_strncmp(current->var, cmd, ft_strlen(cmd))) // si exactement le même input, ne rien faire
-			ft_printf("-- no changes --\n");
-		else // si même var mais pas même value, remplacer value; PAS DE MALLOC
-		{
-			free(current->var);
-			current->var = NULL;
-			current->var = ft_strdup(cmd);
-			ft_printf("-- has been changed -- \n");
-			return ;
-		}
-		return ;
-	}
-	current->next = (t_env *)malloc(sizeof(t_env)); // malloc pour créer nouvelle var
-	if (current->next == NULL)
-		return ;
-	current->next->var = ft_strdup(cmd); // peut aussi juste assigner cmd mais du coup même pointeur que la liste donc peut pas être free séparément, à voir ce qui est le mieux; si utilise strdup, ajouter protection.
-	current->next->next = NULL;
-	ft_printf("-- has been created -- \n");
+	update(data, cmd, name, value);
 	free(cmd);
 	free(name);
 	free(value);
-	//ft_printf("var = %s\n", current->next->var);
 }
 
 void	process_unset(char *cmd, t_data *data)

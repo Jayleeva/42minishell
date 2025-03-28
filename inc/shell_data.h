@@ -60,5 +60,5 @@ void    process_exit(void);
 
 //other
 void    minishell_interactive(int argc, char **argv, t_data *data);
-
+void	update_var(char *var, char *cmd, char *name, char *value);
 #endif
