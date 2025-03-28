@@ -14,8 +14,9 @@ SRC = main.c \
 	parsing/token/token_manage.c \
 	parsing/env/list_init.c \
 	process/process_cmd.c \
-	process/process_builtin1.c \
-	process/process_builtin2.c \
+	process/process_builtin_directory.c \
+	process/process_builtin_echo.c \
+	process/process_builtin_environment.c \
 
 OBJ = $(SRC:.c=.o)
 
