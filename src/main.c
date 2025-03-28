@@ -50,7 +50,7 @@ t_env	*init_env(char **envp, int nvar)
 	env = (t_env *)malloc(sizeof(t_env));
 	if (env == NULL)
 		return (NULL);
-	env->vartest = envp[0];
+	env->var = envp[0];
 	env->next = NULL;
 	i = 1;
 	current = env;
@@ -61,9 +61,9 @@ t_env	*init_env(char **envp, int nvar)
 		current->next = (t_env *)malloc(sizeof(t_env));
 		if (current->next == NULL)
 			return (NULL);
-		current->next->vartest = envp[i];
+		current->next->var = envp[i];
 		current->next->next = NULL;
-		//ft_printf("%s\n", current->next->vartest);
+		//ft_printf("%s\n", current->next->var);
 		i ++;
 	}
 	return (env);
