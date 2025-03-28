@@ -2,7 +2,6 @@ NAME = libft
 
 SRC_DIR = ./src
 SRC = strchri.c \
-	cutstr.c \
 	is_in_set.c \
 	free_tab.c \
 	ft_isalpha.c \

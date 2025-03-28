@@ -25,7 +25,7 @@ char	*first_word(char *s)
 	{
 		if (s[i] == ' ')
 		{
-			res = cutstr(s, s[0], ' ');
+			res = ft_substr(s, 0, strchri(s, ' ') -1);
 			if (!res)
 				return (NULL);
 			return (res);
@@ -48,7 +48,7 @@ void    process_cd(char *cmd, t_data *data)
 		return ;
 	}
 	if (path[ft_strlen(path) -1] == ' ')  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-		path = cutstr(path, path[0], ' ');
+		path = ft_substr(path, 0, strchri(path, ' '));
 	//gerer les quotes;
     if (chdir(path) == -1)
 	{
