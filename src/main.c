@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/28 10:55:11 by yishan           ###   ########.fr       */
+/*   Updated: 2025/03/28 10:57:56 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ void	init_data(t_data *data)
 	data->env = NULL;
 }
 
-int main(void) 
+int main(int argc, char **argv, char **envp) 
 {
 	char *input;
+	int	nvar;
 	t_data	data;
 
 	init_data(&data);
+	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
 	//setup_environment(envp);
 	 while (1) {
