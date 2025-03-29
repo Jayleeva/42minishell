@@ -13,7 +13,6 @@ SRC = main.c \
 	parsing/token/token_init.c \
 	parsing/token/token_clear.c \
 	parsing/token/token_manage.c \
-	parsing/env/env_init.c
 
 OBJ = $(SRC:.c=.o)
 

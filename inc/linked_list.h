@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:49:27 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 11:00:10 by yisho            ###   ########.fr       */
+/*   Updated: 2025/03/28 16:17:35 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_var
+{
+	char	*name;
+	char	*value;
+}			t_var;
+
 typedef struct s_env
 {
-	char			*str;
+	char			*vartest;
+	t_var			var;
 	struct s_env	*next;
 }	t_env;
 
@@ -40,6 +47,6 @@ t_bool	token_put_in(t_token **head, const	char *str, int type);
 void	token_clear(t_token **token);
 
 //ENV FUNCTION
-size_t	env_lenght(t_env *list);
+
 
 #endif
