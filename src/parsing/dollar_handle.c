@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/29 13:53:47 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:01:49 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,4 +142,3 @@ int	dollar_handle(char **input, t_data *data)
 	*input = str;
 	return (1);
 }
-

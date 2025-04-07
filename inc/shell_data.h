@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/29 13:53:00 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/05 14:17:12 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_data
 	int		exit_code;
 	t_env	*env;
 	t_token	*token;
+	t_cmd	*cmd;
 	t_quote	quote;
 }		t_data;
 
@@ -43,10 +44,18 @@ char	*get_env_value(t_env *env, char *name);
 
 t_bool	create_token_list(t_token **head, char *input);
 
+t_bool	check_pipe_syntax(t_data *data);
+t_bool	create_cmd_list(t_data *data);
+t_bool	setup_command_input(t_data *data, t_token *token, t_cmd *cmd);
+
 //utils
 int		ft_is_space(char c);
 int		ft_is_special(char *str);
 void	print_error(char *msg);
 void	print_token_list(t_token *head);
+
+void	array_clear(char **arr);
+t_bool	print_error_token(t_token *token, t_data *data);
+
 
 #endif

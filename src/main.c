@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/28 11:05:38 by yishan           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:53:42 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@
 t_bool	process_input(t_data *data, char *input)
 {
 	if (!check_open_quotes(data, input))
-	{
 		return (FALSE);
-	}
 	if (!dollar_handle(&input, data) || !create_token_list(&data->token, input))
 	{
 		token_clear(&(data->token));
 		return (FALSE);
 	}
 	print_token_list(data->token);
+	if (!data->token || !check_pipe_syntax(data) || !create_list_cmd(data))
+	{
+		token_clear(&data->token);
+		//fcmd_clear(&data->cmd);
+		return (FALSE);
+	}
 	token_clear(&(data->token));
 	return (TRUE);
 }
@@ -74,6 +78,7 @@ void	init_data(t_data *data)
 	data->exit_code = 0;
 	data->token = NULL;
 	data->env = NULL;
+	data->cmd = NULL;
 }
 
 int main(int argc, char **argv, char **envp) 
