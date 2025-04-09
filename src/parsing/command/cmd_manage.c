@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:40:54 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/02 16:22:26 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/09 13:19:47 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cmd	*cmd_getlast(t_cmd *head)
 
 t_bool	cmd_addback(t_cmd **head, t_cmd *new_cmd)
 {
-	t_token	*last;
+	t_cmd	*last;
 
 	if (!head || !new_cmd)
 		return (FALSE);
@@ -34,7 +34,7 @@ t_bool	cmd_addback(t_cmd **head, t_cmd *new_cmd)
 		*head = new_cmd;
 		return (TRUE);
 	}
-	last = token_getlast(*head);
+	last = cmd_getlast(*head);
 	if (!last)
 		return (FALSE);
 	last->next = new_cmd;

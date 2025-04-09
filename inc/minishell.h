@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:29 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 11:54:43 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/09 13:38:29 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 # include "../libft/inc/libft.h"
 
 /*
-* <
-* <<
-* >
-* >>
+* < 	Open a file for reading
+* <<	Read from a temporary file or pipe
+* >		Open a file for writing (truncate)
+* >>	Open a file for writing (append)
 * |
 * command
 * argument

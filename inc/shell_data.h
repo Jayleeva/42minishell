@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/05 14:17:12 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:48:36 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,18 @@ t_bool	create_token_list(t_token **head, char *input);
 t_bool	check_pipe_syntax(t_data *data);
 t_bool	create_cmd_list(t_data *data);
 t_bool	setup_command_input(t_data *data, t_token *token, t_cmd *cmd);
+t_bool	setup_command_output(t_data *data, t_token *token, t_cmd *cmd);
 
 //utils
 int		ft_is_space(char c);
 int		ft_is_special(char *str);
 void	print_error(char *msg);
 void	print_token_list(t_token *head);
+t_bool	is_redirection(t_token_type type);
 
 void	array_clear(char **arr);
 t_bool	print_error_token(t_token *token, t_data *data);
+void	print_cmd(t_cmd *cmd);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/02 19:06:22 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:27:03 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,19 @@ static t_bool	setup_command(t_data *data, t_token *token)
 		data->cmd->prev->infile = -1;
 		return (TRUE);
 	}
-
+	data->cmd->prev->argv = get_command_arg(data, token);
+	if (!data->cmd->prev->argv)
+		cmd_clear((&data->cmd));
+	return (TRUE);
 }
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
 	if (!cmd_put_in(&data->cmd, -2, -2, NULL))
-		cmd_clear(data);
+		cmd_clear((&data->cmd));
 	if (!setup_command(data, current))
 	{
-		data->exit_code = 2;
+		data->exit_code = 1;
 		return (FALSE);
 	}
 	return (TRUE);

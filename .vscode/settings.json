@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"shell_data.h": "c"
+		"shell_data.h": "c",
+		"libft.h": "c"
 	}
 }

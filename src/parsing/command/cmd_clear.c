@@ -6,11 +6,23 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:48:24 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/02 16:17:19 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/09 13:13:54 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/linked_list.h"
+
+void	array_clear(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr && arr[i])
+		free(arr[i++]);
+	if (arr)
+		free(arr);
+	arr = NULL;
+}
 
 static void	free_all_cmd(t_cmd *tmp)
 {

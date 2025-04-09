@@ -10,6 +10,7 @@ SRC = main.c \
 	parsing/quote_handle.c \
 	parsing/command_check.c \
 	parsing/command_fd.c \
+	parsing/command_arg.c \
 	parsing/command_utils.c \
 	parsing/command/cmd_init.c \
 	parsing/command/cmd_clear.c \
