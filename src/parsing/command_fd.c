@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/09 14:50:00 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:52:11 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,17 @@ Set cmd2's infile to fd[0] (read end)*/
 static int	open_file(t_data *data, char *filename, int type)
 {
 	int	fd;
-	(void) data;
+	(void)data;
 
 	fd = -1;
 	if (type == INPUT)
 		fd = open(filename, O_RDONLY);
-	/*else if (type == HEREDOC)
-		fd = here_doc(data, filename);*/
+	//else if (type == HEREDOC)
+	//	fd = here_doc(data, filename);
 	else if (type == INPUT)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
 		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-
 	//if (type != HEREDOC && fd < 0)
 	//	perror(filename);
 	return (fd);

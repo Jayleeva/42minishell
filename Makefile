@@ -8,6 +8,11 @@ SRC = main.c \
 	parsing/dollar_handle.c \
 	parsing/dollar_utils.c \
 	parsing/quote_handle.c \
+	parsing/token_handle.c \
+	parsing/token_utils.c \
+	parsing/token/token_init.c \
+	parsing/token/token_clear.c \
+	parsing/token/token_manage.c \
 	parsing/command_check.c \
 	parsing/command_fd.c \
 	parsing/command_arg.c \
@@ -15,18 +20,13 @@ SRC = main.c \
 	parsing/command/cmd_init.c \
 	parsing/command/cmd_clear.c \
 	parsing/command/cmd_manage.c \
-	parsing/token_handle.c \
-	parsing/token_utils.c \
-	parsing/token/token_init.c \
-	parsing/token/token_clear.c \
-	parsing/token/token_manage.c \
 
 OBJ = $(SRC:.c=.o)
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -fsanitize=leak -I ./inc -I ./libft/inc 
+CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc 
 
 all: $(NAME)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/09 14:27:03 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:15:26 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static t_bool	setup_command(t_data *data, t_token *token)
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
+	printf("hello\n");
 	if (!cmd_put_in(&data->cmd, -2, -2, NULL))
 		cmd_clear((&data->cmd));
 	if (!setup_command(data, current))
@@ -52,6 +53,7 @@ static t_bool	process_command(t_data *data, t_token *current)
 		data->exit_code = 1;
 		return (FALSE);
 	}
+	printf("hello\n");
 	return (TRUE);
 }
 

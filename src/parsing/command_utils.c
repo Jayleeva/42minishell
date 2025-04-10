@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:15:43 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/09 13:13:45 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:06:04 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_bool	print_error_token(t_token *token, t_data *data)
 	return (FALSE);
 }
 
-//debug
+//for debugging
 void	print_tab(char **tab)
 {
 	int	i;

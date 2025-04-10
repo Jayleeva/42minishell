@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/09 13:03:09 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:37:07 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_bool	process_input(t_data *data, char *input)
 {
 	if (!check_open_quotes(data, input))
 		return (FALSE);
-	if (!dollar_handle(&input, data) || !create_token_list(&data->token, input))
+	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
 	{
 		token_clear(&(data->token));
 		return (FALSE);
@@ -28,6 +28,7 @@ t_bool	process_input(t_data *data, char *input)
 	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
 	{
 		token_clear(&data->token);
+		print_cmd(data->cmd);
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
@@ -76,6 +77,7 @@ t_env	*init_env(char **envp, int nvar)
 void	init_data(t_data *data)
 {
 	data->exit_code = 0;
+	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;
 	data->cmd = NULL;
@@ -92,7 +94,6 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	//setup_environment(envp);
 	 while (1) {
 		 // Display prompt and read input
 		 input = readline("minishell> ");
@@ -106,7 +107,7 @@ int main(int argc, char **argv, char **envp)
 			{
 				free(input);
 				return (1);
-			} 
+			}
 		 }
 		 //free(input);
 	 }
