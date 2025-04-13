@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/13 16:35:06 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:27:41 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,27 @@ static t_bool	setup_command(t_data *data, t_token *token)
 	cmd = data->cmd;
 	while (cmd->next)
 		cmd = cmd->next;
-	if (!setup_command_input(data, token, cmd) || \
-		!setup_command_output(data, token, cmd))
+	if (!setup_command_input(data, token, cmd))
 	{
-		cmd->skip_cmd = TRUE;
-		return (TRUE);
+		if (cmd->infile == -1)
+		{
+			cmd->skip_cmd = TRUE;
+			cmd->outfile = -1;
+			return (TRUE);
+		}
+		return (FALSE);
+	}
+	if (!setup_command_output(data, token, cmd))
+	{
+		if (cmd->outfile == -1)
+		{
+			if (cmd->infile >= 0)
+				close(cmd->infile);
+			cmd->skip_cmd = TRUE;
+			cmd->infile = -1;
+			return (TRUE);
+		}
+		return (FALSE);
 	}
 	cmd->argv = get_command_arg(data, token);
 	if (!cmd->argv)
@@ -36,19 +52,23 @@ static t_bool	setup_command(t_data *data, t_token *token)
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
+	printf("✔ Command setup: ");
+	for (int i = 0; cmd->argv[i]; i++)
+	printf("[%s] ", cmd->argv[i]);
+	printf("\n");
 	return (TRUE);
 }
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
-	if (data->cmd && !setup_command(data, current))
-	{
-		data->exit_code = 1;
-		return (FALSE);
-	}
 	if (!cmd_put_in(&data->cmd, STDIN_FILENO, STDOUT_FILENO, NULL))
 	{
 		cmd_clear(&data->cmd);
+		return (FALSE);
+	}
+	if (data->cmd && !setup_command(data, current))
+	{
+		data->exit_code = 1;
 		return (FALSE);
 	}
 	return (TRUE);
