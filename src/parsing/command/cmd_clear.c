@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:48:24 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/09 13:13:54 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:15:15 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@ void	array_clear(char **arr)
 	arr = NULL;
 }
 
-static void	free_all_cmd(t_cmd *tmp)
+static void	free_all_cmd(t_cmd *cmd)
 {
-	if (!tmp)
+	if (!cmd)
 		return ;
 
-	if (tmp->infile > 0)
-		close(tmp->infile);
-	tmp->infile = -2;
+	if (cmd->infile >= 0)
+		close(cmd->infile);
+	cmd->infile = -2;
 
-	if (tmp->outfile > 0)
-		close(tmp->outfile);
-	tmp->outfile = -2;
+	if (cmd->outfile >= 0)
+		close(cmd->outfile);
+	cmd->outfile = -2;
 
-	if (tmp->argv)
+	if (cmd->argv)
 	{
-		array_clear(tmp->argv);
-		tmp->argv = NULL;
+		array_clear(cmd->argv);
+		cmd->argv = NULL;
 	}
 }
 
@@ -50,6 +50,7 @@ void	cmd_clear(t_cmd **cmd)
 
 	if (!cmd || !(*cmd))
 		return ;
+	printf("cmd_clear: Clearing cmd -> %p\n", *cmd);
 	while (*cmd)
 	{
 		current = *cmd;

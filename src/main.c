@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/10 15:37:07 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/13 12:31:23 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ t_bool	process_input(t_data *data, char *input)
 		token_clear(&(data->token));
 		return (FALSE);
 	}
+	free(input);
 	print_token_list(data->token);
 	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
 	{
-		token_clear(&data->token);
-		print_cmd(data->cmd);
+		token_clear(&(data->token));
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
+	print_cmd(data->cmd);
+	cmd_clear(&data->cmd);
 	token_clear(&(data->token));
 	return (TRUE);
 }
@@ -81,6 +83,9 @@ void	init_data(t_data *data)
 	data->token = NULL;
 	data->env = NULL;
 	data->cmd = NULL;
+	data->pipe_fd[0] = -1;
+	data->pipe_fd[1] = -1;
+	data->pid = 0;
 }
 
 int main(int argc, char **argv, char **envp) 
@@ -104,12 +109,11 @@ int main(int argc, char **argv, char **envp)
 		 if (*input) {
 			 add_history(input);
 			 if(!process_input(&data, input))
-			{
-				free(input);
 				return (1);
-			}
+			 //if (!execute(&data))
+				//free_all();
 		 }
-		 //free(input);
+		 free(input);
 	 }
 	 // Cleanup before exit
 	 //cleanup_environment();

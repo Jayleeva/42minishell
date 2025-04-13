@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:29 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/09 13:38:29 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/13 16:20:06 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <signal.h>
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/10 15:15:26 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/13 16:35:06 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,46 +17,44 @@
 //Invalid syntax → Exit with error code
 static t_bool	setup_command(t_data *data, t_token *token)
 {
-	if (data->cmd->prev && !setup_command_input(data, token, data->cmd->prev)
-		&& data->cmd->prev->infile != -1)
+	t_cmd	*cmd;
+
+	if (!data || !data->cmd)
 		return (FALSE);
-	if (data->cmd->prev && data->cmd->prev->infile == -1)
+	cmd = data->cmd;
+	while (cmd->next)
+		cmd = cmd->next;
+	if (!setup_command_input(data, token, cmd) || \
+		!setup_command_output(data, token, cmd))
 	{
-		data->cmd->prev->skip_cmd = TRUE;
-		data->cmd->prev->outfile = -1;
+		cmd->skip_cmd = TRUE;
 		return (TRUE);
 	}
-	if (data->cmd->prev && !setup_command_output(data, token, data->cmd->prev)
-		&& data->cmd->prev->outfile != -1)
-		return (FALSE);
-	if (data->cmd->prev && data->cmd->prev->outfile == -1)
+	cmd->argv = get_command_arg(data, token);
+	if (!cmd->argv)
 	{
-		if (data->cmd->prev->infile >= 0)
-			close(data->cmd->prev->infile);
-		data->cmd->prev->skip_cmd = TRUE;
-		data->cmd->prev->infile = -1;
-		return (TRUE);
+		cmd_clear(&data->cmd);
+		return (FALSE);
 	}
-	data->cmd->prev->argv = get_command_arg(data, token);
-	if (!data->cmd->prev->argv)
-		cmd_clear((&data->cmd));
 	return (TRUE);
 }
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
-	printf("hello\n");
-	if (!cmd_put_in(&data->cmd, -2, -2, NULL))
-		cmd_clear((&data->cmd));
-	if (!setup_command(data, current))
+	if (data->cmd && !setup_command(data, current))
 	{
 		data->exit_code = 1;
 		return (FALSE);
 	}
-	printf("hello\n");
+	if (!cmd_put_in(&data->cmd, STDIN_FILENO, STDOUT_FILENO, NULL))
+	{
+		cmd_clear(&data->cmd);
+		return (FALSE);
+	}
 	return (TRUE);
 }
 
+//parser splits tokens into command structures at each pipe (|)
 //1st command is always valid, after the 1st one should only appear after a pipe
 t_bool	create_cmd_list(t_data *data)
 {
@@ -88,7 +86,6 @@ t_bool	check_pipe_syntax(t_data *data)
 	{
 		ft_printf("Error: Unexpected token '|'\n");
 		data->exit_code = 1;
-		token_clear(&data->token);
 		return (FALSE);
 	}
 	last = token_getlast(data->token);
@@ -98,7 +95,6 @@ t_bool	check_pipe_syntax(t_data *data)
 	{
 		ft_printf("Error: Unclosed pipe\n");
 		data->exit_code = 1;
-		token_clear(&data->token);
 		return (FALSE);
 	}
 	return (TRUE);

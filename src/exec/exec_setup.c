@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/10 13:51:26 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/12 13:36:22 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // call child_process
 // If wait for child process fails, exit cleanly
 // Call parent_process
-void	fork_it_all(t_vars *vars, int ac, char **av, char **enp)
+void	fork_it_all(t_env *vars, int ac, char **av, char **enp)
 {
 	int	i;
 
@@ -39,4 +39,29 @@ void	fork_it_all(t_vars *vars, int ac, char **av, char **enp)
 	if (wait(NULL) < 0)
 		clean_exit(vars, "Wait error", 2, EXIT_FAILURE);
 	parent_process(vars, ac, av, enp);
+}
+
+// pipe_fd[READ], pipe_fd[WRITE]
+t_bool	execute(t_data *data)
+{
+	t_cmd	*current;
+
+	current = data->cmd;
+	if (current && current->skip_cmd == FALSE
+		&& current->next == current && is_builtin(current->argv[0]))
+		return (execute_builtin(data, current));
+	while (current != NULL)
+	{
+		if (pipe(data->pipe_fd) == -1)
+			return (FALSE);
+		if (!execute_cmd(data, current))
+			return (FALSE);
+		current = current->next;
+		if (current == NULL)
+		{
+			wait_all(data);
+			break ;
+		}
+	}
+	return (TRUE);
 }

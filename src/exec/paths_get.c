@@ -3,55 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   paths_get.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:02:25 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/10 14:18:28 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/13 16:31:47 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-// Add a / at the end of each path, If it fails, exit cleanly
-// Free the old path and assign the new one
-
-static void	add_slash(t_data *data)
+static char	*cmd_not_found(char *sample)
 {
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (data->paths[i])
-	{
-		tmp = ft_strjoin(data->paths[i], "/");
-		if (!tmp)
-			clean_exit(data, "Malloc error adding trailing slash", 2, 1);
-		free(data->paths[i]);
-		data->paths[i] = tmp;
-		i++;
-	}
+	ft_putstr_fd(sample, 2);
+	ft_putstr_fd(" : command not found\n", 2);
+	return (NULL);
 }
 
-void	get_paths(char **enp, t_data *data)
+static char	*join_with_slash(char *path, char *cmd)
 {
-	int		i;
+	char	*full_path;
 	char	*tmp;
 
-	i = 0;
-	while (enp[i])
+	if (!path || !cmd)
+		return (NULL);
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
+		return (NULL);
+	full_path = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full_path);
+}
+
+char	*find_cmd_path(t_data *data, char *cmd, t_env *env)
+{
+	char	*path_env;
+	char	**paths;
+	char	*full_path;
+	int		i;
+
+	if (!cmd || !env || ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
+	path_env = NULL;
+	while (env && !path_env)
 	{
-		if (ft_strncmp(enp[i], "PATH=", 5) == 0)
-		{
-			tmp = ft_strtrim(enp[i], "PATH=");
-			if (!tmp)
-				exit_msg("Error trimming PATH", 2, EXIT_FAILURE);
-			data->paths = ft_split(tmp, ':');
-			free(tmp);
-		}
-		i++;
+		if (ft_strncmp(env->vartest, "PATH=", 5) == 0)
+			path_env = env->vartest + 5;
+		env = env->next;
 	}
-	if (!data->paths)
-		exit_msg("Error finding paths", 2, EXIT_FAILURE);
-	add_slash(data);
+	if (!path_env)
+		return (cmd_not_found(cmd));
+	paths = ft_split(path_env, ':');
+	if (!paths)
+		return (NULL);
+	i = -1;
+	while (paths[++i])
+	{
+		full_path = join_with_slash(paths[i], cmd);
+		if (!full_path)
+			break ;
+		if (access(full_path, F_OK | X_OK) == 0)
+		{
+			array_clear(paths);
+			return (full_path);
+		}
+		free(full_path);
+	}
+	array_clear(paths);
+	return (cmd_not_found(cmd));
 }

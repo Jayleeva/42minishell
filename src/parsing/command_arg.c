@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_arg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:23:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/10 15:16:23 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/13 12:33:52 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static t_bool	is_valid_argument(const t_token *token, const t_token *head)
 		return (TRUE);
 	if (token->type == ARG)
 	{
+		if (!token->prev)
+			return (FALSE);
 		prev_is_special = is_redirection(token->prev->type)
 			|| token->prev->type == PIPE;
 		not_wrapped = (token->prev != head->prev);
@@ -39,7 +41,7 @@ static int	count_arguments(t_data *data, t_token *start_token)
 
 	count = 0;
 	current = start_token;
-	while (current != data->token && current->type != PIPE)
+	while (current && current->type != PIPE)
 	{
 		if (is_valid_argument(current, data->token))
 			count++;
@@ -73,13 +75,13 @@ char	**get_command_arg(t_data *data, t_token *start_token)
 	args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!args)
 		return (NULL);
-	while (current != data->token && current->type != PIPE)
+	while (current && current->type != PIPE)
 	{
 		if (is_valid_argument(current, data->token))
 		{
 			args[i] = ft_strdup(current->str);
 			if (!args[i])
-				free_args_array(args, i);
+				return (free_args_array(args, i));
 			i++;
 		}
 		current = current->next;
