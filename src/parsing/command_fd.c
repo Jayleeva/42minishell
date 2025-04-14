@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/13 16:12:49 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 16:30:39 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ static int	open_file(t_data *data, char *filename, int type)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
 		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	//if (type != HEREDOC && fd < 0)
-	//	perror(filename);
+	//if (fd < 0)
+	//	perror("Error opening file");
+	//type != HEREDOC ||
 	return (fd);
 }
 
@@ -78,6 +79,7 @@ static t_bool	process_output_redirect(t_data *data,
 		if (!token->next || token->next->type == PIPE
 			|| is_redirection(token->next->type))
 			return (print_error_token(token, data));
+		//printf("FILENAME : %s \n", token->next->str);
 		cmd->outfile = open_file(data, token->next->str, token->type);
 		if (cmd->outfile == -1)
 			return (FALSE);

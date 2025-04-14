@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:15:43 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/10 15:06:04 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/14 15:04:12 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	print_cmd(t_cmd *cmd)
 	t_cmd	*tmp;
 
 	tmp = cmd;
-	while (tmp->next != cmd)
+	while (tmp->next != cmd && tmp->next != NULL)
 	{
 		printf("Skip -> %d, infile -> %d, outfile -> %d, cmd : ",
 			tmp->skip_cmd, tmp->infile, tmp->outfile);
@@ -63,4 +63,5 @@ void	print_cmd(t_cmd *cmd)
 		tmp->infile, tmp->outfile);
 	print_tab(tmp->argv);
 	printf("\n");
+	tmp = NULL;
 }

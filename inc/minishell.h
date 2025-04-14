@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:29 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/13 16:20:06 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 11:35:47 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <signal.h>
+# include <string.h>
+# include <errno.h>
 
 # include "../libft/inc/libft.h"
 

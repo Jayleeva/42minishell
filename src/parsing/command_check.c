@@ -3,15 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/13 17:27:41 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 15:35:52 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
+
+static t_bool	handle_command(t_data *data, t_token *token, t_cmd *cmd)
+{
+	if (!setup_command_input(data, token, cmd))
+	{
+		if (cmd->infile == -1)
+		{
+			cmd->skip_cmd = TRUE;
+			cmd->outfile = -1;
+			return (FALSE); // Let the caller skip further setup
+		}
+		return (FALSE);
+	}
+	if (!setup_command_output(data, token, cmd))
+	{
+		if (cmd->outfile == -1)
+		{
+			if (cmd->infile >= 0)
+				close(cmd->infile);
+			cmd->skip_cmd = TRUE;
+			cmd->infile = -1;
+			return (FALSE);
+		}
+		return (FALSE);
+	}
+	return (TRUE);
+}
 
 //Failed redirection → skip_cmd=true
 //Invalid syntax → Exit with error code
@@ -24,28 +51,8 @@ static t_bool	setup_command(t_data *data, t_token *token)
 	cmd = data->cmd;
 	while (cmd->next)
 		cmd = cmd->next;
-	if (!setup_command_input(data, token, cmd))
-	{
-		if (cmd->infile == -1)
-		{
-			cmd->skip_cmd = TRUE;
-			cmd->outfile = -1;
-			return (TRUE);
-		}
-		return (FALSE);
-	}
-	if (!setup_command_output(data, token, cmd))
-	{
-		if (cmd->outfile == -1)
-		{
-			if (cmd->infile >= 0)
-				close(cmd->infile);
-			cmd->skip_cmd = TRUE;
-			cmd->infile = -1;
-			return (TRUE);
-		}
-		return (FALSE);
-	}
+	if (!handle_command(data, token, cmd))
+		return (TRUE);
 	cmd->argv = get_command_arg(data, token);
 	if (!cmd->argv)
 	{
@@ -54,7 +61,7 @@ static t_bool	setup_command(t_data *data, t_token *token)
 	}
 	printf("✔ Command setup: ");
 	for (int i = 0; cmd->argv[i]; i++)
-	printf("[%s] ", cmd->argv[i]);
+		printf("[%s] ", cmd->argv[i]);
 	printf("\n");
 	return (TRUE);
 }

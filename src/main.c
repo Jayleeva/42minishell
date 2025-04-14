@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/13 12:31:23 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 12:46:38 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,20 @@
 t_bool	process_input(t_data *data, char *input)
 {
 	if (!check_open_quotes(data, input))
+	{
+		free(input);
 		return (FALSE);
+	}
 	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
 	{
+		free(input);
 		token_clear(&(data->token));
 		return (FALSE);
 	}
-	free(input);
 	print_token_list(data->token);
 	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
 	{
+		free(input);
 		token_clear(&(data->token));
 		cmd_clear(&data->cmd);
 		return (FALSE);
@@ -35,6 +39,7 @@ t_bool	process_input(t_data *data, char *input)
 	print_cmd(data->cmd);
 	cmd_clear(&data->cmd);
 	token_clear(&(data->token));
+	free(input);
 	return (TRUE);
 }
 
@@ -99,23 +104,23 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	 while (1) {
-		 // Display prompt and read input
-		 input = readline("minishell> ");
-		 if (!input) {
-			 printf("exit\n");
-			 break;
-		 }
-		 if (*input) {
-			 add_history(input);
-			 if(!process_input(&data, input))
+	while (1) {
+		// Display prompt and read input
+		input = readline("minishell> ");
+		if (!input) {
+			printf("exit\n");
+			break;
+		}
+		if (*input) {
+			add_history(input);
+			if(!process_input(&data, input))
 				return (1);
-			 //if (!execute(&data))
-				//free_all();
-		 }
-		 free(input);
-	 }
-	 // Cleanup before exit
-	 //cleanup_environment();
-	 return 0;
+			//if (!execute(&data))
+			//free_all();
+		}
+		input = NULL;
+	}
+	// Cleanup before exit
+	//cleanup_environment();
+	return 0;
  }

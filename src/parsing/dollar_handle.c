@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/02 14:01:49 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 10:57:35 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,12 @@ int	handle_special_case(t_data *data, char **buffer, char special_char)
 		value_str = ft_itoa(data->exit_code);
 		if (!value_str)
 			return (0);
-        printf("[DEBUG] Exit status: %d\n", data->exit_code);
 	}
 	else if (special_char == '$')
 	{
 		value_str = ft_strdup("0");
 		if (!value_str)
 			return (0);
-        printf("[DEBUG] PID expansion (placeholder)\n");
 	}
 	new_buffer = ft_strjoin(*buffer, value_str);
 	free(value_str);
@@ -55,7 +53,6 @@ int	handle_env_variable(t_data *data, char *input, int length, char **buffer)
 		return (0);
 	env_value = get_env_value(data->env, var_name);
 	free(var_name);
-
 	value_to_append = env_value;
 	if (value_to_append == NULL)
 		value_to_append = "";

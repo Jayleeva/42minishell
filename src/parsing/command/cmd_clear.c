@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_clear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:48:24 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/11 17:15:15 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 12:24:23 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ static void	free_all_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 
-	if (cmd->infile >= 0)
+	if (cmd->infile >= 3)
 		close(cmd->infile);
 	cmd->infile = -2;
 
-	if (cmd->outfile >= 0)
+	if (cmd->outfile >= 3)
 		close(cmd->outfile);
 	cmd->outfile = -2;
 
@@ -50,7 +50,6 @@ void	cmd_clear(t_cmd **cmd)
 
 	if (!cmd || !(*cmd))
 		return ;
-	printf("cmd_clear: Clearing cmd -> %p\n", *cmd);
 	while (*cmd)
 	{
 		current = *cmd;
