@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_builtin1.c                                 :+:      :+:    :+:   */
+/*   process_builtin_environment.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 16:54:56 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 12:50:03 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	update_var(char *var, char *cmd, char *name, char *value)
 	if (value == NULL) // si même var mais value vide, réécrire "var="
 	{
 		name = ft_strjoin(name, "=");
+		free(var);
+		var = NULL;
 		var = ft_strdup(name);
 		ft_printf("-- value empty --\n");
 		return ;
@@ -75,9 +77,8 @@ void	update(t_data *data, char *cmd, char *name, char *value)
 	ft_printf("-- has been created -- \n");
 }
 
-void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit faire 2 fois avant que env l'affiche : garde chaque itération en mémoire somehow mais ne l'affiche que après 2 itérations...
+void	process_export(char *cmd, t_data *data)
 {
-
 	char	*name;
 	char 	*value;
 	int		i;
@@ -104,6 +105,7 @@ void	process_export(char *cmd, t_data *data) //ne marche pas tout de suite, doit
 void	process_unset(char *cmd, t_data *data)
 {
 	t_env	*current;
+	t_env	*prev;
 
 	cmd = ft_substr(cmd, 6, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (cmd == NULL)
@@ -112,12 +114,13 @@ void	process_unset(char *cmd, t_data *data)
 		return ;
 	}
 	current = data->env;
-	while (current->next->next != NULL)
+	while (current && ft_strncmp(current->var, cmd, strchri(current->var, '=')))
 	{
-		if (!ft_strncmp(current->next->var, cmd, strchri(current->next->var, '=')))
-			break;
+		prev = current;
 		current = current->next;
 	}
-	current->next = current->next->next;
-	//free? what?
+	if (!current)
+		return ;
+	prev->next = current->next;
+	free(current);
 }

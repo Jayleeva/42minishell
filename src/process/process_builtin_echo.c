@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_builtin2.c                                 :+:      :+:    :+:   */
+/*   process_builtin_echo.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:27:19 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 11:30:03 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,27 @@
 void    process_echo(char *cmd, t_data *data)
 {
     char    *s;
+    t_env	*current;
 
 	data->exit_code = 0;
     s = NULL;
-    if (cmd[4] == '\0')
-        ft_printf("\n");
-    else
+    /*if (cmd[4] == '\0')
+        ft_printf("\n");*/
+    s = ft_substr(cmd, 5, ft_strlen(cmd));
+    if (s[0] == '$')
     {
-        s = ft_substr(cmd, 5, ft_strlen(cmd));
-
-		/*if (s[0] == '\"' && s[1] == '\'')
-			s = ft_strtrim(s, "\"");
-		if (s[0] == '\'' && s[1] == '\"')
-			s = ft_strtrim(s, "\'");*/
-		// ATTENTION si les single sont dans des double, doivent etre print, sinon non, ET pareil pour les double dans des single.
-        if (s[0] == '$')
-            ft_printf("!! look for environnement variable\n");
-        else
-            ft_printf("%s\n", s);
-        free(s);
+        current = data->env;
+        while (current->next != NULL)
+        {
+            if (!ft_strncmp(current->var, ft_substr(s, 1, ft_strlen(s)), strchri(current->var, '=')))
+                break;
+            current = current->next;
+        }
+        if (!ft_strncmp(current->var, ft_substr(s, 1, ft_strlen(s)), strchri(current->var, '=')))
+            s = ft_strdup(current->var);
+        s = ft_strdup(current->var);
+        //ft_printf("!! look for environnement variable\n");
     }
+    ft_printf("%s\n", s);
+    free(s);
 }
