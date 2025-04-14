@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 14:55:33 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:35:16 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,30 @@ void    process_other(char *cmd, t_data *data)
     ft_printf("%s\n", s);
     free(s);
 }
-void    process_cmd(t_token *head)
+/*void    process_cmd(char **tab)
 {
     t_token *current;
 
     current = head;
     if (!current)
-        ft_printf("c'est nul en fait, duh");
-    /*if (current->type != 6)
-        return ;*/
+        ft_printf("c'est nul en fait, duh\n");
+    else
+        ft_printf("meh\n");
+    if (current->type != 6)
+        return ;
     
-    /*if (!ft_strncmp(current->str, "exit", 5))
+    if (!ft_strncmp(current->str, "exit", 5))
         process_exit();
     else
-        ft_printf("meh");*/
-    /*while (current)
+        ft_printf("meh");
+    while (current)
     {
         ft_printf("token = %d, %s\n", current->type, current->str);
         current = current->next;
-    }*/
-}
+    }
+}*/
 
-/*void    process_cmd(char *cmd, t_data *data)
+void    process_cmd(char *cmd, t_data *data)
 {
     if (ft_strncmp(cmd, "exit", 5) == 0)
         process_exit();
@@ -75,4 +77,4 @@ void    process_cmd(t_token *head)
         ft_printf("%d\n", data->exit_code);
     else
         process_other(cmd, data);
-}*/
+}

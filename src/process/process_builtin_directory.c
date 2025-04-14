@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_builtin1.c                                 :+:      :+:    :+:   */
+/*   process_builtin_directory.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 16:54:56 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:51:46 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void    process_cd(char *cmd, t_data *data)
 	}
 	if (path[ft_strlen(path) -1] == ' ')  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 		path = ft_substr(path, 0, strchri(path, ' '));
-	//gerer les quotes;
+	//enlever les quotes fermees;
+	//path = ft_strtrim(path, "\"\'");
     if (chdir(path) == -1)
 	{
 		data->exit_code = 1;

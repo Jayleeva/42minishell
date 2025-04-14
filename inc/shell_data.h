@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/14 14:42:36 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:50:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	char	**paths;
 	t_env	*env;
 	t_token	*token;
+	char	**token_list;
 	t_cmd	*cmd;
 	t_quote	quote;
 }		t_data;
@@ -65,16 +66,18 @@ t_bool	print_error_token(t_token *token, t_data *data);
 void	print_cmd(t_cmd *cmd);
 
 //builtin
+char	**init_tokens(char *input);
 t_bool	process_input(t_data *data, char *input);
-void    process_cmd(t_token *token);
-//void    process_cmd(char *cmd, t_data *data);
+//void    process_cmd(t_token *token);
+//void	process_cmd(char **tab);
+void    process_cmd(char *cmd, t_data *data);
 char    *first_word(char *s);
-/*void	process_cd(char *cmd, t_data *data);
+void	process_cd(char *cmd, t_data *data);
 void    process_pwd(t_data *data);
 void    process_env(t_data *data);
 void	process_export(char *cmd, t_data *data);
 void	process_unset(char *cmd, t_data *data);
-void    process_echo(char *cmd, t_data *data);*/
+void    process_echo(char *cmd, t_data *data);
 void    process_exit(void);
 
 //other

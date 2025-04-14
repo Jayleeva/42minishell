@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/14 14:40:10 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:03:58 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@ t_bool	process_input(t_data *data, char *input)
 		return (FALSE);
 	}
 	free(input);
-	print_token_list(data->token);
+	//print_token_list(data->token);
 	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
 	{
 		token_clear(&(data->token));
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
-	print_cmd(data->cmd);
-	cmd_clear(&data->cmd);
+	//print_cmd(data->cmd);
+	//cmd_clear(&data->cmd);
+	write(1, "HEY\n", 4);
 	token_clear(&(data->token));
 	return (TRUE);
 }
