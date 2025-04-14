@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/27 15:51:26 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:40:10 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,22 @@
 t_bool	process_input(t_data *data, char *input)
 {
 	if (!check_open_quotes(data, input))
-	{
 		return (FALSE);
-	}
-	if (!create_token_list(&data->token, input) /*|| !dollar_handle(&input, data)*/)
+	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
 	{
 		token_clear(&(data->token));
 		return (FALSE);
 	}
+	free(input);
 	print_token_list(data->token);
+	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
+	{
+		token_clear(&(data->token));
+		cmd_clear(&data->cmd);
+		return (FALSE);
+	}
+	print_cmd(data->cmd);
+	cmd_clear(&data->cmd);
 	token_clear(&(data->token));
 	return (TRUE);
 }
@@ -73,8 +80,13 @@ t_env	*init_env(char **envp, int nvar)
 void	init_data(t_data *data)
 {
 	data->exit_code = 0;
+	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;
+	data->cmd = NULL;
+	data->pipe_fd[0] = -1;
+	data->pipe_fd[1] = -1;
+	data->pid = 0;
 }
 
 int main(int argc, char **argv, char **envp)

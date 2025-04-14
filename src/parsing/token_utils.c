@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:44 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 14:17:45 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:47:47 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,19 @@ void	print_error(char *msg)
 	ft_printf("%s\n", msg);
 }
 
-// For debugging
-void print_token_list(t_token *head)
+t_bool	is_redirection(t_token_type type)
 {
-	t_token *current;
+	return (type == INPUT || type == HEREDOC
+		|| type == OUTPUT || type == APPEND);
+}
 
-	current = head;
-	while (current->next)
+// For debugging
+void	print_token_list(t_token *head)
+{
+	while (head->next)
 	{
-		printf("Type : %d, [%s]\n", current->type, current->str);
-		current = current->next;
+		printf("Type : %d, [%s]\n", head->type, head->str);
+		head = head->next;
 	}
-	printf("Type : %d, [%s]\n", current->type, current->str);
+	printf("Type : %d, [%s]\n", head->type, head->str);
 }

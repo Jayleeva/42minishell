@@ -3,89 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/27 10:54:07 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/14 14:49:56 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-//$? = last exit code
-//*str = "Error: " and buff = "1"
-int	handle_special_case(t_data *data, char **str)
+char	*extract_var_name(char *input, int length)
 {
-	char	*buff;
-	char	*buff2;
+	char	*name;
+	int		i;
 
-	buff = ft_itoa(data->exit_code);
-	if (!buff)
-		return (0);
-	buff2 = ft_strjoin(*str, buff);
-	free(buff);
-	free(*str);
-	if (!buff2)
-		return (0);
-	*str = buff2;
-	return (1);
+	name = malloc(sizeof(char) * (length + 1));
+	if (!name)
+		return (NULL);
+	i = 0;
+	while (input[i] && i < length)
+	{
+		name[i] = input[i];
+		i++;
+	}
+	name[i] = '\0';
+	return (name);
 }
 
-static int	ft_search(char *str, char c)
+char	*get_env_value(t_env *env, char *name)
+{
+	t_env	*current;
+	int		name_len;
+	char	*equal_sign;
+
+	if (!name)
+		return (NULL);
+	name_len = ft_strlen(name);
+	current = env;
+	while (current)
+	{
+		if (ft_strncmp(current->var, name, name_len) == 0)
+		{
+			equal_sign = ft_strchr(current->var, '=');
+			if (equal_sign)
+				return (ft_strdup(equal_sign + 1));
+		}
+		current = current->next;
+	}
+	return (NULL);
+}
+
+static char	*search_environment(t_env *env, char *var_name, int name_len)
+{
+	char	*equal_sign;
+
+	while (env)
+	{
+		equal_sign = ft_strchr(env->var, '=');
+		if (equal_sign && (equal_sign - env->var) == name_len
+			&& !ft_strncmp(env->var, var_name, name_len))
+		{
+			return (equal_sign + 1);
+		}
+		env = env->next;
+	}
+	return (NULL);
+}
+
+//Extracts and validates variable name length
+static int	get_var_name_length(char *input)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
+	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
 		i++;
-	}
-	return (0);
+	return (i);
 }
 
-static int	get_name_length(char *var_name, char *env_var)
-{
-	int	length;
-	int	env_name_length;
-
-	length = 0;
-	while (var_name[length]
-		&& (ft_isalnum(var_name[length]) || var_name[length] == '_'))
-	{
-		length++;
-	}
-	env_name_length = ft_search(env_var, '=');
-	if (length == env_name_length)
-		return (length);
-	return (0);
-}
-
-//($? = last exit code, $$ = process ID)
 int	check_env_variable(char *input, int *i, t_data *data)
 {
-	t_env	*list_env;
-	int		env_list_size;
-	int		var_name_length;
+	int		name_len;
+	char	*value;
 
 	if (input[*i + 1] == '?' || input[*i + 1] == '$')
 		return (2);
-	list_env = data->env;
-	env_list_size = env_lenght(list_env);
-
-	while (env_list_size--)
+	name_len = get_var_name_length(&input[*i + 1]);
+	if (!name_len)
+		return (0);
+	value = search_environment(data->env, &input[*i + 1], name_len);
+	if (value)
 	{
-		var_name_length = get_name_length(&input[*i + 1], list_env->str);
-		if (ft_strncmp(list_env->str,
-				&input[*i + 1], var_name_length) == 0)
-		{
-			*i += ft_strlen(list_env->str)
-				- ft_strlen(ft_strchr(list_env->str, '=')) + 1;
-			return (1);
-		}
-		list_env = list_env->next;
+		printf("[DEBUG] Expanding: $%.*s → %s\n", name_len, &input[*i + 1], value);
+		*i += name_len + 1;
+		return (1);
 	}
 	return (0);
 }

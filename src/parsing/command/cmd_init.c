@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_init.c                                       :+:      :+:    :+:   */
+/*   cmd_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 14:00:00 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/14 13:51:38 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/03/31 17:26:14 by yishan            #+#    #+#             */
+/*   Updated: 2025/04/14 14:54:10 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/linked_list.h"
 
-t_token	*token_create(const char *str, int type)
+t_cmd	*cmd_create(int infile, int outfile, char **argv)
 {
-	t_token	*new_token;
+	t_cmd	*new_cmd;
 
-	new_token = ft_calloc(1, sizeof(t_token));
-	if (!new_token)
+	new_cmd = ft_calloc(sizeof(t_cmd), 1);
+	if (!new_cmd)
 		return (NULL);
-	if (!token_init(new_token, str, type))
+	if (!cmd_init(new_cmd, infile, outfile, argv))
 	{
-		token_clear(&new_token);
+		cmd_clear (&new_cmd);
 		return (NULL);
 	}
-	return (new_token);
+	return (new_cmd);
 }
 
-t_bool	token_init(t_token *token, const char *str, int type)
+t_bool	cmd_init(t_cmd *cmd, int infile, int outfile, char **argv)
 {
-	token->str = ft_strdup(str);
-	if (!token->str)
-		return (FALSE);
-	token->type = type;
-	token->next = NULL;
-	token->prev = NULL;
+	cmd->skip_cmd = FALSE;
+	cmd->infile = infile;
+	cmd->outfile = outfile;
+	cmd->argv = argv;
+	cmd->next = NULL;
+	cmd->prev = NULL;
 	return (TRUE);
 }

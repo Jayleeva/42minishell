@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 14:42:33 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:22:54 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
 	shell.sa_flags = SA_SIGINFO | SA_RESTART;
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
-    //setup_environment(envp); // Initialize anything you need here (e.g., environment setup, signal handling)
     data->exit_code = 0;
     g_exit_status = data->exit_code;
     while (1)
@@ -76,9 +75,9 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
         if (*input) // If input is not empty, add to history and process
 		{
             add_history(input);
-            //create_token_list(&head, input);
+            process_input(data, input);
             //we need a function here to identify every command and pass it to process_cmd
-            process_cmd(input, data);
+            process_cmd(&(data->token));
         }
         free(input); // Free the input line after processing 
     }

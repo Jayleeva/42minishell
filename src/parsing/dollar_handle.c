@@ -3,23 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/26 17:32:11 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/14 14:46:16 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-//static int	handle_env_variable(t_data *data, char *input, int size, char **str)
+//$? = last exit code
+//*str = "Error: " and buff = "1"
+int	handle_special_case(t_data *data, char **buffer, char special_char)
+{
+	char	*value_str;
+	char	*new_buffer;
 
+	if (special_char == '?')
+	{
+		value_str = ft_itoa(data->exit_code);
+		if (!value_str)
+			return (0);
+        printf("[DEBUG] Exit status: %d\n", data->exit_code);
+	}
+	else if (special_char == '$')
+	{
+		value_str = ft_strdup("0");
+		if (!value_str)
+			return (0);
+        printf("[DEBUG] PID expansion (placeholder)\n");
+	}
+	new_buffer = ft_strjoin(*buffer, value_str);
+	free(value_str);
+	if (!new_buffer)
+		return (0);
+	free(*buffer);
+	*buffer = new_buffer;
+	return (1);
+}
+
+int	handle_env_variable(t_data *data, char *input, int length, char **buffer)
+{
+	char	*var_name;
+	char	*env_value;
+	char	*new_buffer;
+	char	*value_to_append;
+
+	var_name = extract_var_name(input, length);
+	if (!var_name)
+		return (0);
+	env_value = get_env_value(data->env, var_name);
+	free(var_name);
+
+	value_to_append = env_value;
+	if (value_to_append == NULL)
+		value_to_append = "";
+	new_buffer = ft_strjoin(*buffer, value_to_append);
+	if (env_value)
+		free(env_value);
+	if (!new_buffer)
+		return (0);
+	free(*buffer);
+	*buffer = new_buffer;
+	return (1);
+}
 
 int	put_dollar(char *input, int *i, char **buffer, t_data *data)
 {
-	int	value;
-	int	org_i;
+	int		value;
+	int		org_i;
+	char	special_char;
 
 	org_i = *i;
 	value = check_env_variable(input, i, data);
@@ -30,8 +84,9 @@ int	put_dollar(char *input, int *i, char **buffer, t_data *data)
 	}
 	else if (value == 2)
 	{
+		special_char = input[*i + 1];
 		*i += 2;
-		return (handle_special_case(data, buffer));
+		return (handle_special_case(data, buffer, special_char));
 	}
 	else
 	{
@@ -73,7 +128,7 @@ int	dollar_handle(char **input, t_data *data)
 	str = ft_strdup("");
 	while ((*input)[i])
 	{
-        //handle_quotes();
+		handle_quotes((*input)[i], &data->quote);
 		if ((*input)[i] && (*input)[i + 1] && (*input)[i] == '$' &&
 			((*input)[i + 1] != '\'' && (*input)[i + 1] != '"') &&
 			(ft_isalpha((*input)[i + 1]) || (*input)[i + 1] == '?' ||
@@ -87,4 +142,3 @@ int	dollar_handle(char **input, t_data *data)
 	*input = str;
 	return (1);
 }
-
