@@ -14,29 +14,28 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_echo(char *cmd, t_data *data)
+void    process_echo(char *str, t_data *data)
 {
     char    *s;
     t_env	*current;
 
 	data->exit_code = 0;
     s = NULL;
-    /*if (cmd[4] == '\0')
-        ft_printf("\n");*/
-    s = ft_substr(cmd, 5, ft_strlen(cmd));
-    if (s[0] == '$')
+    /*if (str[4] == '\0')
+        ft_printf("\n");
+    s = ft_substr(str, 5, ft_strlen(str));*/
+    if (str[0] == '$')
     {
         current = data->env;
         while (current->next != NULL)
         {
-            if (!ft_strncmp(current->var, ft_substr(s, 1, ft_strlen(s)), strchri(current->var, '=')))
+            if (!ft_strncmp(current->var, ft_substr(str, 1, ft_strlen(s)), strchri(current->var, '=')))
                 break;
             current = current->next;
         }
-        if (!ft_strncmp(current->var, ft_substr(s, 1, ft_strlen(s)), strchri(current->var, '=')))
+        if (!ft_strncmp(current->var, ft_substr(str, 1, ft_strlen(s)), strchri(current->var, '=')))
             s = ft_strdup(current->var);
         s = ft_strdup(current->var);
-        //ft_printf("!! look for environnement variable\n");
     }
     ft_printf("%s\n", s);
     free(s);

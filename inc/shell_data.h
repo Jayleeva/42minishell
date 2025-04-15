@@ -30,7 +30,7 @@ typedef struct s_data
 	char	**paths;
 	t_env	*env;
 	t_token	*token;
-	char	**token_list;
+	//char	**token_list;
 	t_cmd	*cmd;
 	t_quote	quote;
 }		t_data;
@@ -66,7 +66,8 @@ t_bool	print_error_token(t_token *token, t_data *data);
 void	print_cmd(t_cmd *cmd);
 
 //builtin
-char	**init_tokens(char *input);
+void    process_token_list(t_data *data, t_token *token_list);
+char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
 //void    process_cmd(t_token *token);
 //void	process_cmd(char **tab);

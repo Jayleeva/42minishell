@@ -52,10 +52,10 @@ static t_bool	setup_command(t_data *data, t_token *token)
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
-	printf("✔ Command setup: ");
+	/*printf("✔ Command setup: ");
 	for (int i = 0; cmd->argv[i]; i++)
 	printf("[%s] ", cmd->argv[i]);
-	printf("\n");
+	printf("\n");*/
 	return (TRUE);
 }
 

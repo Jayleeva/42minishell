@@ -20,6 +20,7 @@ int	handle_special_case(t_data *data, char **buffer, char special_char)
 	char	*value_str;
 	char	*new_buffer;
 
+	value_str = NULL;
 	if (special_char == '?')
 	{
 		value_str = ft_itoa(data->exit_code);

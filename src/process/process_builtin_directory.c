@@ -35,12 +35,29 @@ char	*first_word(char *s)
 	return (s);
 }
 
-void    process_cd(char *cmd, t_data *data)
+char	*get_home(t_data *data)
 {
-    char    *path;
+	t_env	*current;
+	char	*path;
 
+	path = NULL;
+	current = data->env;
+	while (current->next != NULL)
+	{
+		if (!ft_strncmp(current->var, "HOME", strchri(current->var, '=')))
+		{
+			path = ft_strdup(current->var);
+			break ;
+		}
+        current = current->next;
+    }
+	return (path);
+}
+
+void    process_cd(char *path, t_data *data)
+{
 	data->exit_code = 0;
-    path = NULL;
+    /*path = NULL;
     path = ft_substr(cmd, 3, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	if (strchri(path, ' ') != -1 && path[strchri(path, ' ') + 1] > 32) 
 	{
@@ -48,15 +65,13 @@ void    process_cd(char *cmd, t_data *data)
 		return ;
 	}
 	if (path[ft_strlen(path) -1] == ' ')  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-		path = ft_substr(path, 0, strchri(path, ' '));
-	//enlever les quotes fermees;
-	//path = ft_strtrim(path, "\"\'");
+		path = ft_substr(path, 0, strchri(path, ' '));*/
     if (chdir(path) == -1)
 	{
 		data->exit_code = 1;
         ft_printf("cd: %s: No such file or directory\n", first_word(path));
 	}
-    free(path);
+    //free(path);
 }
 
 void    process_pwd(t_data *data)

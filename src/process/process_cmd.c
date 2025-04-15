@@ -34,47 +34,51 @@ void    process_other(char *cmd, t_data *data)
     ft_printf("%s\n", s);
     free(s);
 }
-/*void    process_cmd(char **tab)
+
+void    process_token_list(t_data *data, t_token *token_list)
 {
     t_token *current;
 
-    current = head;
-    if (!current)
-        ft_printf("c'est nul en fait, duh\n");
-    else
-        ft_printf("meh\n");
+    current = token_list;
     if (current->type != 6)
         return ;
     
-    if (!ft_strncmp(current->str, "exit", 5))
+    if (!ft_strncmp(current->str, "exit", 5)) // si autre argument après, message d'erreur puis crash? vérifier dans bash
         process_exit();
-    else
-        ft_printf("meh");
-    while (current)
-    {
-        ft_printf("token = %d, %s\n", current->type, current->str);
-        current = current->next;
-    }
-}*/
-
-void    process_cmd(char *cmd, t_data *data)
-{
-    if (ft_strncmp(cmd, "exit", 5) == 0)
-        process_exit();
-    else if (ft_strncmp(cmd, "pwd", 4) == 0)
+    else if (!ft_strncmp(current->str, "pwd", 4)) //si autre argument après, l'ignore et agit normalement? vérifier dans bash
         process_pwd(data);
-    else if (ft_strncmp(cmd, "cd", 2) == 0)
-        process_cd(cmd, data);
-    else if (ft_strncmp(cmd, "echo", 4) == 0)
-        process_echo(cmd, data);
-    else if (ft_strncmp(cmd, "env", 4) == 0)
+    else if (!ft_strncmp(current->str, "env", 4)) // si autre argument après est quelque chose qui n'existe pas, message d'erreur n'existe pas, si existe, rien ne se passe car pas d'environnement là-bas? vérifier dans bash
         process_env(data);
-    else if (ft_strncmp(cmd, "export", 6) == 0)
-        process_export(cmd, data);
-    else if (ft_strncmp(cmd, "unset", 5) == 0)
-        process_unset(cmd, data);
-    else if (ft_strncmp(cmd, "$?", 3) == 0)
-        ft_printf("%d\n", data->exit_code);
+    else if (!ft_strncmp(current->str, "cd", 2))
+    {
+        if (!current->next) // si pas d'argument donné, retour à HOME.
+        {
+            chdir(get_home(data));
+            return ;
+        }
+        if (current->next->next && ft_strncmp(current->next->next->str, "|", 1))
+        {
+            ft_printf("cd: too many arguments\n");
+            return ;
+        }
+        process_cd(current->next->str, data);
+    }
+    else if (!ft_strncmp(current->str, "export", 6))
+    {
+        if (!current->next)
+            return;
+        process_export(current->next->str, data);
+    }
+    else if (!ft_strncmp(current->str, "unset", 5))
+    {
+        if (!current->next)
+            return;
+        process_unset(current->next->str, data);
+    }
+    else if (!ft_strncmp(current->str, "echo", 4))
+        process_echo(current->next->str, data);
+    /*else if (!ft_strncmp(current->str, "$?", 3))
+        ft_printf("%d\n", data->exit_code);*/
     else
-        process_other(cmd, data);
+        process_other(current->str, data);
 }

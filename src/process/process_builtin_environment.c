@@ -84,9 +84,9 @@ void	process_export(char *cmd, t_data *data)
 	int		i;
 
 	data->exit_code = 0;
-	cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-	if (cmd == NULL)
-		return ;
+	//cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
+	/*if (cmd == NULL)
+		return ;*/
 	i = strchri(cmd, '=');
 	if (i < 0)
 		return ;
@@ -97,7 +97,7 @@ void	process_export(char *cmd, t_data *data)
 	if (cmd[i +1])
 		value = ft_substr(cmd, i + 1, ft_strlen(cmd));
 	update(data, cmd, name, value);
-	free(cmd);
+	//free(cmd);
 	free(name);
 	free(value);
 }
@@ -107,12 +107,12 @@ void	process_unset(char *cmd, t_data *data)
 	t_env	*current;
 	t_env	*prev;
 
-	cmd = ft_substr(cmd, 6, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-	if (cmd == NULL)
+	//cmd = ft_substr(cmd, 6, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
+	/*if (cmd == NULL)
 	{
 		data->exit_code = 1;
 		return ;
-	}
+	}*/
 	current = data->env;
 	while (current && ft_strncmp(current->var, cmd, strchri(current->var, '=')))
 	{

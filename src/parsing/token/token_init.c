@@ -16,7 +16,7 @@ t_token	*token_create(const char *str, int type)
 {
 	t_token	*new_token;
 
-	new_token = ft_calloc(1, sizeof(t_token));
+	new_token = ft_calloc(sizeof(t_token), 1);
 	if (!new_token)
 		return (NULL);
 	if (!token_init(new_token, str, type))

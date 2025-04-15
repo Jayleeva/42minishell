@@ -76,11 +76,9 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
         if (*input) // If input is not empty, add to history and process
 		{
             add_history(input);
-            //tab = init_tokens(input);
-            //process_input(tab);
-            //process_input(data, input);
-            //we need a function here to identify every command and pass it to process_cmd
-            process_cmd(input, data);//process_cmd(data->token_list);//process_cmd(&(data->token));
+            process_input(data, input);
+            process_token_list(data, data->token);
+            token_clear(&(data->token));
         }
         free(input); // Free the input line after processing 
     }

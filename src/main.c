@@ -35,8 +35,8 @@ t_bool	process_input(t_data *data, char *input)
 	}
 	//print_cmd(data->cmd);
 	//cmd_clear(&data->cmd);
-	write(1, "HEY\n", 4);
-	token_clear(&(data->token));
+	//write(1, "HEY\n", 4);
+	//token_clear(&(data->token));
 	return (TRUE);
 }
 
