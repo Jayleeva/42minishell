@@ -26,11 +26,13 @@ void    process_other(char *cmd, t_data *data)
     char    *s;
 
     s = NULL;
-    s = ft_substr(cmd, 0, strchri(cmd, ' ') -1); //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-    if (s == NULL)
-        s = ft_strdup(cmd);
-    ft_strlcat(s, ": command not found", ft_strlen(s) + 20);
+    //s = ft_substr(cmd, 0, strchri(cmd, ' ') -1); //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
+    /*if (s == NULL)
+        s = ft_strdup(cmd);*/
     data->exit_code = 127;
+    s = ft_strjoin(cmd, ": command not found");
+    if (!s)
+        return ;
     ft_printf("%s\n", s);
     free(s);
 }
