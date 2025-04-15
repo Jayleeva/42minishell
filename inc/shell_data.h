@@ -66,6 +66,7 @@ t_bool	print_error_token(t_token *token, t_data *data);
 void	print_cmd(t_cmd *cmd);
 
 //builtin
+char	*expand_env_variable(char *input, int *i, t_data *data);
 void    process_token_list(t_data *data, t_token *token_list);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);

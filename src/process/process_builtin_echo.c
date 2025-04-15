@@ -18,28 +18,17 @@ void    process_echo(t_token *str, t_data *data)
 {
     char    *s;
     t_token *cur_str;
-    t_env	*current;
 
 	data->exit_code = 0;
     s = NULL;
-    //ft_printf("HELLO %s puis %s\n", str->str, str->next->str);
     cur_str = str;
-    while (cur_str->next)
+    while (cur_str)
     {
-        if (str->str[0] == '$')
+        if (str->str[0] == '$' && str->str[1] != '?')
         {
-            write(1, "HEY\n", 4);
-            current = data->env;
-            while (current->next != NULL)
-            {
-                if (!ft_strncmp(current->var, ft_substr(str->str, 1, ft_strlen(s)), strchri(current->var, '=')))
-                    break;
-                current = current->next;
-            }
-            if (!ft_strncmp(current->var, ft_substr(str->str, 1, ft_strlen(s)), strchri(current->var, '=')))
-                s = ft_strdup(current->var);
-            /*else
-                s = ft_strdup("");*/
+            s = get_env_value(data->env, ft_substr(str->str, 1, ft_strlen(str->str)));
+            if (!s)
+                s = ft_strdup("");
         }
         else
             s = ft_strdup(str->str);

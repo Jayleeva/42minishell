@@ -80,8 +80,8 @@ void    process_token_list(t_data *data, t_token *token_list)
             return;
         process_echo(current->next, data);
     }
-    /*else if (!ft_strncmp(current->str, "$?", 3))
-        ft_printf("%d\n", data->exit_code);*/
+    else if (!ft_strncmp(current->str, "$?", 3))
+        ft_printf("%d\n", data->exit_code);
     else
         process_other(current->str, data);
 }

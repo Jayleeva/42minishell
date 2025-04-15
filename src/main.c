@@ -20,7 +20,7 @@ t_bool	process_input(t_data *data, char *input)
 {
 	if (!check_open_quotes(data, input))
 		return (FALSE);
-	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
+	if (!create_token_list(&data->token, input))
 	{
 		token_clear(&(data->token));
 		return (FALSE);
