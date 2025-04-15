@@ -96,6 +96,7 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	value = search_environment(data->env, &input[*i + 1], name_len);
 	if (value)
 	{
+		//data->token->str = input[*i + 1]? value? 
 		printf("[DEBUG] Expanding: $%.*s → %s\n", name_len, &input[*i + 1], value);
 		*i += name_len + 1;
 		return (1);

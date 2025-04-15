@@ -14,29 +14,37 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_echo(char *str, t_data *data)
+void    process_echo(t_token *str, t_data *data)
 {
     char    *s;
+    t_token *cur_str;
     t_env	*current;
 
 	data->exit_code = 0;
     s = NULL;
-    /*if (str[4] == '\0')
-        ft_printf("\n");
-    s = ft_substr(str, 5, ft_strlen(str));*/
-    if (str[0] == '$')
+    //ft_printf("HELLO %s puis %s\n", str->str, str->next->str);
+    cur_str = str;
+    while (cur_str->next)
     {
-        current = data->env;
-        while (current->next != NULL)
+        if (str->str[0] == '$')
         {
-            if (!ft_strncmp(current->var, ft_substr(str, 1, ft_strlen(s)), strchri(current->var, '=')))
-                break;
-            current = current->next;
+            write(1, "HEY\n", 4);
+            current = data->env;
+            while (current->next != NULL)
+            {
+                if (!ft_strncmp(current->var, ft_substr(str->str, 1, ft_strlen(s)), strchri(current->var, '=')))
+                    break;
+                current = current->next;
+            }
+            if (!ft_strncmp(current->var, ft_substr(str->str, 1, ft_strlen(s)), strchri(current->var, '=')))
+                s = ft_strdup(current->var);
+            /*else
+                s = ft_strdup("");*/
         }
-        if (!ft_strncmp(current->var, ft_substr(str, 1, ft_strlen(s)), strchri(current->var, '=')))
-            s = ft_strdup(current->var);
-        s = ft_strdup(current->var);
+        else
+            s = ft_strdup(str->str);
+        ft_printf("%s\n", s);
+        free(s);
+        cur_str = cur_str->next;
     }
-    ft_printf("%s\n", s);
-    free(s);
 }

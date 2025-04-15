@@ -26,9 +26,6 @@ void    process_other(char *cmd, t_data *data)
     char    *s;
 
     s = NULL;
-    //s = ft_substr(cmd, 0, strchri(cmd, ' ') -1); //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-    /*if (s == NULL)
-        s = ft_strdup(cmd);*/
     data->exit_code = 127;
     s = ft_strjoin(cmd, ": command not found");
     if (!s)
@@ -78,7 +75,11 @@ void    process_token_list(t_data *data, t_token *token_list)
         process_unset(current->next->str, data);
     }
     else if (!ft_strncmp(current->str, "echo", 4))
-        process_echo(current->next->str, data);
+    {
+        if (!current->next)
+            return;
+        process_echo(current->next, data);
+    }
     /*else if (!ft_strncmp(current->str, "$?", 3))
         ft_printf("%d\n", data->exit_code);*/
     else

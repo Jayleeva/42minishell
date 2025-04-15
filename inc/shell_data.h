@@ -78,7 +78,7 @@ void    process_pwd(t_data *data);
 void    process_env(t_data *data);
 void	process_export(char *cmd, t_data *data);
 void	process_unset(char *cmd, t_data *data);
-void    process_echo(char *cmd, t_data *data);
+void    process_echo(t_token *str, t_data *data);
 void    process_exit(void);
 
 //other
