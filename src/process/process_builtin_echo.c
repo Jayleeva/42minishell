@@ -17,23 +17,29 @@
 void    process_echo(t_token *str, t_data *data)
 {
     char    *s;
+    char    *temp;
     t_token *cur_str;
 
 	data->exit_code = 0;
-    s = NULL;
+    s = "";
+    temp = NULL;
     cur_str = str;
-    while (cur_str)
+    while (cur_str && cur_str->type == ARG)
     {
-        if (str->str[0] == '$' && str->str[1] != '?')
+        if (cur_str->str[0] == '$' && cur_str->str[1] != '?')
         {
-            s = get_env_value(data->env, ft_substr(str->str, 1, ft_strlen(str->str)));
-            if (!s)
-                s = ft_strdup("");
+            temp = get_env_value(data->env, ft_substr(cur_str->str, 1, ft_strlen(cur_str->str)));
+            if (!temp)
+                temp = ft_strdup("");
         }
         else
-            s = ft_strdup(str->str);
-        ft_printf("%s\n", s);
-        free(s);
+            temp = ft_strdup(cur_str->str);
+        s = ft_strjoin(s, temp);
+        if (cur_str->next && cur_str->next->type == ARG)
+            s = ft_strjoin(s, " ");
+        free(temp);
         cur_str = cur_str->next;
     }
+    ft_printf("%s\n", s);
+    free(s);
 }
