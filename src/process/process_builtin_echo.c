@@ -26,9 +26,9 @@ void    process_echo(t_token *str, t_data *data)
     cur_str = str;
     while (cur_str && cur_str->type == ARG)
     {
-        if (cur_str->str[0] == '$' && cur_str->str[1] != '?')
+        if (cur_str->str[0] == '$' && cur_str->str[1] != '?') //ATTENTION  peut aussi être après l'espace!! à adapter
         {
-            temp = get_env_value(data->env, ft_substr(cur_str->str, 1, ft_strlen(cur_str->str)));
+            temp = get_env_value(data->env, ft_substr(cur_str->str, 1, strchri(cur_str->str, ' ') -1)); //si le token est une string composée de plusieurs mots et que l'un d'entre eux est une variable d'environnement, il faut les traiter séparément! sinon ne trouve pas et donc imprime vide.
             if (!temp)
                 temp = ft_strdup("");
         }

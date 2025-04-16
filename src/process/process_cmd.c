@@ -72,7 +72,7 @@ void    process_token_list(t_data *data, t_token *token_list)
     {
         if (!current->next) // si pas d'argument donné, retour à HOME.
         {
-            chdir(get_home(data));
+            chdir(get_env_value(data->env, "HOME"));
             return ;
         }
         process_cd(current->next->str, data);
@@ -91,7 +91,7 @@ void    process_token_list(t_data *data, t_token *token_list)
     }
     else if (!ft_strncmp(current->str, "echo", 4))
     {
-        if (!current->next)
+        if (!current->next) //si pas d'arguments donné, imprime juste un retour à la ligne.
             ft_printf("\n");
         else
             process_echo(current->next, data);
