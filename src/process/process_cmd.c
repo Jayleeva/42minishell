@@ -57,7 +57,7 @@ void    process_token_list(t_data *data, t_token *token_list)
     if (current->type != 6)
         return ;
     
-    if (!ft_strncmp(current->str, "exit", 5)) // si autre argument après, message d'erreur puis crash? vérifier dans bash
+    if (!ft_strncmp(current->str, "exit", 5)) 
     {
         if (current->next && current->next->type == ARG)
         {
@@ -79,7 +79,7 @@ void    process_token_list(t_data *data, t_token *token_list)
         }
         process_exit();
     }
-    else if (!ft_strncmp(current->str, "pwd", 4)) //si autre argument après, l'ignore et agit normalement? vérifier dans bash
+    else if (!ft_strncmp(current->str, "pwd", 4)) //si autre argument après, l'ignore et agit normalement
         process_pwd(data);
     else if (!ft_strncmp(current->str, "env", 4)) // si autre argument après est quelque chose qui n'existe pas, message d'erreur n'existe pas, si existe, rien ne se passe car pas d'environnement là-bas? vérifier dans bash
     {

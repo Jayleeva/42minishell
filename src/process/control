@@ -1,0 +1,22 @@
+To check:
+
+pwd
+	- displays the path to the current directory when used correctly.
+	- if given an argument, ignores it and behaves normally.
+
+env
+	- displays the environment variables when used correctly.
+	- if given an argument, and that argument is an existing file with no extension, does nothing.
+	- if given any other argument, displays an error message saying that it doesn't exist.
+
+exit
+	- displays "exit" and then exits the current process when used correctly.
+	- if given an argument, and that argument is numeric, displays "exit" and then exits with an exit status of the argument % 256.
+	- if given an argument, and that argument is not numeric, displays "exit" followed by an error message saying it needs a numeric argument, then exits with an exit status of 2.
+	- if given multiple arguments, and the first one is numeric, displays "exit" followed by an error message saying there's too many arguments.
+
+
+cd
+	- changes current directory when used correctly.
+	- if given more than one arguments, displays an error message saying that there's too many arguments.
+	- if given zero argument, changes current dir to HOME.
