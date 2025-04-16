@@ -52,56 +52,27 @@ int ft_isnum(char *s)
 void    process_token_list(t_data *data, t_token *token_list)
 {
     t_token *current;
+    //char    *cmd;
 
     current = token_list;
-    if (current->type != 6)
+    /*cmd = NULL;
+    if (current->next && ft_strncmp(current->next->str, "|", 1))
+    {
+        ft_printf("%s: too many arguments\n", cmd);
         return ;
+    }*/
     
     if (!ft_strncmp(current->str, "exit", 5)) 
-    {
-        if (current->next && current->next->type == ARG)
-        {
-            if (ft_isnum(current->next->str))
-            {
-                if (current->next->next)
-                {
-                    ft_printf("exit\nminishell: exit: too many arguments\n");
-                    return ;
-                }
-                ft_printf("exit\n");
-                exit (ft_atoi(current->next->str) % 256);
-            }
-            else
-            {
-                ft_printf("exit\nminishell: exit: '%s': numeric argument required\n", current->next->str);
-                exit (2);
-            }
-        }
         process_exit();
-    }
-    else if (!ft_strncmp(current->str, "pwd", 4)) //si autre argument après, l'ignore et agit normalement
+    else if (!ft_strncmp(current->str, "pwd", 4))
         process_pwd(data);
-    else if (!ft_strncmp(current->str, "env", 4)) // si autre argument après est quelque chose qui n'existe pas, message d'erreur n'existe pas, si existe, rien ne se passe car pas d'environnement là-bas? vérifier dans bash
-    {
-        if (current->next)
-        {
-            //if ()
-            //  return;
-            ft_printf("env: '%s': No such file or directory\n", current->next->str);
-            return ;
-        }    
+    else if (!ft_strncmp(current->str, "env", 4))
         process_env(data);
-    }
     else if (!ft_strncmp(current->str, "cd", 2))
     {
         if (!current->next) // si pas d'argument donné, retour à HOME.
         {
             chdir(get_home(data));
-            return ;
-        }
-        if (current->next->next && ft_strncmp(current->next->next->str, "|", 1))
-        {
-            ft_printf("cd: too many arguments\n");
             return ;
         }
         process_cd(current->next->str, data);
@@ -121,8 +92,9 @@ void    process_token_list(t_data *data, t_token *token_list)
     else if (!ft_strncmp(current->str, "echo", 4))
     {
         if (!current->next)
-            return;
-        process_echo(current->next, data);
+            ft_printf("\n");
+        else
+            process_echo(current->next, data);
     }
     else if (!ft_strncmp(current->str, "$?", 3))
         ft_printf("%d\n", data->exit_code);
