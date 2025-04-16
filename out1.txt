@@ -1,3 +1,0 @@
-✔ Command setup: [echo] [hello] [out1.txt] 
-Skip -> 0, infile -> 0, outfile -> 1, cmd : [echo, hello, out1.txt]
-[?2004hminishell> ^C[?2004l

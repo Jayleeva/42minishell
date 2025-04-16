@@ -1,6 +1,0 @@
-✔ Command setup: [echo] [hello] [out.txt] 
-✔ Command setup: [grep] [h] 
-✔ Command setup: [wc] [-l] 
-Skip -> 0, infile -> 0, outfile -> 1, cmd : [echo, hello, out.txt]
-Skip -> 0, infile -> 0, outfile -> 1, cmd : [grep, h]
-Skip -> 0, infile -> 0, outfile -> 1, cmd : [wc, -l]

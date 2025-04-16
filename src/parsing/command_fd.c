@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 16:30:39 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/15 14:34:03 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static t_bool	process_input_redirect(t_data *data, t_token *token, t_cmd *cmd)
 {
 	if (token->type == INPUT || token->type == HEREDOC)
 	{
-		if (cmd->infile >= 0)
-			close(cmd->infile);
 		if (!token->next || token->next->type == PIPE
 			|| is_redirection(token->next->type))
 			return (print_error_token(token, data));
@@ -74,12 +72,9 @@ static t_bool	process_output_redirect(t_data *data,
 {
 	if (token->type == OUTPUT || token->type == APPEND)
 	{
-		if (cmd->outfile >= 0)
-			close(cmd->outfile);
 		if (!token->next || token->next->type == PIPE
 			|| is_redirection(token->next->type))
 			return (print_error_token(token, data));
-		//printf("FILENAME : %s \n", token->next->str);
 		cmd->outfile = open_file(data, token->next->str, token->type);
 		if (cmd->outfile == -1)
 			return (FALSE);
