@@ -58,7 +58,7 @@ void    process_token_list(t_data *data, t_token *token_list)
     /*cmd = NULL;
     if (current->next && ft_strncmp(current->next->str, "|", 1))
     {
-        ft_printf("%s: too many arguments\n", cmd);
+        ft_printf("minishell: %s: too many arguments\n", cmd);
         return ;
     }*/
     
@@ -75,6 +75,8 @@ void    process_token_list(t_data *data, t_token *token_list)
             chdir(get_env_value(data->env, "HOME"));
             return ;
         }
+        if (current->next->next)
+            ft_printf("minishell: cd: too many arguments\n");
         process_cd(current->next->str, data);
     }
     else if (!ft_strncmp(current->str, "export", 6))
@@ -93,6 +95,8 @@ void    process_token_list(t_data *data, t_token *token_list)
     {
         if (!current->next) //si pas d'arguments donné, imprime juste un retour à la ligne.
             ft_printf("\n");
+        else if (current->next && !ft_strncmp(current->next->str, "-n", 2))
+            ft_printf("");
         else
             process_echo(current->next, data);
     }
