@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_echo(t_token *str, t_data *data)
+void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment, chercher pourquoi
 {
     char    *s;
     char    *temp;

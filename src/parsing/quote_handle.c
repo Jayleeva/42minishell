@@ -57,6 +57,7 @@ int	check_open_quotes(t_data *data, char *input)
 	if (data->quote.double_quote || data->quote.single_quote)
 	{
 		print_error("open quote found\n");
+		//add something that allows user to type in an input and ends only once they typed in the closing quote, then gives the correct error message: "minishell: $'%s\n%s': command not found" if no command properly given, or appropriate message if arg doesn't work with the command. Everytime user enters enter without closing the quote, adds a new \n on the %s. 
 		data->exit_code = 1;
 		return (0);
 	}

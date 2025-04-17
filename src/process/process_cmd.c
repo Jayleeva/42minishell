@@ -52,16 +52,13 @@ int ft_isnum(char *s)
 void    process_token_list(t_data *data, t_token *token_list)
 {
     t_token *current;
-    //char    *cmd;
 
     current = token_list;
-    /*cmd = NULL;
-    if (current->next && ft_strncmp(current->next->str, "|", 1))
+    if (current->type != CMD) //ATTENTION: si commande entre guillemets, ne devrait pas être reconnue: code actuel ne règle pas le problème.
     {
-        ft_printf("minishell: %s: too many arguments\n", cmd);
+        ft_printf("minishell: %s: command not found\n", current->str);
         return ;
-    }*/
-    
+    }    
     if (!ft_strncmp(current->str, "exit", 5)) 
         process_exit();
     else if (!ft_strncmp(current->str, "pwd", 4))
@@ -95,7 +92,7 @@ void    process_token_list(t_data *data, t_token *token_list)
     {
         if (!current->next) //si pas d'arguments donné, imprime juste un retour à la ligne.
             ft_printf("\n");
-        else if (current->next && !ft_strncmp(current->next->str, "-n", 2))
+        else if (current->next && !ft_strncmp(current->next->str, "-n", 2) && !current->next->next)
             ft_printf("");
         else
             process_echo(current->next, data);
