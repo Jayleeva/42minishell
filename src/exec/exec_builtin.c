@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_built_in.c                                    :+:      :+:    :+:   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/13 16:27:04 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/21 13:12:50 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,19 @@ t_bool	is_builtin(char *cmd)
 
 t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 {
-	
+	int	out;
+
+	out = -1;
+	if (cmd->outfile >= 0)
+	{
+		out = dup(1);
+		dup2(cmd->outfile, 1);
+	}
+	executing_built_in(out, data, cmd);
+	if (cmd->outfile >= 0)
+	{
+		dup2(out, 1);
+		close (out);
+	}
+	return (TRUE);
 }

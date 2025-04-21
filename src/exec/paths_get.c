@@ -6,18 +6,27 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:02:25 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/13 16:31:47 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/17 10:38:24 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-static char	*cmd_not_found(char *sample)
+static char	*cmd_not_found(char *cmd)
 {
-	ft_putstr_fd(sample, 2);
+	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(" : command not found\n", 2);
 	return (NULL);
+}
+
+static void	free_paths(char **paths)
+{
+	int	i;
+
+	while (paths && paths[i])
+		free (paths[i++]);
+	free (paths);
 }
 
 static char	*join_with_slash(char *path, char *cmd)
@@ -35,40 +44,54 @@ static char	*join_with_slash(char *path, char *cmd)
 	return (full_path);
 }
 
-char	*find_cmd_path(t_data *data, char *cmd, t_env *env)
+static void	init_paths(t_data *data, t_env *env)
 {
 	char	*path_env;
-	char	**paths;
+
+	path_env = NULL;
+	while (env)
+	{
+		if (ft_strncmp(env->vartest, "PATH=", 5) == 0)
+		{
+			path_env = env->vartest + 5;
+			break ;
+		}
+		env = env->next;
+	}
+	if (path_env)
+		data->paths = ft_split(path_env, ':');
+	else
+		data->paths = NULL;
+}
+
+char	*find_cmd_path(t_data *data, char *cmd, t_env *env)
+{
 	char	*full_path;
 	int		i;
 
-	if (!cmd || !env || ft_strchr(cmd, '/'))
+	if (!cmd || ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	path_env = NULL;
-	while (env && !path_env)
-	{
-		if (ft_strncmp(env->vartest, "PATH=", 5) == 0)
-			path_env = env->vartest + 5;
-		env = env->next;
-	}
-	if (!path_env)
+	init_paths(data, env);
+	if (!data->paths)
 		return (cmd_not_found(cmd));
-	paths = ft_split(path_env, ':');
-	if (!paths)
-		return (NULL);
-	i = -1;
-	while (paths[++i])
+	i = 0;
+	while (data->paths[i])
 	{
-		full_path = join_with_slash(paths[i], cmd);
+		printf("Debug: Checking path [%s] + [%s]\n", data->paths[i], cmd);
+		full_path = join_with_slash(data->paths[i], cmd);
 		if (!full_path)
 			break ;
 		if (access(full_path, F_OK | X_OK) == 0)
 		{
-			array_clear(paths);
+
+			printf("Debug: Found executable at [%s]\n", full_path);
+			free_paths(data->paths);
 			return (full_path);
 		}
 		free(full_path);
+		i++;
 	}
-	array_clear(paths);
+	printf("Debug: Command not found: [%s]\n", cmd);
+	free_paths(data->paths);
 	return (cmd_not_found(cmd));
 }

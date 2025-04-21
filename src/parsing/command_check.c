@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 15:35:52 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/18 13:02:05 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_bool	setup_command(t_data *data, t_token *token)
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
-	if (!cmd_put_in(&data->cmd, STDIN_FILENO, STDOUT_FILENO, NULL))
+	if (!cmd_put_in(&data->cmd, -2, -2, NULL))
 	{
 		cmd_clear(&data->cmd);
 		return (FALSE);

@@ -6,12 +6,39 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/13 12:28:26 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:27:24 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
+
+static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
+{
+	if (!line)
+	{
+		print_error("warning: here-document delimited by end-of-file ");
+		print_error("(wanted '");
+		print_error(delimiter);
+		print_error("')\n");
+		return (FALSE);
+	}
+	if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
+	{
+		free(line);
+		return (TRUE);
+	}
+	if (!dollar_handle(&line, data))
+	{
+		free(line);
+		//free_all(data, ???maybe
+		return (FALSE);
+	}
+	ft_putstr_fd(line, fd);
+	ft_putchar_fd('\n', fd);
+	free(line);
+	return (TRUE);
+}
 
 static t_bool	read_heredoc_input(t_data *data, int fd, char *delimiter)
 {
@@ -21,28 +48,16 @@ static t_bool	read_heredoc_input(t_data *data, int fd, char *delimiter)
 	{
 		line = NULL;
 		line = readline("> ");
-		if (!line)
+		if (!line || ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
 		{
-			print_error("warning: here-document delimited by end-of-file ");
-			print_error("(wanted '");
-			print_error(delimiter);
-			print_error("')\n");
+			if (!line)
+				handle_line(data, fd, NULL, delimiter);
+			else
+				free(line);
 			break ;
 		}
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (!dollar_handle(&line, data))
-		{
-			free(line);
-			//free_all(data, ERR_MALLOC, EXT_MALLOC);
+		if (!handle_line(data, fd, line, delimiter))
 			return (FALSE);
-		}
-		ft_putstr_fd(line, fd);
-		ft_putchar_fd('\n', fd);
-		free(line);
 	}
 	return (TRUE);
 }

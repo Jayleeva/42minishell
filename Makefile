@@ -20,6 +20,11 @@ SRC = main.c \
 	parsing/command/cmd_init.c \
 	parsing/command/cmd_clear.c \
 	parsing/command/cmd_manage.c \
+	exec/exec_builtin.c\
+	exec/exec_setup.c\
+	exec/exec_utils.c\
+	exec/here_doc.c\
+	exec/paths_get.c\
 
 OBJ = $(SRC:.c=.o)
 

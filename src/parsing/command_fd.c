@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/15 14:34:03 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/17 11:10:31 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,18 @@ Set cmd2's infile to fd[0] (read end)*/
 static int	open_file(t_data *data, char *filename, int type)
 {
 	int	fd;
-	(void)data;
 
 	fd = -1;
 	if (type == INPUT)
 		fd = open(filename, O_RDONLY);
-	//else if (type == HEREDOC)
-	//	fd = here_doc(data, filename);
+	else if (type == HEREDOC)
+		fd = here_doc(data, filename);
 	else if (type == OUTPUT)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
 		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	//if (fd < 0)
-	//	perror("Error opening file");
-	//type != HEREDOC ||
+	if (type != HEREDOC || fd < 0)
+		perror("Error opening file");
 	return (fd);
 }
 

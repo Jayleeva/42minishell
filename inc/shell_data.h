@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/14 11:50:20 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/18 18:53:58 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_quote
 typedef struct s_data
 {
 	int		pipe_fd[2];
-	pid_t	pid;
+	int		last_pid;
 	int		exit_code;
 	char	**paths;
 	t_env	*env;
@@ -64,5 +64,14 @@ void	array_clear(char **arr);
 t_bool	print_error_token(t_token *token, t_data *data);
 void	print_cmd(t_cmd *cmd);
 
+//pipeline
+t_bool	execute_pipeline(t_data *data);
+void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next);
+void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next);
+
+t_bool	is_builtin(char *cmd);
+t_bool	execute_builtin(t_data *data, t_cmd *cmd);
+char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
+int		here_doc(t_data *data, char *delimiter);
 
 #endif
