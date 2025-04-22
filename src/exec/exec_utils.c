@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 14:26:44 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:51:28 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@
 // 	exit(status);
 // }
 
-/*Change the environne;ent with the good one*/
+/*Change the environne;ent with the good one and heredoc end with ctrl-c*/
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 {
 	char	*path;
