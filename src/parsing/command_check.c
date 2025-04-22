@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/18 13:02:05 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/22 10:57:45 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,6 @@ static t_bool	setup_command(t_data *data, t_token *token)
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
-	printf("✔ Command setup: ");
-	for (int i = 0; cmd->argv[i]; i++)
-		printf("[%s] ", cmd->argv[i]);
-	printf("\n");
 	return (TRUE);
 }
 
