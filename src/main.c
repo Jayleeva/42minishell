@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 11:26:47 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/22 13:09:20 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int main(int argc, char **argv, char **envp)
 				return (1);
 				//handle_error();
 		}
+		cmd_clear(&data.cmd);
+		token_clear(&(data.token));
 		input = NULL;
 	}
 	// Cleanup before exit

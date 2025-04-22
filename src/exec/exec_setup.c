@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 11:17:16 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:02:43 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ static t_bool	execute_cmd(t_data *data, t_cmd *cmd,
 		int prev_pipe, t_bool has_next)
 {
 	pid_t	pid;
-	t_bool	is_single_builtin;
+	// t_bool	is_single_builtin;
+	(void) prev_pipe;
 
-	if (cmd && cmd->skip_cmd == FALSE)
-	{
-		is_single_builtin = (cmd->next == cmd);
-		if (is_single_builtin && is_builtin(cmd->argv[0]))
-			return (execute_builtin(data, cmd));
-	}
+	// if (cmd && cmd->skip_cmd == FALSE)
+	// {
+	// 	is_single_builtin = (cmd->next == cmd);
+	// 	if (is_single_builtin && is_builtin(cmd->argv[0]))
+	// 		return (execute_builtin(data, cmd));
+	// }
 	pid = fork();
 	if (pid < 0)
 	{

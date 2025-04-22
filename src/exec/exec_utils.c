@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 10:44:11 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/22 14:26:44 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,33 +18,33 @@
 //Signal management (Ctrl-C behavior).
 //Environment variable updates (export, unset).
 
-static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
-		t_data *data, t_bool has_next)
-{
-	if (cmd->infile != STDIN_FILENO)
-	{
-		if (dup2(cmd->infile, STDIN_FILENO) < 0)
-			return (FALSE);
-		close(cmd->infile);
-	}
-	else if (prev_pipe != -1)
-	{
-		if (dup2(prev_pipe, STDIN_FILENO) < 0)
-			return (FALSE);
-	}
-	if (cmd->outfile != STDOUT_FILENO)
-	{
-		if (dup2(cmd->outfile, STDOUT_FILENO) < 0)
-			return (FALSE);
-		close(cmd->outfile);
-	}
-	else if (has_next)
-	{
-		if (dup2(data->pipe_fd[1], STDOUT_FILENO) < 0)
-			return (FALSE);
-	}
-	return (TRUE);
-}
+// static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
+// 		t_data *data, t_bool has_next)
+// {
+// 	if (cmd->infile != STDIN_FILENO)
+// 	{
+// 		if (dup2(cmd->infile, STDIN_FILENO) < 0)
+// 			return (FALSE);
+// 		close(cmd->infile);
+// 	}
+// 	else if (prev_pipe != -1)
+// 	{
+// 		if (dup2(prev_pipe, STDIN_FILENO) < 0)
+// 			return (FALSE);
+// 	}
+// 	if (cmd->outfile != STDOUT_FILENO)
+// 	{
+// 		if (dup2(cmd->outfile, STDOUT_FILENO) < 0)
+// 			return (FALSE);
+// 		close(cmd->outfile);
+// 	}
+// 	else if (has_next)
+// 	{
+// 		if (dup2(data->pipe_fd[1], STDOUT_FILENO) < 0)
+// 			return (FALSE);
+// 	}
+// 	return (TRUE);
+// }
 
 /*char **env_to_array(t_env *env_list)
 {
@@ -78,43 +78,40 @@ static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
     return env_array;
 }*/
 
-static void	exit_clean(t_data *data, char **env_array, char *path, int status)
-{
-	if (data->pipe_fd[1] != -1)
-		close(data->pipe_fd[1]);
-	if (path)
-		free(path);
-	if (env_array)
-		array_clear(env_array);
-	exit(status);
-}
+// static void	exit_clean(t_data *data, char **env_array, char *path, int status)
+// {
+// 	if (data->pipe_fd[1] != -1)
+// 		close(data->pipe_fd[1]);
+// 	if (path)
+// 		free(path);
+// 	if (env_array)
+// 		array_clear(env_array);
+// 	exit(status);
+// }
 
-/*Make sure data->paths points to the full executable path like /bin/ls.
-If paths is an array (from PATH parsing), you need 
-to resolve it before calling execve*/
+/*Change the environne;ent with the good one*/
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 {
 	char	*path;
-	char	**env_array;
+	// char	**env_array;
+	extern char **environ;
 
 	path = NULL;
-	env_array = NULL;
+	(void)path;
+	// env_array = NULL;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	(void)prev_pipe;
+	(void)has_next;
 
-	if (!setup_redirections(cmd, prev_pipe, data, has_next))
-		exit_clean(data, env_array, path, EXIT_FAILURE);
-	if (is_builtin(cmd->argv[0]))
-	{
-		execute_builtin(data, cmd);
-		exit_clean(data, env_array, path, data->exit_code);
-	}
-	if (!cmd->argv[0])
-		exit_clean(data, env_array, path, EXIT_SUCCESS);
-	path = find_cmd_path(data, cmd->argv[0], data->env);
-	if (!path)
-		exit_clean(data, env_array, path, 127);
-	//env_array = env_to_array(data->env);
-	//execve(path, cmd->argv, env_array);
+	// if (!setup_redirections(cmd, prev_pipe, data, has_next))
+	// 	exit_clean(data, env_array, path, EXIT_FAILURE);
+	// if (!cmd->argv[0])
+	// 	exit_clean(data, env_array, path, EXIT_SUCCESS);
+	path = find_cmd_path(data, cmd->argv[0], environ);
+	// if (!path)
+	// 	exit_clean(data, env_array, path, 127);
+	// env_array = env_to_array(data->env);
+	execve(path, cmd->argv, environ);
 }

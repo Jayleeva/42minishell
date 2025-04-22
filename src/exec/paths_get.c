@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:02:25 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 10:44:47 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/22 14:27:32 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	free_paths(char **paths)
 {
 	int	i;
 
+	i = 0;
 	while (paths && paths[i])
 		free (paths[i++]);
 	free (paths);
@@ -44,19 +45,19 @@ static char	*join_with_slash(char *path, char *cmd)
 	return (full_path);
 }
 
-static void	init_paths(t_data *data, t_env *env)
+static void	init_paths(t_data *data, char **env)
 {
 	char	*path_env;
 
 	path_env = NULL;
 	while (env)
 	{
-		if (ft_strncmp(env->vartest, "PATH=", 5) == 0)
+		if (ft_strncmp(*env, "PATH=", 5) == 0)
 		{
-			path_env = env->vartest + 5;
+			path_env = *env + 5;
 			break ;
 		}
-		env = env->next;
+		env++;
 	}
 	if (path_env)
 		data->paths = ft_split(path_env, ':');
@@ -64,7 +65,7 @@ static void	init_paths(t_data *data, t_env *env)
 		data->paths = NULL;
 }
 
-char	*find_cmd_path(t_data *data, char *cmd, t_env *env)
+char	*find_cmd_path(t_data *data, char *cmd, char **env)
 {
 	char	*full_path;
 	int		i;
@@ -77,21 +78,17 @@ char	*find_cmd_path(t_data *data, char *cmd, t_env *env)
 	i = 0;
 	while (data->paths[i])
 	{
-		printf("Debug: Checking path [%s] + [%s]\n", data->paths[i], cmd);
 		full_path = join_with_slash(data->paths[i], cmd);
 		if (!full_path)
 			break ;
 		if (access(full_path, F_OK | X_OK) == 0)
 		{
-
-			printf("Debug: Found executable at [%s]\n", full_path);
 			free_paths(data->paths);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	printf("Debug: Command not found: [%s]\n", cmd);
 	free_paths(data->paths);
 	return (cmd_not_found(cmd));
 }

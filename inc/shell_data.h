@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/18 18:53:58 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:03:37 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next);
 
 t_bool	is_builtin(char *cmd);
 t_bool	execute_builtin(t_data *data, t_cmd *cmd);
-char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
+char	*find_cmd_path(t_data *data, char *cmd, char **env);
 int		here_doc(t_data *data, char *delimiter);
 
 #endif
