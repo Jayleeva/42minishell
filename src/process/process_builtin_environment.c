@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_data *data, int mode)
+void    process_env(t_data *data)
 {
 	t_env	*current;
 
@@ -22,16 +22,10 @@ void    process_env(t_data *data, int mode)
 	current = data->env;
 	while (current->next != NULL)
 	{
-		if (mode == 0)
-			ft_printf("%s\n", current->var);
-		if (mode == 1)
-			ft_printf("declare -x %s\n", current->var);
+		ft_printf("%s\n", current->var);
 		current = current->next;
 	}
-	if (mode == 0)
-		ft_printf("%s\n", current->var);
-	if (mode == 1)
-		ft_printf("declare -x %s\n", current->var);
+	ft_printf("%s\n", current->var);
 }
 
 void	update_var(char *var, char *cmd, char *name, char *value)
@@ -90,18 +84,21 @@ void	process_export(char *cmd, t_data *data)
 	int		i;
 
 	data->exit_code = 0;
-	//cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
 	i = strchri(cmd, '=');
-	if (i < 0)
+	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
+	{
+		update_export(data, cmd);
 		return ;
+	}
 	name = ft_substr(cmd, 0, i);
 	if (name == NULL)
 		return ;
 	value = NULL;
 	if (cmd[i +1])
 		value = ft_substr(cmd, i + 1, ft_strlen(cmd));
+	else //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans "".
+		add_empty_export(data, cmd);
 	update(data, cmd, name, value);
-	//free(cmd);
 	free(name);
 	free(value);
 }

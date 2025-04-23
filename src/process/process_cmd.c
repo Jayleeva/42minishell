@@ -18,6 +18,8 @@
 
 void    preprocess_cd(t_data *data, t_token *current)
 {
+    write(1, "-C-\n", 4);
+    printf("%s\n", current->str);
     if (!current->next) // si pas d'argument donné, retour à HOME.
     {
         chdir(get_env_value(data->env, "HOME"));
@@ -31,7 +33,7 @@ void    preprocess_cd(t_data *data, t_token *current)
 void    preprocess_export(t_data *data, t_token *current)
 {
     if (!current->next)
-        process_env(data, 1);
+        display_export(data);
     else
         process_export(current->next->str, data);
 }
@@ -39,7 +41,7 @@ void    preprocess_export(t_data *data, t_token *current)
 void    preprocess_unset(t_data *data, t_token *current)
 {
     if (!current->next)
-        return;
+        return ;
     process_unset(current->next->str, data);
 }
 
@@ -58,19 +60,23 @@ void    process_token_list(t_data *data, t_token *token_list)
     t_token *current;
 
     current = token_list;
-    if (current->type != CMD) //ATTENTION: si commande entre guillemets, ne devrait pas être reconnue: code actuel ne règle pas le problème.
+    write(1, "-A-\n", 4);
+    /*if (current->type != CMD)
     {
         ft_printf("minishell: %s: command not found\n", current->str);
         return ;
-    }
+    }*/
     if (!ft_strncmp(current->str, "exit", 5)) 
         process_exit();
     else if (!ft_strncmp(current->str, "pwd", 4))
         process_pwd(data);
     else if (!ft_strncmp(current->str, "env", 4))
-        process_env(data, 0);
+        process_env(data);
     else if (!ft_strncmp(current->str, "cd", 2))
+    {
+        write(1, "-B-\n", 4);
         preprocess_cd(data, current);
+    }
     else if (!ft_strncmp(current->str, "export", 6))
         preprocess_export(data, current);
     else if (!ft_strncmp(current->str, "unset", 5))

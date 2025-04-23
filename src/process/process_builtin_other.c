@@ -34,16 +34,3 @@ void    process_other(char *cmd, t_data *data)
     free(s);
 }
 
-int ft_isnum(char *s)
-{
-    int i;
-
-    i = 0;
-    while (s[i])
-    {
-        if (!ft_isdigit(s[i]))
-            return (0);
-        i ++;
-    }
-    return (1);
-}

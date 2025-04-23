@@ -29,6 +29,7 @@ typedef struct s_data
 	int		exit_code;
 	char	**paths;
 	t_env	*env;
+	t_env	*export;
 	t_token	*token;
 	//char	**token_list;
 	t_cmd	*cmd;
@@ -75,14 +76,19 @@ void    process_cmd(char *cmd, t_data *data);
 char    *first_word(char *s);
 void	process_cd(char *cmd, t_data *data);
 void    process_pwd(t_data *data);
-void    process_env(t_data *data, int mode);
+void    process_env(t_data *data);
 void	process_export(char *cmd, t_data *data);
 void	process_unset(char *cmd, t_data *data);
 void    process_echo(t_token *str, t_data *data);
 void    process_exit(void);
 void    process_other(char *cmd, t_data *data);
+void	display_export(t_data *data);
+void	update_export(t_data *data, char *cmd);
+void	update_var_export(char *var, char *cmd);
+void	add_empty_export(t_data *data, char *cmd);
 
 //other
 void    minishell_interactive(int argc, char **argv, t_data *data);
 void	update_var(char *var, char *cmd, char *name, char *value);
+
 #endif

@@ -100,6 +100,7 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
+	data.export = init_env(envp, nvar);
 	minishell_interactive(argc, argv, &data);
 	return (0);
 }

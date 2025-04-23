@@ -76,11 +76,6 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
         if (*input) // If input is not empty, add to history and process
 		{
             add_history(input);
-            if (!process_input(data, input)) //pas forcément nécessaire une fois quote_handle corrigé, à voir. Pour l'instant, évite le segfault.
-            {   
-                free(input);
-                return ;
-            }
             process_token_list(data, data->token);
             token_clear(&(data->token));
         }
