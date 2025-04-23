@@ -48,7 +48,6 @@ void	update_var(char *var, char *cmd, char *name, char *value)
 		var = NULL;
 		var = ft_strdup(cmd);
 		ft_printf("-- has been changed -- \n");
-		return ;
 	}
 }
 
@@ -59,8 +58,11 @@ void	update(t_data *data, char *cmd, char *name, char *value)
 	current = data->env;
 	while (current->next != NULL)
 	{
-		if (!ft_strncmp(current->var, name, ft_strlen(name))) 
+		if (!ft_strncmp(current->var, name, ft_strlen(name)))
+		{
 			update_var(current->var, cmd, name, value);
+			return ;
+		}
 		else // sinon, finir la liste 
 			current = current->next;
 	}
@@ -77,19 +79,11 @@ void	update(t_data *data, char *cmd, char *name, char *value)
 	ft_printf("-- has been created -- \n");
 }
 
-void	process_export(char *cmd, t_data *data)
+void	add_to_env(t_data *data, char *cmd, int i)
 {
 	char	*name;
 	char 	*value;
-	int		i;
 
-	data->exit_code = 0;
-	i = strchri(cmd, '=');
-	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
-	{
-		update_export(data, cmd);
-		return ;
-	}
 	name = ft_substr(cmd, 0, i);
 	if (name == NULL)
 		return ;
@@ -101,6 +95,29 @@ void	process_export(char *cmd, t_data *data)
 	update(data, cmd, name, value);
 	free(name);
 	free(value);
+}
+
+void	process_export(char *cmd, t_data *data)
+{
+	int		i;
+
+	data->exit_code = 0;
+	i = strchri(cmd, '=');
+	if (i == 0)
+	{
+		ft_printf("minishell: export: `=': not a valid identifier\n");
+		return ;
+	}
+	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
+	{
+		update_export(data, cmd);
+		return ;
+	}
+	if (!cmd[i +1]) //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
+		add_empty_export(data, cmd);
+	else
+		update_export(data, cmd);
+	add_to_env(data, cmd, i);
 }
 
 void	process_unset(char *cmd, t_data *data)

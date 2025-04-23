@@ -31,7 +31,11 @@ void    preprocess_cd(t_data *data, t_token *current)
 void    preprocess_export(t_data *data, t_token *current)
 {
     if (!current->next)
+    {
+        write(1, "HEY\n", 4);
         display_export(data);
+    }
+
     else
         process_export(current->next->str, data);
 }
