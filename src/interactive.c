@@ -76,6 +76,7 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
         if (*input) // If input is not empty, add to history and process
 		{
             add_history(input);
+            process_input(data, input);
             process_token_list(data, data->token);
             token_clear(&(data->token));
         }

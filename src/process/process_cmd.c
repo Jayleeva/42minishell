@@ -18,8 +18,6 @@
 
 void    preprocess_cd(t_data *data, t_token *current)
 {
-    write(1, "-C-\n", 4);
-    printf("%s\n", current->str);
     if (!current->next) // si pas d'argument donné, retour à HOME.
     {
         chdir(get_env_value(data->env, "HOME"));
@@ -55,17 +53,17 @@ void    preprocess_echo(t_data *data, t_token *current)
         process_echo(current->next, data);
 }
 
+
 void    process_token_list(t_data *data, t_token *token_list)
 {
     t_token *current;
 
     current = token_list;
-    write(1, "-A-\n", 4);
-    /*if (current->type != CMD)
+    if (current->type != CMD)
     {
         ft_printf("minishell: %s: command not found\n", current->str);
         return ;
-    }*/
+    }
     if (!ft_strncmp(current->str, "exit", 5)) 
         process_exit();
     else if (!ft_strncmp(current->str, "pwd", 4))
@@ -73,10 +71,7 @@ void    process_token_list(t_data *data, t_token *token_list)
     else if (!ft_strncmp(current->str, "env", 4))
         process_env(data);
     else if (!ft_strncmp(current->str, "cd", 2))
-    {
-        write(1, "-B-\n", 4);
         preprocess_cd(data, current);
-    }
     else if (!ft_strncmp(current->str, "export", 6))
         preprocess_export(data, current);
     else if (!ft_strncmp(current->str, "unset", 5))

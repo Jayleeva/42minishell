@@ -96,7 +96,7 @@ void	process_export(char *cmd, t_data *data)
 	value = NULL;
 	if (cmd[i +1])
 		value = ft_substr(cmd, i + 1, ft_strlen(cmd));
-	else //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans "".
+	else //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
 		add_empty_export(data, cmd);
 	update(data, cmd, name, value);
 	free(name);

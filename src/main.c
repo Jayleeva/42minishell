@@ -35,7 +35,6 @@ t_bool	process_input(t_data *data, char *input)
 	}
 	//print_cmd(data->cmd);
 	//cmd_clear(&data->cmd);
-	//write(1, "HEY\n", 4);
 	//token_clear(&(data->token));
 	return (TRUE);
 }
@@ -72,7 +71,6 @@ t_env	*init_env(char **envp, int nvar)
 			return (NULL);
 		current->next->var = envp[i];
 		current->next->next = NULL;
-		//ft_printf("%s\n", current->next->var);
 		i ++;
 	}
 	return (env);
@@ -84,6 +82,7 @@ void	init_data(t_data *data)
 	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;
+	data->export = NULL;
 	data->cmd = NULL;
 	data->pipe_fd[0] = -1;
 	data->pipe_fd[1] = -1;
