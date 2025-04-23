@@ -22,7 +22,7 @@ SRC = main.c \
 	parsing/command/cmd_manage.c \
 	exec/exec_builtin.c\
 	exec/exec_setup.c\
-	exec/exec_utils.c\
+	exec/exec_process.c\
 	exec/here_doc.c\
 	exec/paths_get.c\
 

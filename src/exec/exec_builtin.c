@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/22 10:30:43 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/23 14:25:53 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ t_bool	is_builtin(char *cmd)
 			ft_strncmp("env", cmd, INT_MAX) || \
 			ft_strncmp("exit", cmd, INT_MAX));
 }
+
+/*static void	executing_built_in(int out, t_data *data, t_cmd *cmd)
+{
+	if (!ft_strncmp("echo", cmd->argv[0], INT_MAX))
+		data->exit_code = process_echo(cmd->argv);
+	else if (!ft_strncmp("cd", cmd->argv[0], INT_MAX))
+		data->exit_code = process_cd(data, cmd->argv);
+}*/
 
 t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 {

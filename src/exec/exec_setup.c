@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 15:02:43 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:55:43 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,27 @@ static void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 	}
 }
 
+static void	close_redirections(t_data *data)
+{
+	t_cmd	*cmd;
+
+	cmd = data->cmd;
+	while (cmd)
+	{
+		if (cmd->outfile >= 0)
+		{
+			close(cmd->outfile);
+			cmd->outfile = -1;
+		}
+		if (cmd->infile >= 0)
+		{
+			close(cmd->infile);
+			cmd->infile = -1;
+		}
+		cmd = cmd->next;
+	}
+}
+
 static t_bool	wait_for_child(t_data *data)
 {
 	int		status;
@@ -47,30 +68,12 @@ static t_bool	wait_for_child(t_data *data)
 	return (TRUE);
 }
 
-void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
-{
-	if (!has_next)
-		data->last_pid = pid;
-	close(data->pipe_fd[1]);
-	if (cmd->next && cmd->next->infile == -2)
-		cmd->next->infile = data->pipe_fd[0];
-	else
-		close(data->pipe_fd[0]);
-}
-
 static t_bool	execute_cmd(t_data *data, t_cmd *cmd,
 		int prev_pipe, t_bool has_next)
 {
 	pid_t	pid;
-	// t_bool	is_single_builtin;
 	(void) prev_pipe;
 
-	// if (cmd && cmd->skip_cmd == FALSE)
-	// {
-	// 	is_single_builtin = (cmd->next == cmd);
-	// 	if (is_single_builtin && is_builtin(cmd->argv[0]))
-	// 		return (execute_builtin(data, cmd));
-	// }
 	pid = fork();
 	if (pid < 0)
 	{
@@ -84,18 +87,19 @@ static t_bool	execute_cmd(t_data *data, t_cmd *cmd,
 	return (TRUE);
 }
 
-//1. Create pipe
-//2. Execute current command
-//3. Cleanup and prepare for next
 //pipe_fd[READ], pipe_fd[WRITE]
 t_bool	execute_pipeline(t_data *data)
 {
 	t_cmd	*current;
 	t_bool	has_next;
+	t_bool	result;
 	int		prev_pipe;
 
 	current = data->cmd;
 	prev_pipe = -1;
+	if (current && current->skip_cmd == FALSE && current->next == current
+		&& current->argv[0] && is_builtin(current->argv[0]))
+		return (execute_builtin(data, current));
 	while (current)
 	{
 		has_next = (current->next != NULL);
@@ -108,5 +112,7 @@ t_bool	execute_pipeline(t_data *data)
 		if (!current)
 			break ;
 	}
-	return (wait_for_child(data));
+	result = wait_for_child(data);
+	close_redirections(data);
+	return (result);
 }
