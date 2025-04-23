@@ -25,6 +25,7 @@ SRC = main.c \
 	process/process_builtin_directory.c \
 	process/process_builtin_echo.c \
 	process/process_builtin_environment.c \
+	process/process_builtin_other.c \
 
 OBJ = $(SRC:.c=.o)
 

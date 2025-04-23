@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_data *data)
+void    process_env(t_data *data, int mode)
 {
 	t_env	*current;
 
@@ -22,10 +22,16 @@ void    process_env(t_data *data)
 	current = data->env;
 	while (current->next != NULL)
 	{
-		ft_printf("%s\n", current->var);
+		if (mode == 0)
+			ft_printf("%s\n", current->var);
+		if (mode == 1)
+			ft_printf("declare -x %s\n", current->var);
 		current = current->next;
 	}
-	ft_printf("%s\n", current->var);
+	if (mode == 0)
+		ft_printf("%s\n", current->var);
+	if (mode == 1)
+		ft_printf("declare -x %s\n", current->var);
 }
 
 void	update_var(char *var, char *cmd, char *name, char *value)
@@ -85,8 +91,6 @@ void	process_export(char *cmd, t_data *data)
 
 	data->exit_code = 0;
 	//cmd = ft_substr(cmd, 7, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-	/*if (cmd == NULL)
-		return ;*/
 	i = strchri(cmd, '=');
 	if (i < 0)
 		return ;
@@ -107,12 +111,6 @@ void	process_unset(char *cmd, t_data *data)
 	t_env	*current;
 	t_env	*prev;
 
-	//cmd = ft_substr(cmd, 6, ft_strlen(cmd));  //ADAPT ONCE TOKENS ARE WORKING AND INTEGRATED
-	/*if (cmd == NULL)
-	{
-		data->exit_code = 1;
-		return ;
-	}*/
 	current = data->env;
 	while (current && ft_strncmp(current->var, cmd, strchri(current->var, '=')))
 	{

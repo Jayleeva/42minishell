@@ -75,11 +75,12 @@ void    process_cmd(char *cmd, t_data *data);
 char    *first_word(char *s);
 void	process_cd(char *cmd, t_data *data);
 void    process_pwd(t_data *data);
-void    process_env(t_data *data);
+void    process_env(t_data *data, int mode);
 void	process_export(char *cmd, t_data *data);
 void	process_unset(char *cmd, t_data *data);
 void    process_echo(t_token *str, t_data *data);
 void    process_exit(void);
+void    process_other(char *cmd, t_data *data);
 
 //other
 void    minishell_interactive(int argc, char **argv, t_data *data);
