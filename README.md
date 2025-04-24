@@ -1,5 +1,16 @@
 Projet de groupe du 4ème cercle du cursus 42
 
+# HOW TO MAKE A MERGE REQUEST
+
+- Work from your branch. 
+- Once you're done, push: ``git add *``, ``git commit -m ""``, ``git push``.
+- Then, go on the github page. Select "branches", and click on yours. Select: "merge request". Confirm.
+- Inform me you've made the request.
+- I will handle the merging per say, but may need to ask some questions to be sure I make the right choices.
+- Once I'm done, I will inform you.
+- Pull to have the merged version locally: ``git pull``. If too complicated, suppress your local copy and reclone it: ``git clone``. 
+
+
 # Stratégie
 Create a program that runs as long as the user needs it and closes on command. Use a loop that stops only once the user gives a closing input? And that lets the user give as many inputs as they want via readline().
 
