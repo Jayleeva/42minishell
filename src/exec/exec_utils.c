@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:37:31 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/23 15:37:20 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/24 10:09:24 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ t_bool	resolve_command_path(t_data *data, t_cmd *cmd, char **path)
 	return (TRUE);
 }
 
-char	**env_to_array(t_env *env)
-{
-	
-}
-
 void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
 {
 	if (cmd->outfile < 0 && has_next)
@@ -71,4 +66,41 @@ void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
 	close(data->pipe_fd[0]);
 	launch_builtin(data, cmd);
 	exit(data->exit_code);
+}
+
+static size_t	env_lenght(t_env *list)
+{
+	t_env	*current;
+	size_t	i;
+
+	if (list)
+	{
+		current = list;
+		i = 1;
+		while (current->next != list)
+		{
+			i++;
+			current = current->next;
+		}
+		return (i);
+	}
+	return (0);
+}
+
+char	**env_to_array(t_env *env)
+{
+	t_env	*list;
+	int		i;
+	char	**dst;
+	
+	i = 0;
+	dst = NULL;
+	list = env;
+	dst = malloc(sizeof(char *) * (env_lenght(list) + 1));
+	if (!dst)
+		return (NULL);
+	dst[i] = (list->....);//todo
+	list = list->next;
+	i++;
+	
 }
