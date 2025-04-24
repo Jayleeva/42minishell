@@ -16,7 +16,6 @@
 
 void    process_cd(char *path, t_data *data) 
 {
-	data->exit_code = 0;
     if (chdir(path) == -1)
 	{
 		data->exit_code = 1;
@@ -28,7 +27,7 @@ void    process_pwd(t_data *data)
 {
     char    *path;
 
-	data->exit_code = 0;
+    data->exit_code = 0;
     path = NULL;
     path = getcwd(path, 0);
     if (path == NULL)

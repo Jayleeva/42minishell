@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment / fait segfault exit si echo plusieurs string avant, chercher pourquoi
+void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment / fait segfault exit si echo plusieurs string (avec espaces) avant, chercher pourquoi
 {
     char    *s;
     char    *temp;
@@ -23,7 +23,6 @@ void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment
     int     i;
     int     n_flag;
 
-	data->exit_code = 0;
     n_flag = 0;
     s = "";
     temp = NULL;
