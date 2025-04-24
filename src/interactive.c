@@ -76,8 +76,12 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
         if (*input) // If input is not empty, add to history and process
 		{
             add_history(input);
-            process_input(data, input);
+            if (!process_input(data, input))
+                return ;
+            //if(!execute_pipeline(&data)) waiting for the exec files
+            //    return ;
             process_token_list(data, data->token);
+            //cmd_clear(&data->cmd); double free!
             token_clear(&(data->token));
         }
         free(input); // Free the input line after processing 

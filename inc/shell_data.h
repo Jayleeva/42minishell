@@ -67,6 +67,7 @@ t_bool	print_error_token(t_token *token, t_data *data);
 void	print_cmd(t_cmd *cmd);
 
 //builtin
+char	*get_name(char *cmd);
 void    process_token_list(t_data *data, t_token *token_list);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
@@ -86,7 +87,7 @@ void	display_export(t_data *data);
 void	update_export(t_data *data, char *cmd);
 void	update_var_export(char *var, char *cmd);
 void	add_empty_export(t_data *data, char *cmd);
-
+void	add_to_env(t_data *data, char *cmd, int i);
 //other
 void    minishell_interactive(int argc, char **argv, t_data *data);
 void	update_var(char *var, char *cmd, char *name, char *value);

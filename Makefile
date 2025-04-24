@@ -26,6 +26,7 @@ SRC = main.c \
 	process/process_builtin_echo.c \
 	process/process_builtin_environment.c \
 	process/process_builtin_export.c \
+	process/process_builtin_unset.c \
 	process/process_builtin_other.c \
 
 OBJ = $(SRC:.c=.o)

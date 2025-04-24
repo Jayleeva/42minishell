@@ -25,7 +25,7 @@ void	display_export(t_data *data)
 		ft_printf("declare -x %s\n", current->var);
 		current = current->next;
 	}
-		ft_printf("declare -x %s\n", current->var);
+	ft_printf("declare -x %s\n", current->var);
 }
 
 void	update_var_export(char *var, char *cmd)
@@ -44,36 +44,22 @@ void	update_var_export(char *var, char *cmd)
 void	update_export(t_data *data, char *cmd)
 {
 	t_env	*current;
-	int		i;
-	char	*name;
 
 	current = data->export;
-	name = NULL;
-	i = strchri(cmd, '=');
-	if (i > 0)
-		name = ft_substr(cmd, 0, i);
-	else if (i == -1)
-		name = ft_strdup(cmd);
 	while (current->next != NULL)
 	{
-		if (!ft_strncmp(current->var, cmd, ft_strlen(name)))
-		{
-			//if (cmd[ft_strlen(name) + 1] == '=' || !cmd[ft_strlen(name) + 1])
-			{
-				update_var_export(current->var, cmd);
-				return ;
-			}
-		}
-		else // sinon, finir la liste 
-			current = current->next;
-	}
-	if (!ft_strncmp(current->var, cmd, ft_strlen(name)))
-	{
-		//if (cmd[ft_strlen(name) + 1] == '=' || !cmd[ft_strlen(name) + 1])
+		if (!ft_strncmp(current->var, cmd, ft_strlen(get_name(cmd))))
 		{
 			update_var_export(current->var, cmd);
 			return ;
 		}
+		else // sinon, finir la liste 
+			current = current->next;
+	}
+	if (!ft_strncmp(current->var, cmd, ft_strlen(get_name(cmd))))
+	{
+		update_var_export(current->var, cmd);
+		return ;
 	}
 	current->next = (t_env *)malloc(sizeof(t_env)); // malloc pour créer nouvelle var
 	if (current->next == NULL)
@@ -93,3 +79,25 @@ void	add_empty_export(t_data *data, char *cmd)
 	free(temp);
 }
 
+void	process_export(char *cmd, t_data *data)
+{
+	int		i;
+
+	data->exit_code = 0;
+	i = strchri(cmd, '=');
+	if (i == 0)
+	{
+		ft_printf("minishell: export: `=': not a valid identifier\n");
+		return ;
+	}
+	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
+	{
+		update_export(data, cmd);
+		return ;
+	}
+	if (!cmd[i +1]) //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
+		add_empty_export(data, cmd);
+	else
+		update_export(data, cmd);
+	add_to_env(data, cmd, i);
+}
