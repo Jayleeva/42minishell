@@ -19,23 +19,28 @@
 t_bool	process_input(t_data *data, char *input)
 {
 	if (!check_open_quotes(data, input))
-		return (FALSE);
-	if (!create_token_list(&data->token, input))
 	{
+		free(input);
+		return (FALSE);
+	}
+	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
+	{
+		free(input);
 		token_clear(&(data->token));
 		return (FALSE);
 	}
-	free(input);
-	//print_token_list(data->token);
+	print_token_list(data->token);
 	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
 	{
+		free(input);
 		token_clear(&(data->token));
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
-	//print_cmd(data->cmd);
+	print_cmd(data->cmd);
 	//cmd_clear(&data->cmd);
 	//token_clear(&(data->token));
+	free(input);
 	return (TRUE);
 }
 
@@ -82,14 +87,14 @@ void	init_data(t_data *data)
 	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;
-	data->export = NULL;
+  data->export = NULL;
 	data->cmd = NULL;
 	data->pipe_fd[0] = -1;
 	data->pipe_fd[1] = -1;
-	data->pid = 0;
+	data->last_pid = 0;
 }
 
-int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp) 
 {
     t_data  data;
 	int		nvar;

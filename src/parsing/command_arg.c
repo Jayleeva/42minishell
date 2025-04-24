@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_arg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:23:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 14:50:26 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:14:33 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static t_bool	is_valid_argument(const t_token *token, const t_token *head)
 	{
 		if (!token->prev)
 			return (FALSE);
-		prev_is_special = is_redirection(token->prev->type)
-			|| token->prev->type == PIPE;
+		prev_is_special = (is_redirection(token->prev->type)
+				|| token->prev->type == PIPE);
 		not_wrapped = (token->prev != head->prev);
 		return (not_wrapped && !prev_is_special);
 	}
@@ -89,3 +89,4 @@ char	**get_command_arg(t_data *data, t_token *start_token)
 	args[i] = NULL;
 	return (args);
 }
+

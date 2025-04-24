@@ -21,6 +21,11 @@ SRC = main.c \
 	parsing/command/cmd_init.c \
 	parsing/command/cmd_clear.c \
 	parsing/command/cmd_manage.c \
+	exec/exec_builtin.c\
+	exec/exec_setup.c\
+	exec/exec_process.c\
+	exec/here_doc.c\
+	exec/paths_get.c\
 	process/process_cmd.c \
 	process/process_builtin_directory.c \
 	process/process_builtin_echo.c \
@@ -32,13 +37,15 @@ OBJ = $(SRC:.c=.o)
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 
+SAN = -fsanitize=address -fsanitize=leak
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc 
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_LIB)
-	@${CC} ${CFLAGS} ${OBJ} $(LIBFT_LIB) -o $(NAME) -lreadline
+	@${CC} ${CFLAGS} ${SAN} ${OBJ} $(LIBFT_LIB) -o $(NAME) -lreadline
 
 $(LIBFT_LIB):
 	@${MAKE} -C libft

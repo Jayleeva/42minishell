@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:44 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 14:47:47 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:48:10 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,4 @@ void	print_token_list(t_token *head)
 	}
 	printf("Type : %d, [%s]\n", head->type, head->str);
 }
+

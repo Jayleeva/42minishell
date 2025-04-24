@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:49:27 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/14 14:41:19 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:22:44 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_cmd
 	int				outfile;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-}					t_cmd;
+}				t_cmd;
 
 typedef struct s_token
 {
@@ -32,7 +32,6 @@ typedef struct s_token
 	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
-
 
 typedef struct s_env
 {

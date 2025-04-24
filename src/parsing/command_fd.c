@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 14:50:59 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:10:31 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,18 @@ Set cmd2's infile to fd[0] (read end)*/
 static int	open_file(t_data *data, char *filename, int type)
 {
 	int	fd;
-	(void)data;
 
 	fd = -1;
 	if (type == INPUT)
 		fd = open(filename, O_RDONLY);
-	//else if (type == HEREDOC)
-	//	fd = here_doc(data, filename);
+	else if (type == HEREDOC)
+		fd = here_doc(data, filename);
 	else if (type == OUTPUT)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
 		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	//if (type != HEREDOC && fd < 0)
-	//	perror(filename);
+	if (type != HEREDOC || fd < 0)
+		perror("Error opening file");
 	return (fd);
 }
 
@@ -42,8 +41,6 @@ static t_bool	process_input_redirect(t_data *data, t_token *token, t_cmd *cmd)
 {
 	if (token->type == INPUT || token->type == HEREDOC)
 	{
-		if (cmd->infile >= 0)
-			close(cmd->infile);
 		if (!token->next || token->next->type == PIPE
 			|| is_redirection(token->next->type))
 			return (print_error_token(token, data));
@@ -73,8 +70,6 @@ static t_bool	process_output_redirect(t_data *data,
 {
 	if (token->type == OUTPUT || token->type == APPEND)
 	{
-		if (cmd->outfile >= 0)
-			close(cmd->outfile);
 		if (!token->next || token->next->type == PIPE
 			|| is_redirection(token->next->type))
 			return (print_error_token(token, data));
@@ -98,3 +93,4 @@ t_bool	setup_command_output(t_data *data, t_token *token, t_cmd *cmd)
 	}
 	return (TRUE);
 }
+

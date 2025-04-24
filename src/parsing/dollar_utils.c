@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 14:49:56 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:24:08 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
@@ -44,9 +43,9 @@ char	*get_env_value(t_env *env, char *name)
 	current = env;
 	while (current)
 	{
-		if (ft_strncmp(current->var, name, name_len) == 0)
+		if (ft_strncmp(current->vartest, name, name_len) == 0)
 		{
-			equal_sign = ft_strchr(current->var, '=');
+			equal_sign = ft_strchr(current->vartest, '=');
 			if (equal_sign)
 				return (ft_strdup(equal_sign + 1));
 		}
@@ -61,9 +60,9 @@ static char	*search_environment(t_env *env, char *var_name, int name_len)
 
 	while (env)
 	{
-		equal_sign = ft_strchr(env->var, '=');
-		if (equal_sign && (equal_sign - env->var) == name_len
-			&& !ft_strncmp(env->var, var_name, name_len))
+		equal_sign = ft_strchr(env->vartest, '=');
+		if (equal_sign && (equal_sign - env->vartest) == name_len
+			&& !ft_strncmp(env->vartest, var_name, name_len))
 		{
 			return (equal_sign + 1);
 		}
@@ -96,10 +95,10 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	value = search_environment(data->env, &input[*i + 1], name_len);
 	if (value)
 	{
-		//data->token->str = input[*i + 1]? value? 
 		printf("[DEBUG] Expanding: $%.*s → %s\n", name_len, &input[*i + 1], value);
 		*i += name_len + 1;
 		return (1);
 	}
 	return (0);
 }
+
