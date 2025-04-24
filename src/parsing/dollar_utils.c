@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/31 15:24:08 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/24 15:56:45 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,29 @@ char	*get_env_value(t_env *env, char *name)
 	t_env	*current;
 	int		name_len;
 	char	*equal_sign;
+	char	*nameeq;
 
 	if (!name)
 		return (NULL);
-	name_len = ft_strlen(name);
+	nameeq = ft_strjoin(&(name[1]), "=");
+	if (!nameeq)
+		return (NULL);
+	name_len = ft_strlen(nameeq);
 	current = env;
 	while (current)
 	{
-		if (ft_strncmp(current->vartest, name, name_len) == 0)
+		if (ft_strncmp(current->var, nameeq, name_len) == 0)
 		{
-			equal_sign = ft_strchr(current->vartest, '=');
+			equal_sign = ft_strchr(current->var, '=');
 			if (equal_sign)
+			{
+				free(nameeq);
 				return (ft_strdup(equal_sign + 1));
+			}
 		}
 		current = current->next;
 	}
+	free(nameeq);
 	return (NULL);
 }
 
@@ -60,9 +68,9 @@ static char	*search_environment(t_env *env, char *var_name, int name_len)
 
 	while (env)
 	{
-		equal_sign = ft_strchr(env->vartest, '=');
-		if (equal_sign && (equal_sign - env->vartest) == name_len
-			&& !ft_strncmp(env->vartest, var_name, name_len))
+		equal_sign = ft_strchr(env->var, '=');
+		if (equal_sign && (equal_sign - env->var) == name_len
+			&& !ft_strncmp(env->var, var_name, name_len))
 		{
 			return (equal_sign + 1);
 		}
@@ -95,10 +103,8 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	value = search_environment(data->env, &input[*i + 1], name_len);
 	if (value)
 	{
-		printf("[DEBUG] Expanding: $%.*s → %s\n", name_len, &input[*i + 1], value);
 		*i += name_len + 1;
 		return (1);
 	}
 	return (0);
 }
-

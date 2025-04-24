@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 15:53:44 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:47:41 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,16 @@ void    minishell_interactive(int argc, char **argv, t_data *data)
 		{
             add_history(input);
             process_input(data, input);
-            process_token_list(data, data->token);
+            execute_pipeline(data);
             token_clear(&(data->token));
+			cmd_clear(&data->cmd);
         }
-        free(input); // Free the input line after processing 
+		else
+		{
+			free(input);
+			input = NULL;
+		}
     }
-    free(input);
     input = NULL;
    // cleanup_environment(); // Cleanup before exit
 }

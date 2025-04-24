@@ -24,6 +24,7 @@ SRC = main.c \
 	exec/exec_builtin.c\
 	exec/exec_setup.c\
 	exec/exec_process.c\
+	exec/exec_utils.c\
 	exec/here_doc.c\
 	exec/paths_get.c\
 	process/process_cmd.c \

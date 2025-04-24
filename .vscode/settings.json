@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"shell_data.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"typeinfo": "c"
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 15:35:16 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:46:07 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void    preprocess_echo(t_data *data, t_token *current)
 }
 
 
-void    process_token_list(t_data *data, t_token *token_list)
+/*void    process_token_list(t_data *data, t_token *token_list)
 {
     t_token *current;
 
@@ -86,4 +86,4 @@ void    process_token_list(t_data *data, t_token *token_list)
         ft_printf("%d\n", data->exit_code);
     else
         process_other(current->str, data);
-}
+}*/
