@@ -4,9 +4,7 @@ Projet de groupe du 4ème cercle du cursus 42
 
 - Work from your branch. 
 - Once you're done, push: ``git add *``, ``git commit -m ""``, ``git push --set-upstream origin yourbranch`` (if first push from this branch, otherwise: ``git push``).
-- Inform me you've pushed.
-- I will go on the github page and select: "compare and pull request". If it's not possible to automatically merge, I will have to choose what code to keep and what code to discard: I may need to ask some questions to be sure I make the right choices. Once it's possible to merge, I will click on "create pull request", then "merge pull request", "confirm merge".
-- Once I'm done, I will inform you.
+- Go on the github page, on "branches", and select yours. Click on the "x commits ahead of". If it's not possible to automatically merge, you will have to choose what code to keep and what code to discard: don't hesitate to ask some questions to be sure you make the right choices. Once it's possible to merge, click on "create pull request", then "merge pull request", "confirm merge".
 - Pull to have the merged version locally: ``git pull``. If too complicated, suppress your local copy and reclone it: ``git clone``. 
 
 
