@@ -3,7 +3,7 @@ Projet de groupe du 4ème cercle du cursus 42
 # HOW TO MAKE A MERGE REQUEST
 
 - Work from your branch. 
-- Once you're done, push: ``git add *``, ``git commit -m ""``, ``git push --set-upstream origin yourbranch``.
+- Once you're done, push: ``git add *``, ``git commit -m ""``, ``git push --set-upstream origin yourbranch`` (if first push from this branch, otherwise: ``git push``).
 - Inform me you've pushed.
 - I will go on the github page and select: "compare and pull request". If it's not possible to automatically merge, I will have to choose what code to keep and what code to discard: I may need to ask some questions to be sure I make the right choices. Once it's possible to merge, I will click on "create pull request", then "merge pull request", "confirm merge".
 - Once I'm done, I will inform you.
