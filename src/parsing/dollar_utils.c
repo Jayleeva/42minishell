@@ -101,3 +101,4 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	}
 	return (0);
 }
+

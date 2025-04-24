@@ -89,3 +89,4 @@ char	**get_command_arg(t_data *data, t_token *start_token)
 	args[i] = NULL;
 	return (args);
 }
+

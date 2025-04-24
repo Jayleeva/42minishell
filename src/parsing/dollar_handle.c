@@ -139,3 +139,4 @@ int	dollar_handle(char **input, t_data *data)
 	*input = str;
 	return (1);
 }
+

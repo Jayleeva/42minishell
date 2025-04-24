@@ -93,3 +93,4 @@ t_bool	setup_command_output(t_data *data, t_token *token, t_cmd *cmd)
 	}
 	return (TRUE);
 }
+

@@ -37,3 +37,4 @@ t_bool	cmd_init(t_cmd *cmd, int infile, int outfile, char **argv)
 	cmd->prev = NULL;
 	return (TRUE);
 }
+

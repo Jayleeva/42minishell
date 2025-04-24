@@ -37,6 +37,7 @@
 * command
 * argument
 */
+
 typedef enum e_token_type
 {
 	INPUT = 1,
@@ -52,5 +53,5 @@ typedef unsigned char	t_bool;
 # define TRUE 1
 # define FALSE 0
 
-
 #endif
+

@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   is_in_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:00:43 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:29:21 by cyglardo         ###   ########.fr       */
+/*   Created: 2024/10/10 09:59:17 by cyglardo          #+#    #+#             */
+/*   Updated: 2024/10/23 12:33:05 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+int	is_in_set(char const *set, char c)
 {
-	int		i;
-	char	*copy;
+	size_t	i;
 
-	copy = ft_calloc(ft_strlen(src) +1, sizeof(char));
-	if (copy == NULL)
-		return (NULL);
 	i = 0;
-	while (src[i])
+	while (set[i])
 	{
-		copy[i] = src[i];
+		if (set[i] == c)
+			return (1);
 		i ++;
 	}
-	copy[i] = '\0';
-	return (copy);
+	return (0);
 }

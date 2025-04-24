@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 13:09:20 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/14 15:03:58 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/shell_data.h"
+#include "../inc/linked_list.h"
 #include "../libft/inc/libft.h"
 
 // Parse the input and execute the corresponding commands
@@ -62,7 +63,7 @@ t_env	*init_env(char **envp, int nvar)
 	env = (t_env *)malloc(sizeof(t_env));
 	if (env == NULL)
 		return (NULL);
-	env->vartest = envp[0];
+	env->var = envp[0];
 	env->next = NULL;
 	i = 1;
 	current = env;
@@ -73,9 +74,8 @@ t_env	*init_env(char **envp, int nvar)
 		current->next = (t_env *)malloc(sizeof(t_env));
 		if (current->next == NULL)
 			return (NULL);
-		current->next->vartest = envp[i];
+		current->next->var = envp[i];
 		current->next->next = NULL;
-		//ft_printf("%s\n", current->next->vartest);
 		i ++;
 	}
 	return (env);
@@ -87,6 +87,7 @@ void	init_data(t_data *data)
 	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;
+  data->export = NULL;
 	data->cmd = NULL;
 	data->pipe_fd[0] = -1;
 	data->pipe_fd[1] = -1;
@@ -95,35 +96,15 @@ void	init_data(t_data *data)
 
 int main(int argc, char **argv, char **envp) 
 {
-	char *input;
-	int	nvar;
-	t_data	data;
-	(void)argv;
-	(void)argc;
+    t_data  data;
+	int		nvar;
 
+    if (argc == 3)
+		return (1);
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	while (1) {
-		// Display prompt and read input
-		input = readline("minishell> ");
-		if (!input) {
-			printf("exit\n");
-			break;
-		}
-		if (*input) {
-			add_history(input);
-			if(!process_input(&data, input))
-				return (1);
-			if(!execute_pipeline(&data))
-				return (1);
-				//handle_error();
-		}
-		cmd_clear(&data.cmd);
-		token_clear(&(data.token));
-		input = NULL;
-	}
-	// Cleanup before exit
-	//cleanup_environment();
-	return 0;
- }
+	data.export = init_env(envp, nvar);
+	minishell_interactive(argc, argv, &data);
+	return (0);
+}

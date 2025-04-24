@@ -66,3 +66,4 @@ void	print_token_list(t_token *head)
 	}
 	printf("Type : %d, [%s]\n", head->type, head->str);
 }
+

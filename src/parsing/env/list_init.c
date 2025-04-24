@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   list_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:00:43 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:29:21 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/03/26 13:20:47 by yishan            #+#    #+#             */
+/*   Updated: 2025/03/27 10:50:42 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/linked_list.h"
 
-char	*ft_strdup(const char *src)
+size_t	env_lenght(t_env *list)
 {
-	int		i;
-	char	*copy;
+	t_env	*current;
+	size_t	i;
 
-	copy = ft_calloc(ft_strlen(src) +1, sizeof(char));
-	if (copy == NULL)
-		return (NULL);
-	i = 0;
-	while (src[i])
+	if (list)
 	{
-		copy[i] = src[i];
-		i ++;
+		current = list;
+		i = 1;
+		while (current->next != list)
+		{
+			i++;
+			current = current->next;
+		}
+		return (i);
 	}
-	copy[i] = '\0';
-	return (copy);
+	return (0);
 }

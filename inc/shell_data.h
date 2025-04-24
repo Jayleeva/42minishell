@@ -29,6 +29,7 @@ typedef struct s_data
 	int		exit_code;
 	char	**paths;
 	t_env	*env;
+  t_env	*export;
 	t_token	*token;
 	t_cmd	*cmd;
 	t_quote	quote;
@@ -73,5 +74,29 @@ t_bool	is_builtin(char *cmd);
 t_bool	execute_builtin(t_data *data, t_cmd *cmd);
 char	*find_cmd_path(t_data *data, char *cmd, char **env);
 int		here_doc(t_data *data, char *delimiter);
+//builtin
+void    process_token_list(t_data *data, t_token *token_list);
+char	*get_home(t_data *data);
+t_bool	process_input(t_data *data, char *input);
+//void    process_cmd(t_token *token);
+//void	process_cmd(char **tab);
+void    process_cmd(char *cmd, t_data *data);
+char    *first_word(char *s);
+void	process_cd(char *cmd, t_data *data);
+void    process_pwd(t_data *data);
+void    process_env(t_data *data);
+void	process_export(char *cmd, t_data *data);
+void	process_unset(char *cmd, t_data *data);
+void    process_echo(t_token *str, t_data *data);
+void    process_exit(void);
+void    process_other(char *cmd, t_data *data);
+void	display_export(t_data *data);
+void	update_export(t_data *data, char *cmd);
+void	update_var_export(char *var, char *cmd);
+void	add_empty_export(t_data *data, char *cmd);
+
+//other
+void    minishell_interactive(int argc, char **argv, t_data *data);
+void	update_var(char *var, char *cmd, char *name, char *value);
 
 #endif

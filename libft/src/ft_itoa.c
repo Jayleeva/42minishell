@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 14:12:43 by cyglardo          #+#    #+#             */
-/*   Updated: 2024/10/23 12:34:41 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/03/27 11:03:31 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_itoa(int n)
 	char	*result;
 
 	nelem = get_nelem(n);
-	result = (char *)malloc((nelem + 1) * sizeof(char));
+	result = ft_calloc(nelem, sizeof(char));
 	if (result == NULL)
 		return (NULL);
 	temp = get_temp(n);

@@ -5,6 +5,7 @@ LIBFT_LIB := $(LIBFT_DIR)/$(LIBFT)
 
 SRC_DIR = ./src
 SRC = main.c \
+	interactive.c \
 	parsing/dollar_handle.c \
 	parsing/dollar_utils.c \
 	parsing/quote_handle.c \
@@ -25,6 +26,12 @@ SRC = main.c \
 	exec/exec_process.c\
 	exec/here_doc.c\
 	exec/paths_get.c\
+	process/process_cmd.c \
+	process/process_builtin_directory.c \
+	process/process_builtin_echo.c \
+	process/process_builtin_environment.c \
+	process/process_builtin_export.c \
+	process/process_builtin_other.c \
 
 OBJ = $(SRC:.c=.o)
 

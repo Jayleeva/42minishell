@@ -15,14 +15,6 @@
 
 # include "minishell.h"
 
-typedef struct s_token
-{
-	char			*str;
-	t_token_type	type;
-	struct s_token	*prev;
-	struct s_token	*next;
-}	t_token;
-
 typedef struct s_cmd
 {
 	t_bool			skip_cmd;
@@ -33,16 +25,17 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }				t_cmd;
 
-typedef struct s_var
+typedef struct s_token
 {
-	char	*name;
-	char	*value;
-}			t_var;
+	char			*str;
+	t_token_type	type;
+	struct s_token	*prev;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_env
 {
-	char			*vartest;
-	t_var			var;
+	char			*var;
 	struct s_env	*next;
 }	t_env;
 
@@ -66,5 +59,8 @@ t_bool	cmd_put_in(t_cmd**head, int infile, int outfile, char **argv);
 size_t	cmd_lenght(t_cmd *list);
 
 void	cmd_clear(t_cmd **cmd);
+
+//ENV FUNCTION
+size_t	env_lenght(t_env *list);
 
 #endif

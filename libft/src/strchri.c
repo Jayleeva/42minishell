@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   strchri.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:00:43 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:29:21 by cyglardo         ###   ########.fr       */
+/*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
+/*   Updated: 2025/03/26 09:25:31 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+int	strchri(const char *s, int c)
 {
-	int		i;
-	char	*copy;
+	int	i;
 
-	copy = ft_calloc(ft_strlen(src) +1, sizeof(char));
-	if (copy == NULL)
-		return (NULL);
+	c = (unsigned char)c;
 	i = 0;
-	while (src[i])
+	while (s[i])
 	{
-		copy[i] = src[i];
+		if (s[i] == c)
+			return (i);
 		i ++;
 	}
-	copy[i] = '\0';
-	return (copy);
+	return (-1);
 }

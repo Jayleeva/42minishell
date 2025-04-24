@@ -1,5 +1,13 @@
 Projet de groupe du 4ème cercle du cursus 42
 
+# HOW TO MAKE A MERGE REQUEST
+
+- Work from your branch. 
+- Once you're done, push: ``git add *``, ``git commit -m ""``, ``git push`` (if first push from this branch: ``git push --set-upstream origin yourbranch``).
+- Go on the github page, on "branches", and select yours. Click on the "x commits ahead of" line. If it's not possible to automatically merge, you will have to choose what code to keep and what code to discard: don't hesitate to check with me if you think it needs discussion or if you need clarifications. Once it's possible to merge, click on "create pull request", then "merge pull request", "confirm merge".
+- Pull to have the merged version locally: ``git pull``. If too complicated, suppress your local copy and reclone it: ``git clone``. 
+
+
 # Stratégie
 Create a program that runs as long as the user needs it and closes on command. Use a loop that stops only once the user gives a closing input? And that lets the user give as many inputs as they want via readline().
 
@@ -15,6 +23,9 @@ Handle ctrl c (SIGINT: interruption from keyboard), ctrl \ (SIGQUIT: quit from k
 - ctrl + D exit si la ligne est vide et redonne un prompt dans un commande bloquante comme grep ""
 - ctrl + \ ne fait rien sauf dans une commande bloquante, il permet de kill le process avec un message d'erreur ("exit"?).
 
+On doit pouvoir utiliser les commandes qui existent dans les PATH et les executer avec execve(). On doit pouvoir lancer un programme (.sh, so_long, minishell!, ...) depuis minishell.
+
+On peut lancer minishell en mode interactif ou non interactif (?). Pour lancer en non interactif, il faut ajouter le flag -c dans l'execution, d'ou la verification arg == 3 (pourquoi 3? le nom du programme, le flag, et?). Je ne sais pas a quoi ca sert ni si c'est vraiment demande. Aucun souvenir d'avoir du tester ca en eval; le sujet precise comment handle les ctrl en mode interactif, mais rien sur le mode non interactif.
 
 Source to understand environement variables better: https://opensource.com/article/19/8/what-are-environment-variables
 
@@ -25,7 +36,7 @@ https://brennan.io/2015/01/16/write-a-shell-in-c/
 https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
 
 
-when you type a command, the only reason your computer knows how to find the application corresponding to that command is that the PATH environment variable tells it where to look.
+when you type a command, the only reason your computer knows how to find the application corresponding to that command is that the PATH environment variable tells it where to look. Les commandes ont besoin des differents paths de la norme PATH? comment je sais lequel exactement, et commentj'y accede?
 
 Steps:
 - Create a loop that stops only when receiving an exit command, and that allows the user to give as many inputs as they want, one by one. DONE
@@ -50,19 +61,121 @@ env = affiche toutes les variables d'environnement, dont les PATH dont on a beso
 
 Se renseigner sur les fonctions autorisées encore inconnues: https://web.mit.edu/gnu/doc/html/rlman_2.html
 
-Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de compilation.
+
+# Readline
+Pour utiliser les fonctions de readline, ajouter ``-lreadline`` aux flags de compilation. 
+
+Dans le header, ajouter les includes suivants:
 
 ```
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <unistd.h>
+```
 
+# Recevoir des inputs
+Basiquement, on appelle **readline()** dans une boucle infinie. Un break l'arrête si l'input est interrompu par un EOF (``ctrl+D``).
+
+Attention: d'autres façon de fermer le programme devront être gérées: la commande ``exit`` et le raccourci clavier ``ctrl+\`` (si pas dans une commande bloquante).
+
+```
 int	main(void)
 {
-	static char *line_read = (char *)NULL;
-	line_read = readline("Enter a line: ");
-	add_history(line_read);
-	printf("%s\n", ttyname(1));
+	char *input;
+	
+	while (1)
+	{
+		input = NULL;
+		input = readline("minishell> ");
+		if (!input)
+			break ;
+		if (*input)
+		{
+			add_history(input);
+			process_input(input);
+		}
+		free(input);
+	}
+	free(input);
+	input = NULL;
 }
 ```
+
+# Historique
+Si la fonction **add_history()** est utilisée, les arrow keys font le taff toutes seules, pas besoin de coder la navigation dans l'historique.
+
+# Signaux
+Les seuls signaux à gérer dans ce projet sont les raccourcis claviers ``ctrl+C`` (**SIGINT**) et ``ctrl+\`` (**SIGQUIT**). En effet, ``ctrl+D`` est géré par le if (!input) dans la boucle décrite tout à l'heure: il remplace automatiquement l'input par un EOF, et rentre ainsi dans la condition qui mène au break.
+
+Utiliser **sigaction()** dans la boucle pour les deux signaux:
+```
+sigaction(SIGINT, &your_sigaction_struct, NULL);
+sigaction(SIGQUIT, &your_sigaction_struct, NULL);
+```
+
+Et faire une fonction **handle_signal()** qui gère le comportement du programme en fonction du signal reçu.
+
+## SIGINT
+*Interrompt le process et rend la commande.*
+
+Créer une fonction qui permet de reset le prompt:
+```
+void    reset_prompt()
+{
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+```
+
+## SIGQUIT
+*Si pas dans une commande bloquante, ferme le programme. Sinon, ne fait rien.*
+
+Si bonnes conditions, utiliser **exit(0)**.
+
+# Built-in
+Les commandes dites "built-in" se distinguent de celles présentes dans les PATH de l'environnement (?).
+
+Attention: il faut gérer leur **exit status**: si elles foirent pour une raison ou une autre, il faut changer la valeur de l'exit status, sinon, on le laisse à 0.
+
+## pwd
+*Affiche le current directory.*
+
+Appeler **getcwd()** et afficher le résultat.
+
+## cd
+*Change le current directory.*
+
+Appeler **chdir()** en lui passant le chemin reçu en arguments. Si n'existe pas, message d'erreur. 
+
+## env
+*Affiche toutes les variables de l'environnement.*
+
+Parcourir tout le tableau d'environnement reçu en argument à l'exécution de minishell et imprimer. 
+
+## export
+*Crée la nouvelle variable d'environnement passée en argument.*
+
+## unset
+*Supprime la variable d'environnement passée en argument.*
+
+## echo
+*Imprime ce qu'on lui passe en argument et termine par un retour à la ligne. Par défaut, il imprime dans le terminal, mais on peut lui faire imprimer ailleurs avec une redirection.*
+
+### echo -n
+*Pareil, mais sans retour à la ligne à la fin.*
+
+## exit
+*Ferme le programme.*
+
+Appeler **exit(0)**.
+
+# Autres commandes
+Notre minishell doit pouvoir gérer toutes les commandes existantes dans l'environnement.
+
+## $?
+*Retourne l'exit status de la dernière commande.*
+
+----- 
+
+ATTENTION: ne pas free après un getenv(), car il ne malloc pas.

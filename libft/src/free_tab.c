@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   free_tab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 10:00:43 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/03/27 12:29:21 by cyglardo         ###   ########.fr       */
+/*   Created: 2024/10/10 09:59:17 by cyglardo          #+#    #+#             */
+/*   Updated: 2024/10/23 12:33:05 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+void	free_tab(char **tab)
 {
-	int		i;
-	char	*copy;
+	int	i;
 
-	copy = ft_calloc(ft_strlen(src) +1, sizeof(char));
-	if (copy == NULL)
-		return (NULL);
 	i = 0;
-	while (src[i])
+	while (tab[i])
 	{
-		copy[i] = src[i];
+		free(tab[i]);
 		i ++;
 	}
-	copy[i] = '\0';
-	return (copy);
+	free(tab);
 }

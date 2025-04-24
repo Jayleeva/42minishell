@@ -70,3 +70,4 @@ size_t	cmd_lenght(t_cmd *list)
 	}
 	return (i);
 }
+

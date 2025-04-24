@@ -122,3 +122,4 @@ t_bool	check_pipe_syntax(t_data *data)
 	}
 	return (TRUE);
 }
+
