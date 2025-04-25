@@ -75,6 +75,7 @@ t_bool	execute_builtin(t_data *data, t_cmd *cmd);
 char	*find_cmd_path(t_data *data, char *cmd, char **env);
 int		here_doc(t_data *data, char *delimiter);
 //builtin
+char	*get_name(char *cmd);
 void    process_token_list(t_data *data, t_token *token_list);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
@@ -82,21 +83,22 @@ t_bool	process_input(t_data *data, char *input);
 //void	process_cmd(char **tab);
 void    process_cmd(char *cmd, t_data *data);
 char    *first_word(char *s);
-void	process_cd(char *cmd, t_data *data);
+void    process_cd(t_data *data, t_token *current);
 void    process_pwd(t_data *data);
-void    process_env(t_data *data);
-void	process_export(char *cmd, t_data *data);
-void	process_unset(char *cmd, t_data *data);
-void    process_echo(t_token *str, t_data *data);
-void    process_exit(void);
+void    process_env(t_data *data, t_token *current);
+void	process_export(t_data *data, t_token *current);
+void	process_unset(t_data *data, t_token *current);
+void    process_echo(t_data *data, t_token *current);
+void    process_exit(t_data *data);
 void    process_other(char *cmd, t_data *data);
+void    process_dollar(t_data *data);
 void	display_export(t_data *data);
 void	update_export(t_data *data, char *cmd);
 void	update_var_export(char *var, char *cmd);
 void	add_empty_export(t_data *data, char *cmd);
-
+void	add_to_env(t_data *data, char *cmd, int i);
 //other
-void    minishell_interactive(int argc, char **argv, t_data *data);
+void    minishell_interactive(t_data *data);
 void	update_var(char *var, char *cmd, char *name, char *value);
 
 #endif

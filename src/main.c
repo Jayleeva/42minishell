@@ -99,12 +99,13 @@ int main(int argc, char **argv, char **envp)
     t_data  data;
 	int		nvar;
 
+	(void)argv;
     if (argc == 3)
 		return (1);
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
 	data.export = init_env(envp, nvar);
-	minishell_interactive(argc, argv, &data);
+	minishell_interactive(&data);
 	return (0);
 }

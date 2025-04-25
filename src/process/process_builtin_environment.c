@@ -14,18 +14,24 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_data *data)
+void    process_env(t_data *data, t_token *current)
 {
-	t_env	*current;
+	t_env	*cur_e;
 
 	data->exit_code = 0;
-	current = data->env;
-	while (current->next != NULL)
+	if (current->next)
 	{
-		ft_printf("%s\n", current->var);
-		current = current->next;
+		data->exit_code = 1;
+		ft_printf("minishell: env: too many arguments\n");
+		return ;
 	}
-	ft_printf("%s\n", current->var);
+	cur_e = data->env;
+	while (cur_e->next != NULL)
+	{
+		ft_printf("%s\n", cur_e->var);
+		cur_e = cur_e->next;
+	}
+	ft_printf("%s\n", cur_e->var);
 }
 
 void	update_var(char *var, char *cmd, char *name, char *value)
@@ -95,44 +101,4 @@ void	add_to_env(t_data *data, char *cmd, int i)
 	update(data, cmd, name, value);
 	free(name);
 	free(value);
-}
-
-void	process_export(char *cmd, t_data *data)
-{
-	int		i;
-
-	data->exit_code = 0;
-	i = strchri(cmd, '=');
-	if (i == 0)
-	{
-		ft_printf("minishell: export: `=': not a valid identifier\n");
-		return ;
-	}
-	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
-	{
-		update_export(data, cmd);
-		return ;
-	}
-	if (!cmd[i +1]) //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
-		add_empty_export(data, cmd);
-	else
-		update_export(data, cmd);
-	add_to_env(data, cmd, i);
-}
-
-void	process_unset(char *cmd, t_data *data)
-{
-	t_env	*current;
-	t_env	*prev;
-
-	current = data->env;
-	while (current && ft_strncmp(current->var, cmd, strchri(current->var, '=')))
-	{
-		prev = current;
-		current = current->next;
-	}
-	if (!current)
-		return ;
-	prev->next = current->next;
-	free(current);
 }

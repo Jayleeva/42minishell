@@ -14,21 +14,34 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_cd(char *path, t_data *data) 
+void    process_cd(t_data *data, t_token *current) 
 {
-	data->exit_code = 0;
-    if (chdir(path) == -1)
+    if (current->next->next)
+    {
+        data->exit_code = 1;
+        ft_printf("minishell: cd: too many arguments\n");
+        return ;
+    }
+    if (!current->next) // si pas d'argument donné, retour à HOME.
+    {
+        data->exit_code = 0;
+        chdir(get_env_value(data->env, "HOME"));
+        return ;
+    }
+    current = current->next;
+    if (chdir(current->str) == -1)
 	{
 		data->exit_code = 1;
-        ft_printf("cd: %s: No such file or directory\n", path);
+        ft_printf("cd: %s: No such file or directory\n", current->str);
+        return ;
 	}
+    data->exit_code = 0;
 }
 
 void    process_pwd(t_data *data)
 {
     char    *path;
 
-	data->exit_code = 0;
     path = NULL;
     path = getcwd(path, 0);
     if (path == NULL)
@@ -38,4 +51,5 @@ void    process_pwd(t_data *data)
 	}
     ft_printf("%s\n", path);
     free(path);
+    data->exit_code = 0;
 }

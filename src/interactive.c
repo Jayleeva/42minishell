@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-int   g_exit_status;
+volatile sig_atomic_t   *g_sig;
 
 void    reset_prompt()
 {
@@ -28,61 +28,63 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
     (void)info;
-	if (sig == SIGINT)
-    {
-        g_exit_status = 130;
+    *g_sig = (sig_atomic_t)sig;
+	if (sig == SIGINT) //ctrl c: give back command;
         reset_prompt();
-        //ft_printf("ctrl c: give back command\n");
-    }
-	else if (sig == SIGQUIT)
+	else if (sig == SIGQUIT) // ctrl \\: if blocking command: kill child process; if not, do nothing
 	{
         /*if (blocking command)
             kill(info->si_pid, );
         else*/
-		ft_printf("ctrl \\: if blocking command: kill process; if not, do nothing\n");
+		ft_printf("ctrl \\: if blocking command: kill child process; if not, do nothing\n");
 	}
+    //usleep(1000);
 }
 
-void    minishell_interactive(int argc, char **argv, t_data *data)
+void    minishell_interactive(t_data *data)
 {
-    //t_token             *head;
     char                *input;
 	sigset_t			set;
 	struct sigaction	shell;
-    //char                **tab;
+    sig_atomic_t        toto;
 
-    (void)argc;
-    (void)argv;
 	sigemptyset(&set);
 	sigaddset(&set, SIGINT);
 	sigaddset(&set, SIGQUIT);
 	shell.sa_flags = SA_SIGINFO | SA_RESTART;
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
-    data->exit_code = 0;
-    g_exit_status = data->exit_code;
+    toto = 0;
+    g_sig = &toto;
     while (1)
 	{
-		sigaction(SIGINT, &shell, NULL);
-		sigaction(SIGQUIT, &shell, NULL);
-        data->exit_code = g_exit_status;
-        input = NULL; // (re)initialize the input to avoid situations where it's uninitialized AND to reset it between every call
+
+        sigaction(SIGINT, &shell, NULL);
+        sigaction(SIGQUIT, &shell, NULL);
+        //wait(&status du child); je connais pas le status du child + pour que ça marche, supprimer SA_RESTART des flags
+        if (*g_sig != 0)
+        {
+            data->exit_code = 128 + (int)*g_sig;
+            *g_sig = 0;
+            printf("exit code: %d\n", data->exit_code);
+        }
+        input = NULL;
         input = readline("minishell> ");
         if (!input)
-		{
-            printf("exit\n");  // Handle EOF (Ctrl+D)
-            break;
-        }
-        if (*input) // If input is not empty, add to history and process
+            process_exit(data);  // Handle EOF (Ctrl+D)
+        if (*input)
 		{
             add_history(input);
-            process_input(data, input);
+            if (!process_input(data, input))
+                return ;
+            //if(!execute_pipeline(&data)) waiting for the exec files
+            //    return ;
             process_token_list(data, data->token);
+            //cmd_clear(&data->cmd); double free!
             token_clear(&(data->token));
         }
-        free(input); // Free the input line after processing 
+        free(input);
     }
     free(input);
     input = NULL;
-   // cleanup_environment(); // Cleanup before exit
 }
