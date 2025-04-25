@@ -210,8 +210,6 @@ Peut gérer 0 ou plusieurs arguments.
 - Si argument contenant un '=': crée la nouvelle variable d'environnement dans la liste "tampon" (avec ="" si aucune valeur donnée, sinon ="your_var_value") et dans celle de l'environnement.
 - Si plusieurs arguments, répète comportements ci-dessus autant de fois qu'il y a d'arguments.
 
-
-
 ## unset
 *Supprime la variable d'environnement passée en argument (dans les deux listes). Si n'existe pas, ne fait rien.*
 

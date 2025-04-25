@@ -28,7 +28,7 @@ void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment
     temp = NULL;
     cur_str = str;
     tab = NULL;
-    while (cur_str && cur_str->type == ARG)
+    while (cur_str)
     {
         if (!ft_strncmp(cur_str->str, "-n", 2))
         {
