@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 15:53:44 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:47:41 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@ void    minishell_interactive(t_data *data)
         if (*input)
 		{
             add_history(input);
-            if (!process_input(data, input))
-                return ;
-            //if(!execute_pipeline(&data)) waiting for the exec files
-            //    return ;
-            process_token_list(data, data->token);
-            //cmd_clear(&data->cmd); double free!
+            process_input(data, input);
+            execute_pipeline(data);
             token_clear(&(data->token));
+			cmd_clear(&data->cmd);
         }
-        free(input);
+		else
+		{
+			free(input);
+			input = NULL;
+		}
     }
-    free(input);
     input = NULL;
 }

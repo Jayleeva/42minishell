@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/22 10:57:45 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:32:29 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_bool	handle_command(t_data *data, t_token *token, t_cmd *cmd)
 		{
 			cmd->skip_cmd = TRUE;
 			cmd->outfile = -1;
-			return (FALSE); // Let the caller skip further setup
+			return (FALSE);
 		}
 		return (FALSE);
 	}
@@ -53,7 +53,7 @@ static t_bool	setup_command(t_data *data, t_token *token)
 		cmd = cmd->next;
 	if (!handle_command(data, token, cmd))
 		return (TRUE);
-	cmd->argv = get_command_arg(data, token);
+	cmd->argv = get_command_arg(token);
 	if (!cmd->argv)
 	{
 		cmd_clear(&data->cmd);

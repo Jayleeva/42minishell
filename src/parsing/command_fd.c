@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/17 11:10:31 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/25 14:18:34 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static int	open_file(t_data *data, char *filename, int type)
 		fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (type == APPEND)
 		fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (type != HEREDOC || fd < 0)
-		perror("Error opening file");
+	if (type != HEREDOC && fd == -1)
+		perror("opening file");
 	return (fd);
 }
 

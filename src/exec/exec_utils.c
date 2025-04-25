@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:37:31 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/24 10:09:24 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/25 10:08:08 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_bool	resolve_command_path(t_data *data, t_cmd *cmd, char **path)
 		*path = ft_strdup(cmd->argv[0]);
 	if (!(*path))
 	{
-		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		data->exit_code = 127;
 		return (FALSE);
 	}
@@ -64,7 +62,7 @@ void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
 	else
 		close(data->pipe_fd[1]);
 	close(data->pipe_fd[0]);
-	launch_builtin(data, cmd);
+	execute_builtin(data, cmd);
 	exit(data->exit_code);
 }
 
@@ -77,7 +75,7 @@ static size_t	env_lenght(t_env *list)
 	{
 		current = list;
 		i = 1;
-		while (current->next != list)
+		while (current->next != list && current->next != NULL)
 		{
 			i++;
 			current = current->next;
@@ -92,15 +90,22 @@ char	**env_to_array(t_env *env)
 	t_env	*list;
 	int		i;
 	char	**dst;
-	
+
 	i = 0;
 	dst = NULL;
 	list = env;
 	dst = malloc(sizeof(char *) * (env_lenght(list) + 1));
 	if (!dst)
 		return (NULL);
-	dst[i] = (list->....);//todo
+	dst[i] = (list->var);
 	list = list->next;
 	i++;
-	
+	while (list != env && list != NULL)
+	{
+		dst[i] = (list->var);
+		list = list->next;
+		i++;
+	}
+	dst[i] = NULL;
+	return (dst);
 }

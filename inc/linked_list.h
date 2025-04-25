@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:49:27 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/02 16:22:44 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/24 12:33:34 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,5 @@ size_t	cmd_lenght(t_cmd *list);
 
 void	cmd_clear(t_cmd **cmd);
 
-//ENV FUNCTION
-size_t	env_lenght(t_env *list);
 
 #endif

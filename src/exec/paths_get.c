@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:02:25 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/22 14:27:32 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/24 15:06:04 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ static char	*join_with_slash(char *path, char *cmd)
 	return (full_path);
 }
 
-static void	init_paths(t_data *data, char **env)
+static void	init_paths(t_data *data, t_env *env)
 {
 	char	*path_env;
 
 	path_env = NULL;
 	while (env)
 	{
-		if (ft_strncmp(*env, "PATH=", 5) == 0)
+		if (ft_strncmp(env->var, "PATH=", 5) == 0)
 		{
-			path_env = *env + 5;
+			path_env = env->var + 5;
 			break ;
 		}
-		env++;
+		env = env->next;
 	}
 	if (path_env)
 		data->paths = ft_split(path_env, ':');
@@ -65,7 +65,7 @@ static void	init_paths(t_data *data, char **env)
 		data->paths = NULL;
 }
 
-char	*find_cmd_path(t_data *data, char *cmd, char **env)
+char	*find_cmd_path(t_data *data, char *cmd, t_env *env)
 {
 	char	*full_path;
 	int		i;

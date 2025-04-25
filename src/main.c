@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/14 15:03:58 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/25 10:49:53 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_bool	process_input(t_data *data, char *input)
 		token_clear(&(data->token));
 		return (FALSE);
 	}
-	print_token_list(data->token);
+	//print_token_list(data->token);
 	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
 	{
 		free(input);
@@ -37,9 +37,7 @@ t_bool	process_input(t_data *data, char *input)
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
-	print_cmd(data->cmd);
-	//cmd_clear(&data->cmd);
-	//token_clear(&(data->token));
+	//print_cmd(data->cmd);
 	free(input);
 	return (TRUE);
 }
@@ -87,7 +85,7 @@ void	init_data(t_data *data)
 	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;
-  data->export = NULL;
+	data->export = NULL;
 	data->cmd = NULL;
 	data->pipe_fd[0] = -1;
 	data->pipe_fd[1] = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/23 12:55:43 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/24 13:47:39 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static t_bool	execute_cmd(t_data *data, t_cmd *cmd,
 		int prev_pipe, t_bool has_next)
 {
 	pid_t	pid;
-	(void) prev_pipe;
 
 	pid = fork();
 	if (pid < 0)
@@ -97,9 +96,9 @@ t_bool	execute_pipeline(t_data *data)
 
 	current = data->cmd;
 	prev_pipe = -1;
-	if (current && current->skip_cmd == FALSE && current->next == current
+	/*if (current && current->skip_cmd == FALSE && current->next == current
 		&& current->argv[0] && is_builtin(current->argv[0]))
-		return (execute_builtin(data, current));
+		return (execute_builtin(data, current));*/
 	while (current)
 	{
 		has_next = (current->next != NULL);
