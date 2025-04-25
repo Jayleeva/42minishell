@@ -18,16 +18,17 @@
 
 void    preprocess_cd(t_data *data, t_token *current)
 {
-    data->exit_code = 0;
-    if (!current->next) // si pas d'argument donné, retour à HOME.
-    {
-        chdir(get_env_value(data->env, "HOME"));
-        return ;
-    }
     if (current->next->next)
     {
         data->exit_code = 1;
         ft_printf("minishell: cd: too many arguments\n");
+        return ;
+    }
+    if (!current->next) // si pas d'argument donné, retour à HOME.
+    {
+        data->exit_code = 0;
+        chdir(get_env_value(data->env, "HOME"));
+        return ;
     }
     process_cd(current->next->str, data);
 }

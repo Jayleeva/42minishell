@@ -20,14 +20,15 @@ void    process_cd(char *path, t_data *data)
 	{
 		data->exit_code = 1;
         ft_printf("cd: %s: No such file or directory\n", path);
+        return ;
 	}
+    data->exit_code = 0;
 }
 
 void    process_pwd(t_data *data)
 {
     char    *path;
 
-    data->exit_code = 0;
     path = NULL;
     path = getcwd(path, 0);
     if (path == NULL)
@@ -37,4 +38,5 @@ void    process_pwd(t_data *data)
 	}
     ft_printf("%s\n", path);
     free(path);
+    data->exit_code = 0;
 }

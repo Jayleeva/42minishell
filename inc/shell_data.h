@@ -90,7 +90,7 @@ void	update_var_export(char *var, char *cmd);
 void	add_empty_export(t_data *data, char *cmd);
 void	add_to_env(t_data *data, char *cmd, int i);
 //other
-void    minishell_interactive(int argc, char **argv, t_data *data);
+void    minishell_interactive(t_data *data);
 void	update_var(char *var, char *cmd, char *name, char *value);
 
 #endif

@@ -25,7 +25,7 @@ void    process_exit(t_data *data)
 void    process_dollar(t_data *data)
 {
     ft_printf("%d\n", data->exit_code);
-    data->exit_code = 127;
+    //data->exit_code = 127;
 }
 
 void    process_other(char *cmd, t_data *data)
