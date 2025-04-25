@@ -79,12 +79,19 @@ void	add_empty_export(t_data *data, char *cmd)
 	free(temp);
 }
 
-void	process_export(char *cmd, t_data *data)
+void	process_export(t_data *data, t_token *current)
 {
 	int		i;
 
+	//i = 0;
 	data->exit_code = 0;
-	i = strchri(cmd, '=');
+    if (!current->next)
+    {
+        display_export(data);
+        return;
+    }
+    current = current->next;
+	i = strchri(current->str, '=');
 	if (i == 0)
 	{
 		ft_printf("minishell: export: `=': not a valid identifier\n");
@@ -92,12 +99,12 @@ void	process_export(char *cmd, t_data *data)
 	}
 	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
 	{
-		update_export(data, cmd);
+		update_export(data, current->str);
 		return ;
 	}
-	if (!cmd[i +1]) //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
-		add_empty_export(data, cmd);
+	if (!current->str[i +1]) //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
+		add_empty_export(data, current->str);
 	else
-		update_export(data, cmd);
-	add_to_env(data, cmd, i);
+		update_export(data, current->str);
+	add_to_env(data, current->str, i);
 }

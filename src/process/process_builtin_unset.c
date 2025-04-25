@@ -28,11 +28,12 @@ char	*get_name(char *cmd)
 	return (name);
 }
 
-void	unset_export(char *cmd, t_data *data)
+void	unset_export(t_data *data, char *cmd)
 {
 	t_env	*current;
 	t_env	*prev;
 
+	write(1, "-B-\n", 4);
 	current = data->export;
 	while (current && ft_strncmp(current->var, cmd, ft_strlen(get_name(cmd))))
 	{
@@ -45,11 +46,12 @@ void	unset_export(char *cmd, t_data *data)
 	free(current);
 }
 
-void	unset_env(char *cmd, t_data *data)
+void	unset_env(t_data *data, char *cmd)
 {
 	t_env	*current;
 	t_env	*prev;
 
+	write(1, "-A-\n", 4);
 	current = data->env;
 	while (current && ft_strncmp(current->var, cmd, strchri(current->var, '=')))
 	{
@@ -62,8 +64,15 @@ void	unset_env(char *cmd, t_data *data)
 	free(current);
 }
 
-void	process_unset(char *cmd, t_data *data)
+void	process_unset(t_data *data, t_token *current)
 {
-    unset_env(cmd, data);
-    unset_export(cmd, data);
+	data->exit_code = 0;
+    if (!current->next)
+	{
+		write(1, "HEY\n", 4);
+        return ;
+	}
+	current = current->next;
+    unset_env(data, current->str);
+    unset_export(data, current->str);
 }

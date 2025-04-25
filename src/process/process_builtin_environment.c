@@ -14,24 +14,24 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_token *cur, t_data *data)
+void    process_env(t_data *data, t_token *current)
 {
-	t_env	*current;
+	t_env	*cur_e;
 
 	data->exit_code = 0;
-	if (cur->next)
+	if (current->next)
 	{
 		data->exit_code = 1;
 		ft_printf("minishell: env: too many arguments\n");
 		return ;
 	}
-	current = data->env;
-	while (current->next != NULL)
+	cur_e = data->env;
+	while (cur_e->next != NULL)
 	{
-		ft_printf("%s\n", current->var);
-		current = current->next;
+		ft_printf("%s\n", cur_e->var);
+		cur_e = cur_e->next;
 	}
-	ft_printf("%s\n", current->var);
+	ft_printf("%s\n", cur_e->var);
 }
 
 void	update_var(char *var, char *cmd, char *name, char *value)
