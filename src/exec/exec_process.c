@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/24 16:12:26 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:33:51 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-//Built-in handling (no fork).
-//For built-ins, execute directly in the parent process
-//Signal management (Ctrl-C behavior).
+//TODO
+//Signal management (Ctrl-C behavior).update heredoc end with ctrl-c
+//here_doc need exec!!!!
 //Environment variable updates (export, unset).
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
@@ -36,42 +36,33 @@ void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 				t_data *data, t_bool has_next)
 {
-	printf("Prev_pipe: %i\n", prev_pipe);
-	printf("Next: %i\n", has_next);
-	if (cmd->infile != -2)
+	if (cmd->infile >= 0)
 	{
-		if (dup2(cmd->infile, -2) < 0)
+		if (dup2(cmd->infile, STDIN_FILENO) < 0)
 			return (FALSE);
 		close(cmd->infile);
 	}
 	else if (prev_pipe != -1)
 	{
-		if (dup2(prev_pipe, -2) < 0)
+		if (dup2(prev_pipe, STDIN_FILENO) < 0)
 			return (FALSE);
 		close(prev_pipe);
 	}
-	printf("Prev_pipe: %i\n", prev_pipe);
-	printf("Next: %i\n", has_next);
-	if (cmd->outfile != -2)
+	if (cmd->outfile >= 0)
 	{
-		if (dup2(cmd->outfile, -2) < 0)
+		if (dup2(cmd->outfile, STDOUT_FILENO) < 0)
 			return (FALSE);
 		close(cmd->outfile);
 	}
 	else if (has_next)
 	{
-		if (dup2(data->pipe_fd[1], -2) < 0)
+		if (dup2(data->pipe_fd[1], STDOUT_FILENO) < 0)
 			return (FALSE);
 		close(data->pipe_fd[1]);
 	}
 	return (TRUE);
 }
 
-/*Change the environne;ent with the good one and heredoc end with ctrl-c*/
-/*void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-*/
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 {
 	char	*path;

@@ -3,38 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   command_arg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:23:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 15:14:33 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:30:10 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-//Determines if a token should be included as a command argument
-static t_bool	is_valid_argument(const t_token *token, const t_token *head)
+static t_bool	is_valid_argument(const t_token *token)
 {
-	t_bool	prev_is_special;
-	t_bool	not_wrapped;
-
-	if (token->type == CMD)
-		return (TRUE);
-	if (token->type == ARG)
-	{
-		if (!token->prev)
-			return (FALSE);
-		prev_is_special = (is_redirection(token->prev->type)
-				|| token->prev->type == PIPE);
-		not_wrapped = (token->prev != head->prev);
-		return (not_wrapped && !prev_is_special);
-	}
-	return (FALSE);
+	if (token->type != CMD && token->type != ARG)
+		return (FALSE);
+	if (token->prev && is_redirection(token->prev->type))
+		return (FALSE);
+	return (TRUE);
 }
 
 //Counts valid arguments for command construction
-static int	count_arguments(t_data *data, t_token *start_token)
+static int	count_arguments(t_token *start_token)
 {
 	int		count;
 	t_token	*current;
@@ -43,7 +32,7 @@ static int	count_arguments(t_data *data, t_token *start_token)
 	current = start_token;
 	while (current && current->type != PIPE)
 	{
-		if (is_valid_argument(current, data->token))
+		if (is_valid_argument(current))
 			count++;
 		current = current->next;
 	}
@@ -62,7 +51,7 @@ static char	**free_args_array(char **args, int filled_count)
 
 /*builds the command array, Uses count_args() to allocate memory
 Fills the array with valid command tokens*/
-char	**get_command_arg(t_data *data, t_token *start_token)
+char	**get_command_arg(t_token *start_token)
 {
 	int		arg_count;
 	int		i;
@@ -71,13 +60,13 @@ char	**get_command_arg(t_data *data, t_token *start_token)
 
 	i = 0;
 	current = start_token;
-	arg_count = count_arguments(data, start_token);
+	arg_count = count_arguments(start_token);
 	args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!args)
 		return (NULL);
 	while (current && current->type != PIPE)
 	{
-		if (is_valid_argument(current, data->token))
+		if (is_valid_argument(current))
 		{
 			args[i] = ft_strdup(current->str);
 			if (!args[i])

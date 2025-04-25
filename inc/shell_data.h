@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/24 12:40:02 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:30:21 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_data
 	int		exit_code;
 	char	**paths;
 	t_env	*env;
-  t_env	*export;
+  	t_env	*export;
 	t_token	*token;
 	t_cmd	*cmd;
 	t_quote	quote;
@@ -52,7 +52,7 @@ t_bool	check_pipe_syntax(t_data *data);
 t_bool	create_cmd_list(t_data *data);
 t_bool	setup_command_input(t_data *data, t_token *token, t_cmd *cmd);
 t_bool	setup_command_output(t_data *data, t_token *token, t_cmd *cmd);
-char	**get_command_arg(t_data *data, t_token *start_token);
+char	**get_command_arg(t_token *start_token);
 
 //utils
 int		ft_is_space(char c);
