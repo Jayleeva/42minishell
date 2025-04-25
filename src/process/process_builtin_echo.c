@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment / fait segfault exit si echo plusieurs string avant, chercher pourquoi
+void    process_echo(t_data *data, t_token *current) //ATTENTION segfault par moment / fait segfault exit si echo plusieurs string (avec espaces) avant, chercher pourquoi
 {
     char    *s;
     char    *temp;
@@ -23,13 +23,24 @@ void    process_echo(t_token *str, t_data *data) //ATTENTION segfault par moment
     int     i;
     int     n_flag;
 
-	data->exit_code = 0;
     n_flag = 0;
     s = "";
-    temp = NULL;
-    cur_str = str;
+    temp = NULL;    
     tab = NULL;
-    while (cur_str && cur_str->type == ARG)
+    data->exit_code = 0;
+    if (!current->next) //si pas d'arguments donné, imprime juste un retour à la ligne.
+    {
+        ft_printf("\n");
+        return ;
+    }
+    else if (current->next && !ft_strncmp(current->next->str, "-n", 2) && !current->next->next) //si flag -n mais pas d'argument après, imprime vide (sans retour à la ligne).
+    {
+        ft_printf("");
+        return ;
+    }
+    current = current->next;
+    cur_str = current;
+    while (cur_str)
     {
         if (!ft_strncmp(cur_str->str, "-n", 2))
         {

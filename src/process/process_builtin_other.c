@@ -15,22 +15,22 @@
 #include "../../inc/linked_list.h"
 #include "../../libft/inc/libft.h"
 
-void    process_exit(void)
+void    process_exit(t_data *data)
 {
+    data->exit_code = 0;
     ft_printf("exit\n");
     exit (0);
 }
 
+void    process_dollar(t_data *data)
+{
+    ft_printf("%d\n", data->exit_code);
+    //data->exit_code = 127;
+}
+
 void    process_other(char *cmd, t_data *data)
 {
-    char    *s;
-
-    s = NULL;
     data->exit_code = 127;
-    s = ft_strjoin(cmd, ": command not found");
-    if (!s)
-        return ;
-    ft_printf("%s\n", s);
-    free(s);
+    ft_printf("%s: commmand not found\n", cmd);
 }
 
