@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 11:30:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:07:47 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,46 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_echo(t_data *data, t_token *current) //ATTENTION segfault par moment / fait segfault exit si echo plusieurs string (avec espaces) avant, chercher pourquoi
+void    process_echo(t_data *data, char **argv) //ATTENTION segfault par moment / fait segfault exit si echo plusieurs string (avec espaces) avant, chercher pourquoi
 {
     char    *s;
     char    *temp;
-    t_token *cur_str;
-    char    **tab;
     int     i;
     int     n_flag;
 
     n_flag = 0;
     s = "";
-    temp = NULL;    
-    tab = NULL;
+    temp = NULL;
     data->exit_code = 0;
-    if (!current->next) //si pas d'arguments donné, imprime juste un retour à la ligne.
+    if (!argv[1]) //si pas d'arguments donné, imprime juste un retour à la ligne.
     {
         ft_printf("\n");
         return ;
     }
-    else if (current->next && !ft_strncmp(current->next->str, "-n", 2) && !current->next->next) //si flag -n mais pas d'argument après, imprime vide (sans retour à la ligne).
+    else if (argv[1] && !ft_strncmp(argv[1], "-n", 2) && !argv[2]) //si flag -n mais pas d'argument après, imprime vide (sans retour à la ligne).
     {
         ft_printf("");
         return ;
     }
-    current = current->next;
-    cur_str = current;
-    while (cur_str)
+    i = 0;
+    if (!ft_strncmp(argv[1], "-n", 2))
     {
-        if (!ft_strncmp(cur_str->str, "-n", 2))
+        i = 1;
+        n_flag = 1;
+    }
+    while (argv[i])
+    {
+        if (argv[i][0] == '$' && argv[i][1] && argv[i][1] != '?')
         {
-            cur_str = cur_str->next;
-            n_flag = 1;
+            temp = get_env_value(data->env, ft_substr(argv[i], 1, ft_strlen(argv[i]))); 
+            if (!temp)
+                temp = ft_strdup("");
         }
-        tab = ft_split(cur_str->str, ' '); //au cas où le token contient plusieurs args entre les mêmes guillemets
-        if (!tab)
-            return ;
-        i = 0;
-        while (tab[i])
-        {
-            if (tab[i][0] == '$' && tab[i][1] && tab[i][1] != '?')
-            {
-                temp = get_env_value(data->env, ft_substr(tab[i], 1, ft_strlen(tab[i]))); 
-                if (!temp)
-                    temp = ft_strdup("");
-            }
-            else
-                temp = ft_strdup(tab[i]);
-            s = ft_strjoin(s, temp);
-            if (tab[i + 1] || (cur_str->next && cur_str->next->type == ARG))
-                s = ft_strjoin(s, " ");
-            free(temp);
-            i ++;
-        }
-        free_tab(tab);
-        cur_str = cur_str->next;
+        else
+            temp = ft_strdup(argv[i]);
+        s = ft_strjoin(s, temp);
+        free(temp);
+        i ++;
     }
     if (n_flag)
         ft_printf("%s", s);

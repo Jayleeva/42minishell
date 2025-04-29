@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 12:50:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:01:51 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_data *data, t_token *current)
+void    process_env(t_data *data, char **argv)
 {
-	t_env	*cur_e;
+	t_env	*current;
 
 	data->exit_code = 0;
-	if (current->next)
+	if (argv[1])
 	{
 		data->exit_code = 1;
 		ft_printf("minishell: env: too many arguments\n");
 		return ;
 	}
-	cur_e = data->env;
-	while (cur_e->next != NULL)
+	current = data->env;
+	while (current->next != NULL)
 	{
-		ft_printf("%s\n", cur_e->var);
-		cur_e = cur_e->next;
+		ft_printf("%s\n", current->var);
+		current = current->next;
 	}
-	ft_printf("%s\n", cur_e->var);
+	ft_printf("%s\n", current->var);
 }
 
 void	update_var(char *var, char *cmd, char *name, char *value)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/25 14:30:21 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/29 17:05:58 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,19 @@ char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
 //builtin
 char	*get_name(char *cmd);
-void    process_token_list(t_data *data, t_token *token_list);
+void    process_token_list(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
 //void    process_cmd(t_token *token);
 //void	process_cmd(char **tab);
 void    process_cmd(char *cmd, t_data *data);
 char    *first_word(char *s);
-void    process_cd(t_data *data, t_token *current);
+void    process_cd(t_data *data, char **argv);
 void    process_pwd(t_data *data);
-void    process_env(t_data *data, t_token *current);
-void	process_export(t_data *data, t_token *current);
-void	process_unset(t_data *data, t_token *current);
-void    process_echo(t_data *data, t_token *current);
+void    process_env(t_data *data, char **argv);
+void	process_export(t_data *data, char **argv);
+void	process_unset(t_data *data, char **argv);
+void    process_echo(t_data *data, char **argv);
 void    process_exit(t_data *data);
 void    process_other(char *cmd, t_data *data);
 void    process_dollar(t_data *data);

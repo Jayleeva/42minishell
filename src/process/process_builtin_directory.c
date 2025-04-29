@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 15:51:46 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:44:39 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,24 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_cd(t_data *data, t_token *current) 
+void    process_cd(t_data *data, char **argv) 
 {
-    if (current->next->next)
+    if (argv[2])
     {
         data->exit_code = 1;
         ft_printf("minishell: cd: too many arguments\n");
         return ;
     }
-    if (!current->next) // si pas d'argument donné, retour à HOME.
+    if (!argv[1]) // si pas d'argument donné, retour à HOME.
     {
         data->exit_code = 0;
         chdir(get_env_value(data->env, "HOME"));
         return ;
     }
-    current = current->next;
-    if (chdir(current->str) == -1)
+    if (chdir(argv[1]) == -1)
 	{
 		data->exit_code = 1;
-        ft_printf("cd: %s: No such file or directory\n", current->str);
+        ft_printf("cd: %s: No such file or directory\n", argv[1]);
         return ;
 	}
     data->exit_code = 0;

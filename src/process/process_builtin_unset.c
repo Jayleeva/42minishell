@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/14 12:50:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:48:20 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,14 @@ void	unset_env(t_data *data, char *cmd)
 	free(current);
 }
 
-void	process_unset(t_data *data, t_token *current)
+void	process_unset(t_data *data, char **argv)
 {
 	data->exit_code = 0;
-    if (!current->next)
+    if (!argv[1])
 	{
 		write(1, "HEY\n", 4);
         return ;
 	}
-	current = current->next;
-    unset_env(data, current->str);
-    unset_export(data, current->str);
+    unset_env(data, argv[1]);
+    unset_export(data, argv[1]);
 }

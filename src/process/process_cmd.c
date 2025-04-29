@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/29 15:28:08 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/29 17:06:30 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,24 @@
 #include "../../inc/linked_list.h"
 #include "../../libft/inc/libft.h"
 
-void    process_token_list(t_data *data, t_token *token_list)
+void    process_token_list(t_data *data, t_cmd *cmd)
 {
-    t_token *current;
-
-    current = token_list;
-    if (!ft_strncmp(current->str, "exit", 5)) 
+    if (!ft_strncmp(cmd->argv[0], "exit", 5)) 
         process_exit(data);
-    else if (!ft_strncmp(current->str, "pwd", 4))
+    else if (!ft_strncmp(cmd->argv[0], "pwd", 4))
         process_pwd(data);
-    else if (!ft_strncmp(current->str, "env", 4))
-        process_env(data, current);
-    else if (!ft_strncmp(current->str, "cd", 2))
-        process_cd(data, current);
-    else if (!ft_strncmp(current->str, "export", 6))
-        process_export(data, current);
-    else if (!ft_strncmp(current->str, "unset", 5))
-        process_unset(data, current);
-    else if (!ft_strncmp(current->str, "echo", 4))
-        process_echo(data, current);
-    else if (!ft_strncmp(current->str, "$?", 3))
+    else if (!ft_strncmp(cmd->argv[0], "env", 4))
+        process_env(data, cmd->argv);
+    else if (!ft_strncmp(cmd->argv[0], "cd", 2))
+        process_cd(data, cmd->argv);
+    else if (!ft_strncmp(cmd->argv[0], "export", 6))
+        process_export(data, cmd->argv);
+    else if (!ft_strncmp(cmd->argv[0], "unset", 5))
+        process_unset(data, cmd->argv);
+    else if (!ft_strncmp(cmd->argv[0], "echo", 4))
+        process_echo(data, cmd->argv);
+    else if (!ft_strncmp(cmd->argv[0], "$?", 3))
         process_dollar(data);
     else
-        process_other(current->str, data);
+        process_other(cmd->argv[0], data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 15:36:37 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/29 17:07:00 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_bool	execute_pipeline(t_data *data)
 		if (has_next && pipe(data->pipe_fd) == -1)
 			return (FALSE);
 		if(is_builtin(current->argv[0]))
-			process_token_list(data, data->token);
+			process_token_list(data, current);
 		else if (!execute_cmd(data, current, prev_pipe, has_next))
 			return (FALSE);
 		cleanup_pipes(data, &prev_pipe, has_next);

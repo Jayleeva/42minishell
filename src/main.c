@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 16:04:23 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/29 16:37:20 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_bool	process_input(t_data *data, char *input)
 		cmd_clear(&data->cmd);
 		return (FALSE);
 	}
-	print_cmd(data->cmd);
+	//print_cmd(data->cmd);
 	free(input);
 	return (TRUE);
 }
