@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/25 13:56:43 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/29 15:36:49 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,80 +26,4 @@ t_bool	is_builtin(char *cmd)
 		!ft_strncmp("exit", cmd, 5))
 		return (TRUE);
 	return (FALSE);
-}
-
-/*void    process_token_list(t_data *data, t_token *token_list)
-{
-    t_token *current;
-
-    current = token_list;
-    if (current->type != CMD)
-    {
-        ft_printf("minishell: %s: command not found\n", current->str);
-        return ;
-    }
-    if (!ft_strncmp(current->str, "exit", 5)) 
-        process_exit();
-    else if (!ft_strncmp(current->str, "pwd", 4))
-        process_pwd(data);
-    else if (!ft_strncmp(current->str, "env", 4))
-        process_env(data);
-    else if (!ft_strncmp(current->str, "cd", 2))
-        preprocess_cd(data, current);
-    else if (!ft_strncmp(current->str, "export", 6))
-        preprocess_export(data, current);
-    else if (!ft_strncmp(current->str, "unset", 5))
-        preprocess_unset(data, current);
-    else if (!ft_strncmp(current->str, "echo", 4))
-        preprocess_echo(data, current);
-    else if (!ft_strncmp(current->str, "$?", 3))
-        ft_printf("%d\n", data->exit_code);
-    else
-        process_other(current->str, data);
-} JUst for refering*/
-
-/*static void	executing_built_in(int out, t_data *data, t_cmd *cmd)
-{
-	if (!ft_strncmp("echo", cmd->argv[0], 4))
-		process_echo(data, cmd->argv);
-	else if (!ft_strncmp("cd", cmd->argv[0], 3))
-		process_cd(data, cmd->argv);
-	else if (!ft_strncmp("pwd", cmd->argv[0], 4))
-		process_pwd(data);
-	else if (!ft_strncmp("export", cmd->argv[0], 7))
-		process_export(data, cmd->argv);
-	else if (!ft_strncmp("unset", cmd->argv[0], 6))
-		process_unset(data->cmd->argv, data);
-	else if (!ft_strncmp("env", cmd->argv[0], 4))
-		process_env(data);
-	else if (!ft_strncmp("exit", cmd->argv[0], 5))
-	{
-		if (cmd->outfile >= 0)
-		{
-			dup2(out, 1);
-			close(out);
-		}
-		process_exit();
-	}
-}*/
-
-t_bool	execute_builtin(t_data *data, t_cmd *cmd)
-{
-	int	out;
-	(void)data;
-	(void)cmd;
-	
-	out = -1;
-	if (cmd->outfile >= 0)
-	{
-		out = dup(1);
-		dup2(cmd->outfile, 1);
-	}
-	//executing_built_in(out, data, cmd);
-	if (cmd->outfile >= 0)
-	{
-		dup2(out, 1);
-		close (out);
-	}
-	return (TRUE);
 }

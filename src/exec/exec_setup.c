@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/24 13:47:39 by yisho            ###   ########.fr       */
+/*   Updated: 2025/04/29 15:36:37 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,14 @@ t_bool	execute_pipeline(t_data *data)
 
 	current = data->cmd;
 	prev_pipe = -1;
-	/*if (current && current->skip_cmd == FALSE && current->next == current
-		&& current->argv[0] && is_builtin(current->argv[0]))
-		return (execute_builtin(data, current));*/
 	while (current)
 	{
 		has_next = (current->next != NULL);
 		if (has_next && pipe(data->pipe_fd) == -1)
 			return (FALSE);
-		if (!execute_cmd(data, current, prev_pipe, has_next))
+		if(is_builtin(current->argv[0]))
+			process_token_list(data, data->token);
+		else if (!execute_cmd(data, current, prev_pipe, has_next))
 			return (FALSE);
 		cleanup_pipes(data, &prev_pipe, has_next);
 		current = current->next;

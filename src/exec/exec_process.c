@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/25 14:33:51 by yishan           ###   ########.fr       */
+/*   Updated: 2025/04/29 16:07:35 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 //Signal management (Ctrl-C behavior).update heredoc end with ctrl-c
 //here_doc need exec!!!!
 //Environment variable updates (export, unset).
+
+//cd seg fault if no arg
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 {
