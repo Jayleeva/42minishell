@@ -14,46 +14,27 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-char	*get_name(char *cmd)
+char	*get_name(char *s)
 {
 	int		i;
 	char	*name;
 
 	name = NULL;
-	i = strchri(cmd, '=');
+	i = strchri(s, '=');
 	if (i > 0)
-		name = ft_substr(cmd, 0, i);
+		name = ft_substr(s, 0, i);
 	else if (i == -1)
-		name = ft_strdup(cmd);
+		name = ft_strdup(s);
 	return (name);
 }
 
-void	unset_export(t_data *data, char *cmd)
+void	unset_env(t_env *env, char *name)
 {
 	t_env	*current;
 	t_env	*prev;
 
-	write(1, "-B-\n", 4);
-	current = data->export;
-	while (current && ft_strncmp(current->var, cmd, ft_strlen(get_name(cmd))))
-	{
-		prev = current;
-		current = current->next;
-	}
-	if (!current)
-		return ;
-	prev->next = current->next;
-	free(current);
-}
-
-void	unset_env(t_data *data, char *cmd)
-{
-	t_env	*current;
-	t_env	*prev;
-
-	write(1, "-A-\n", 4);
-	current = data->env;
-	while (current && ft_strncmp(current->var, cmd, strchri(current->var, '=')))
+	current = env;
+	while (current && ft_strncmp(current->name, name, ft_strlen(name)))
 	{
 		prev = current;
 		current = current->next;
@@ -66,12 +47,13 @@ void	unset_env(t_data *data, char *cmd)
 
 void	process_unset(t_data *data, char **argv)
 {
+	char	*name;
 	data->exit_code = 0;
     if (!argv[1])
 	{
 		write(1, "HEY\n", 4);
         return ;
 	}
-    unset_env(data, argv[1]);
-    unset_export(data, argv[1]);
+	name = get_name(argv[1]);
+    unset_env(data->env, name);
 }

@@ -19,91 +19,112 @@ void	display_export(t_data *data)
 	t_env	*current;
 
 	data->exit_code = 0;
-	current = data->export;
-	while (current->next != NULL)
+	current = data->env;
+	while (current->next)
 	{
-		ft_printf("declare -x %s\n", current->var);
+		if (current->exported == 1)
+			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
+		else if (current->exported == 0)
+			ft_printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
-	ft_printf("declare -x %s\n", current->var);
+	if (current->exported == 1)
+		ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
+	else if (current->exported == 0)
+		ft_printf("declare -x %s\n", current->name);
 }
 
-void	update_var_export(char *var, char *cmd)
-{
-	if (!ft_strncmp(var, cmd, ft_strlen(cmd))) // si exactement le même input, ne rien faire
-		ft_printf("-- no changes in export --\n");
-	else // si même var mais pas même value, remplacer value; PAS DE MALLOC
-	{
-		free(var);
-		var = NULL;
-		var = ft_strdup(cmd);
-		ft_printf("-- has been changed in export -- \n");
-	}
-}
-
-void	update_export(t_data *data, char *cmd)
+void	add_new_var(t_env *env, char *name, char *value, int to_export)
 {
 	t_env	*current;
 
-	current = data->export;
-	while (current->next != NULL)
-	{
-		if (!ft_strncmp(current->var, cmd, ft_strlen(get_name(cmd))))
-		{
-			update_var_export(current->var, cmd);
-			return ;
-		}
-		else // sinon, finir la liste 
-			current = current->next;
-	}
-	if (!ft_strncmp(current->var, cmd, ft_strlen(get_name(cmd))))
-	{
-		update_var_export(current->var, cmd);
-		return ;
-	}
-	current->next = (t_env *)malloc(sizeof(t_env)); // malloc pour créer nouvelle var
+	current = env;
+	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
 		return ;
-	current->next->var = ft_strdup(cmd); // peut aussi juste assigner cmd mais du coup même pointeur que la liste donc peut pas être free séparément, à voir ce qui est le mieux; si utilise strdup, ajouter protection.
+	current->next->var = ft_strjoin(name, "=");
+	current->next->var = ft_strjoin(current->next->var, value);
+	current->next->name = name;
+	current->next->value = value;
+	current->next->exported = to_export;
 	current->next->next = NULL;
-	ft_printf("-- has been added to export -- \n");
+	ft_printf("-- has been added -- \n");
 }
 
-void	add_empty_export(t_data *data, char *cmd)
+void	update_value(t_env *env, char *var, char *value, int to_export)
 {
-	char	*temp;
+	t_env	*current;
 
-	temp = ft_strjoin(cmd, "\"\"");
+	current = env;
+	if (to_export == 1) //si l'argument reçu contient un égal, doit être exporté (sera display par export et par env)
+	{
+		current->var = var;
+		current->value = value;
+		current->exported = 1;
+		ft_printf("-- has been modified-- \n");
+	}
+	else
+		ft_printf("-- nothing changed -- \n");
+	return; //if (!exported), return; // si l'argument reçu ne contient pas d'égal, rien ne change: ne rien faire
+}
 
-	update_export(data, temp);
-	free(temp);
+void	update_export(t_env *env, char *name, char *value, int to_export)
+{
+	t_env	*current;
+	char	*var;
+
+	var = ft_strjoin(name, "=");
+	var = ft_strjoin(var, value);
+	
+	current = env;
+	while (current->next)
+	{
+		if (!ft_strncmp(current->name, name, ft_strlen(name))) // si la var existe déjà (même nom)
+			update_value(current, var, value, to_export);
+		current = current->next;
+	}
+	if (!ft_strncmp(current->name, name, ft_strlen(name))) // si la var existe déjà (même nom)
+		update_value(current, var, value, to_export);
+	else
+		add_new_var(current, name, value, to_export); // si n'existe pas déjà, la créer.
+}
+
+void	export(t_env *env, char *var, int i)
+{
+	int		to_export;
+	char	*name;
+	char	*value;
+
+	name = get_name(var);
+	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas display par env.
+	{
+		to_export = 0;
+		value = ft_strdup("");
+	}
+	else  //si =, doit être ajoutée à la liste d'export et display par new.
+	{
+		to_export = 1;
+		value = ft_substr(var, i + 1, ft_strlen(var));
+	}
+	update_export(env, name, value, to_export);
 }
 
 void	process_export(t_data *data, char **argv)
 {
 	int		i;
 
-	//i = 0;
 	data->exit_code = 0;
-    if (!argv[1])
+    if (!argv[1]) //si pas d'argument, display la liste
     {
         display_export(data);
         return;
     }
-	i = strchri(argv[0], '=');
-	if (i == 0)
+	//while () tant qu'il y a des trucs à exporter!! voir plus tard
+	i = strchri(argv[1], '=');
+	if (i == 0) // si nom commence par =, pas valable
 	{
 		ft_printf("minishell: export: `=': not a valid identifier\n");
 		return ;
 	}
-	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas à la liste d'env.
-	{
-		update_export(data, argv[0]);
-		return ;
-	}
-	if (!argv[0][i +1]) //si = mais pas de valeur, doit être ajouté à la liste d'export avec "" après le =, et ajouté à la liste d'env sans ""; si même nom existe déjà, remplacer, pas créer en plus.
-		add_empty_export(data, argv[0]);
-	else
-		update_export(data, argv[0]);
-	add_to_env(data, argv[0], i);
+	export(data->env, argv[1], i);
 }

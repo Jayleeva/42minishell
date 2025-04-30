@@ -78,7 +78,9 @@ char	**env_to_array(t_env *env);
 char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
 //builtin
-char	*get_name(char *cmd);
+void	divide_var(t_env *current, char *env, int exported);
+void	update_env(t_env *env, char *name, void *new_value);
+char	*get_name(char *s);
 void    process_token_list(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
@@ -96,8 +98,7 @@ void    process_exit(t_data *data);
 void    process_other(char *cmd, t_data *data);
 void    process_dollar(t_data *data);
 void	display_export(t_data *data);
-void	update_export(t_data *data, char *cmd);
-void	update_var_export(char *var, char *cmd);
+void	update_export(t_env *env, char *name, char *value, int exported);
 void	add_empty_export(t_data *data, char *cmd);
 void	add_to_env(t_data *data, char *cmd, int i);
 //other

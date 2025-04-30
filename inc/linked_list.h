@@ -36,6 +36,9 @@ typedef struct s_token
 typedef struct s_env
 {
 	char			*var;
+	char			*name;
+	void			*value;
+	int				exported;
 	struct s_env	*next;
 }	t_env;
 
