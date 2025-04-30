@@ -52,19 +52,29 @@ int	count_var(char **envp)
 	return (i);
 }
 
+void	divide_var(t_env *current, char *env, int exported)
+{
+	if (!ft_isalnum(env[0]))
+		exported = -1;
+	current->name = ft_substr(env, 0, strchri(env, '='));
+	current->value = ft_substr(env, strchri(env, '=') + 1, ft_strlen(env));
+	current->exported = exported;
+}
+
 t_env	*init_env(char **envp, int nvar)
 {
 	int		i;
-	t_env	*env;
+	t_env	*export;
 	t_env	*current;
 
-	env = (t_env *)malloc(sizeof(t_env));
-	if (env == NULL)
+	export = (t_env *)malloc(sizeof(t_env));
+	if (export == NULL)
 		return (NULL);
-	env->var = envp[0];
-	env->next = NULL;
+	export->var = envp[0];
+	divide_var(export, envp[0], 1);
+	export->next = NULL;
 	i = 1;
-	current = env;
+	current = export;
 	while (i < nvar)
 	{
 		while (current->next != NULL)
@@ -73,10 +83,11 @@ t_env	*init_env(char **envp, int nvar)
 		if (current->next == NULL)
 			return (NULL);
 		current->next->var = envp[i];
+		divide_var(current->next, envp[i], 1);
 		current->next->next = NULL;
 		i ++;
 	}
-	return (env);
+	return (export);
 }
 
 void	init_data(t_data *data)
@@ -103,7 +114,7 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	data.export = init_env(envp, nvar);
+	//update_env(data.env, "SHLVL", "1");
 	minishell_interactive(&data);
 	return (0);
 }

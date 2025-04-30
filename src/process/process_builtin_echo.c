@@ -35,15 +35,15 @@ void    process_echo(t_data *data, char **argv) //ATTENTION segfault par moment 
         ft_printf("");
         return ;
     }
-    i = 0;
+    i = 1;
     if (!ft_strncmp(argv[1], "-n", 2))
     {
-        i = 1;
+        i = 2;
         n_flag = 1;
     }
     while (argv[i])
     {
-        if (argv[i][0] == '$' && argv[i][1] && argv[i][1] != '?')
+        if (argv[i][0] == '$' && argv[i][1] && argv[i][1] != '?') // if echo '$HOME' for example, prints NULL instead (the quotes seem to stop it from finding the variable)
         {
             temp = get_env_value(data->env, ft_substr(argv[i], 1, ft_strlen(argv[i]))); 
             if (!temp)
@@ -52,6 +52,8 @@ void    process_echo(t_data *data, char **argv) //ATTENTION segfault par moment 
         else
             temp = ft_strdup(argv[i]);
         s = ft_strjoin(s, temp);
+        if (argv[i + 1])
+            s = ft_strjoin(s, " ");
         free(temp);
         i ++;
     }
