@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 17:05:58 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 11:54:11 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
 //builtin
 void	divide_var(t_env *current, char *env, int exported);
-void	update_env(t_env *env, char *name, void *new_value);
+void	update_env(t_env *env, char *name);
 char	*get_name(char *s);
 void    process_token_list(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);

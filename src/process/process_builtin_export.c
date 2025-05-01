@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:46:50 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:06:14 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	display_export(t_data *data)
 
 	data->exit_code = 0;
 	current = data->env;
-	while (current->next)
+	while (current)
 	{
 		if (current->exported == 1)
 			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
@@ -28,10 +28,6 @@ void	display_export(t_data *data)
 			ft_printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
-	if (current->exported == 1)
-		ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
-	else if (current->exported == 0)
-		ft_printf("declare -x %s\n", current->name);
 }
 
 void	add_new_var(t_env *env, char *name, char *value, int to_export)
@@ -48,7 +44,7 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	current->next->value = value;
 	current->next->exported = to_export;
 	current->next->next = NULL;
-	ft_printf("-- has been added -- \n");
+	//printf("-- has been added -- \n");
 }
 
 void	update_value(t_env *env, char *var, char *value, int to_export)
@@ -61,10 +57,10 @@ void	update_value(t_env *env, char *var, char *value, int to_export)
 		current->var = var;
 		current->value = value;
 		current->exported = 1;
-		ft_printf("-- has been modified-- \n");
+		//printf("-- has been modified-- \n");
 	}
-	else
-		ft_printf("-- nothing changed -- \n");
+	/*else
+		printf("-- nothing changed -- \n");*/
 	return; //if (!exported), return; // si l'argument reçu ne contient pas d'égal, rien ne change: ne rien faire
 }
 
