@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interactive.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/24 12:47:41 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/01 12:20:11 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
     *g_sig = (sig_atomic_t)sig;
 	if (sig == SIGINT) //ctrl c: give back command;
         reset_prompt();
-	else if (sig == SIGQUIT) // ctrl \\: if blocking command: kill child process; if not, do nothing
+	else if (sig == SIGQUIT) // ctrl \\:
 	{
-        /*if (blocking command)
-            kill(info->si_pid, );
-        else*/
-		ft_printf("ctrl \\: if blocking command: kill child process; if not, do nothing\n");
+        /*if (blocking command / child process)
+            kill(info->si_pid, );*/
+            ft_printf("Quit (core dumped)"); // only if blocking command (child process!!!) if not, do nothing.
 	}
     //usleep(1000);
 }

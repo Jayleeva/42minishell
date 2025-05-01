@@ -115,7 +115,7 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	//update_env(data.env, "SHLVL", "1");
+	//update_env(data.env, "SHLVL");
 	minishell_interactive(&data);
 	return (0);
 }

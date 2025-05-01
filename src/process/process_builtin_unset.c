@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/29 16:48:20 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:03:42 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,22 @@ void	unset_env(t_env *env, char *name)
 {
 	t_env	*current;
 	t_env	*prev;
+	int		i;
 
+	i = 0;
 	current = env;
 	while (current && ft_strncmp(current->name, name, ft_strlen(name)))
 	{
 		prev = current;
+		i ++;
 		current = current->next;
 	}
 	if (!current)
 		return ;
-	prev->next = current->next;
+	if (i == 1)
+		prev->next = current->next;
+	else
+		prev->next = current->next;
 	free(current);
 }
 

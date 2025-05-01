@@ -80,7 +80,7 @@ char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
 //builtin
 void	divide_var(t_env *current, char *env, int exported);
-void	update_env(t_env *env, char *name, void *new_value);
+void	update_env(t_env *env, char *name);
 char	*get_name(char *s);
 void	process_token_list(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);
