@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 15:10:30 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:58:56 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ volatile sig_atomic_t   *g_sig;
 
 void    reset_prompt()
 {
-    //write(1, "\n", 1);
+    write(1, "\n", 1);
+    rl_on_new_line();
     rl_replace_line("", 0);
-    ft_putendl_fd("", 1);
-    rl_on_new_line();   
     rl_redisplay();
 }
 
@@ -34,9 +33,15 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
         reset_prompt();
 	else if (sig == SIGQUIT) // ctrl \\:
 	{
+        if (rl_line_buffer && *rl_line_buffer)
+        {
+            ft_printf("Quit (core dumped)"); // only if blocking command (child process!!!) if not, do nothing.
+            reset_prompt();
+        }
+            
         /*if (blocking command / child process)
             kill(info->si_pid, );*/
-            ft_printf("Quit (core dumped)"); // only if blocking command (child process!!!) if not, do nothing.
+        
 	}
     //usleep(1000);
 }
