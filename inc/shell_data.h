@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 17:05:58 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:59:08 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_data
 	int		pipe_fd[2];
 	int		last_pid;
 	int		exit_code;
+	int		in_heredoc;
 	char	**paths;
 	t_env	*env;
   	t_env	*export;
@@ -72,8 +73,8 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next);
 
 t_bool	is_builtin(char *cmd);
 t_bool	execute_builtin(t_data *data, t_cmd *cmd);
-t_bool	resolve_command_path(t_data *data, t_cmd *cmd, char **path);
 void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next);
+t_bool	resolve_command_path(t_data *data, t_cmd *cmd, char **path);
 char	**env_to_array(t_env *env);
 char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
@@ -81,7 +82,7 @@ int		here_doc(t_data *data, char *delimiter);
 void	divide_var(t_env *current, char *env, int exported);
 void	update_env(t_env *env, char *name, void *new_value);
 char	*get_name(char *s);
-void    process_token_list(t_data *data, t_cmd *cmd);
+void	process_token_list(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
 //void    process_cmd(t_token *token);

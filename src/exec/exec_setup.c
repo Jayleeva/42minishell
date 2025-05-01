@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 17:07:00 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:27:44 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,12 @@ static void	close_redirections(t_data *data)
 static t_bool	wait_for_child(t_data *data)
 {
 	int		status;
-	pid_t	pid;
 
-	while ((pid = waitpid(-1, &status, 0)) > 0)
-	{
-		if (pid == data->last_pid)
-		{
-			if (WIFEXITED(status))
-				data->exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				data->exit_code = 128 + WTERMSIG(status);
-		}
-	}
+	waitpid(data->last_pid, &status, 0);
+	if (WIFEXITED(status))
+		data->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		data->exit_code = 128 + WTERMSIG(status);
 	return (TRUE);
 }
 
@@ -101,8 +95,8 @@ t_bool	execute_pipeline(t_data *data)
 		has_next = (current->next != NULL);
 		if (has_next && pipe(data->pipe_fd) == -1)
 			return (FALSE);
-		if(is_builtin(current->argv[0]))
-			process_token_list(data, current);
+		if (is_builtin(current->argv[0]))
+			return (execute_builtin(data, current));
 		else if (!execute_cmd(data, current, prev_pipe, has_next))
 			return (FALSE);
 		cleanup_pipes(data, &prev_pipe, has_next);

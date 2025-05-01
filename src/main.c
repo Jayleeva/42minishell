@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 16:37:20 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:41:10 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_env	*init_env(char **envp, int nvar)
 void	init_data(t_data *data)
 {
 	data->exit_code = 0;
+	data->in_heredoc = 1;
 	data->paths = NULL;
 	data->token = NULL;
 	data->env = NULL;

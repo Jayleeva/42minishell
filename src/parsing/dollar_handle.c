@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/24 15:59:59 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/01 16:06:08 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ int	dollar_handle(char **input, t_data *data)
 		if ((*input)[i] && (*input)[i + 1] && (*input)[i] == '$' &&
 			((*input)[i + 1] != '\'' && (*input)[i + 1] != '"') &&
 			(ft_isalpha((*input)[i + 1]) || (*input)[i + 1] == '?' ||
-			(*input)[i + 1] == '_') && !data->quote.single_quote &&
-			!put_dollar((*input), &i, &str, data))
+			(*input)[i + 1] == '_') && !put_dollar((*input), &i, &str, data) &&
+			(data->in_heredoc || !data->quote.single_quote))
 			return (0);
 		if ((*input)[i] && !put_character(&(*input)[i], &str, data, &i))
 			return (0);

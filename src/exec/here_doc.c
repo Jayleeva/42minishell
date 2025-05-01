@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/17 17:27:24 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/01 15:45:05 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 	if (!dollar_handle(&line, data))
 	{
 		free(line);
-		//free_all(data, ???maybe
 		return (FALSE);
 	}
 	ft_putstr_fd(line, fd);
 	ft_putchar_fd('\n', fd);
 	free(line);
+	data->in_heredoc = 0;
 	return (TRUE);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:44 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/09 14:48:10 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/01 14:54:29 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_is_special(char *str)
 
 void	print_error(char *msg)
 {
-	ft_printf("%s\n", msg);
+	ft_printf("%s", msg);
 }
 
 t_bool	is_redirection(t_token_type type)
