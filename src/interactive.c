@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 15:01:43 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:10:30 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ volatile sig_atomic_t   *g_sig;
 
 void    reset_prompt()
 {
-    write(1, "\n", 1);
-    rl_on_new_line();
+    //write(1, "\n", 1);
     rl_replace_line("", 0);
+    ft_putendl_fd("", 1);
+    rl_on_new_line();   
     rl_redisplay();
 }
 
