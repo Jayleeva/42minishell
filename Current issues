@@ -3,10 +3,11 @@ CURRENT ISSUES
 
 1. signals can't update their exit codes
 
-2. unset the first environment variable leads to segfault when trying to display the environment list (via env or export)
+2. I don't know how to kill a child process for ctrl \.
 
-3. how to update the environment variables that change when using commands (pwd, shlvl, old pwd? other?)
+3. unset the first environment variable leads to segfault when trying to display the environment list (via env or export)
 
-4. redirections with echo doesn't behave as expected
+4. how to update the environment variables that change when using commands (pwd, shlvl, old pwd? other?)
+
 
 

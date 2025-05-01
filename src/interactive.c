@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 12:20:11 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:01:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void    minishell_interactive(t_data *data)
     char                *input;
 	sigset_t			set;
 	struct sigaction	shell;
-    sig_atomic_t        toto;
+    sig_atomic_t        sig;
 
 	sigemptyset(&set);
 	sigaddset(&set, SIGINT);
@@ -53,22 +53,20 @@ void    minishell_interactive(t_data *data)
 	shell.sa_flags = SA_SIGINFO | SA_RESTART;
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
-    toto = 0;
-    g_sig = &toto;
+    sig = 0;
+    g_sig = &sig;
+
+    sigaction(SIGINT, &shell, NULL);
+    sigaction(SIGQUIT, &shell, NULL);
     while (1)
 	{
-
-        sigaction(SIGINT, &shell, NULL);
-        sigaction(SIGQUIT, &shell, NULL);
-        //wait(&status du child); je connais pas le status du child + pour que ça marche, supprimer SA_RESTART des flags
-        if (*g_sig != 0)
-        {
-            data->exit_code = 128 + (int)*g_sig;
-            *g_sig = 0;
-            printf("exit code: %d\n", data->exit_code);
-        }
         input = NULL;
         input = readline("minishell> ");
+        if (sig != 0)
+        {
+            data->exit_code = 128 + (int)sig;
+            sig = 0;
+        }
         if (!input)
             process_exit(data);  // Handle EOF (Ctrl+D)
         if (*input)

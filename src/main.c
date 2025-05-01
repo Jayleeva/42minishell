@@ -6,41 +6,13 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 11:53:43 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:53:27 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/shell_data.h"
 #include "../inc/linked_list.h"
 #include "../libft/inc/libft.h"
-
-// Parse the input and execute the corresponding commands
-//tokenizing the input, handling pipes, redirections, etc.
-t_bool	process_input(t_data *data, char *input)
-{
-	if (!check_open_quotes(data, input))
-	{
-		free(input);
-		return (FALSE);
-	}
-	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
-	{
-		free(input);
-		token_clear(&(data->token));
-		return (FALSE);
-	}
-	//print_token_list(data->token);
-	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
-	{
-		free(input);
-		token_clear(&(data->token));
-		cmd_clear(&data->cmd);
-		return (FALSE);
-	}
-	//print_cmd(data->cmd);
-	free(input);
-	return (TRUE);
-}
 
 int	count_var(char **envp)
 {
