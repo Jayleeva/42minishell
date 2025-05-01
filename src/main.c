@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 16:37:20 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 11:53:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	//update_env(data.env, "SHLVL", "1");
+	//update_env(data.env, "SHLVL");
 	minishell_interactive(&data);
 	return (0);
 }
