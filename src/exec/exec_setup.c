@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 15:27:44 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/01 16:04:51 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static void	close_redirections(t_data *data)
 	cmd = data->cmd;
 	while (cmd)
 	{
-		if (cmd->outfile >= 0)
+		if (cmd->outfile != 1) //CYCY mod.: was >= 0 before;
 		{
 			close(cmd->outfile);
-			cmd->outfile = -1;
+			cmd->outfile = 1; //CYCY mod.: was = -1 before;
 		}
-		if (cmd->infile >= 0)
+		if (cmd->infile != 0) //CYCY mod.: was >=0 before;
 		{
 			close(cmd->infile);
-			cmd->infile = -1;
+			cmd->infile = 0; //CYCY mod.: was = -1 before;
 		}
 		cmd = cmd->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 12:22:28 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/01 15:02:22 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ void    process_exit(t_data *data)
     ft_printf("exit\n");
     update_env(data->env, "SHLVL");
     exit (0);
-}
-
-void    process_dollar(t_data *data)
-{
-    ft_printf("%d\n", data->exit_code);
-    data->exit_code = 127;
 }
 
 void    process_other(char *cmd, t_data *data)
