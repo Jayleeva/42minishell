@@ -129,8 +129,8 @@ int	dollar_handle(char **input, t_data *data)
 		if ((*input)[i] && (*input)[i + 1] && (*input)[i] == '$' &&
 			((*input)[i + 1] != '\'' && (*input)[i + 1] != '"') &&
 			(ft_isalpha((*input)[i + 1]) || (*input)[i + 1] == '?' ||
-			(*input)[i + 1] == '_') && !data->quote.single_quote &&
-			!put_dollar((*input), &i, &str, data))
+			(*input)[i + 1] == '_') && !put_dollar((*input), &i, &str, data) &&
+			(data->in_heredoc || !data->quote.single_quote))
 			return (0);
 		if ((*input)[i] && !put_character(&(*input)[i], &str, data, &i))
 			return (0);

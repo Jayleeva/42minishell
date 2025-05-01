@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/24 15:56:45 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/01 15:36:14 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ char	*get_env_value(t_env *env, char *name)
 	char	*equal_sign;
 	char	*nameeq;
 
-	if (!name)
-		return (NULL);
 	nameeq = ft_strjoin(&(name[1]), "=");
 	if (!nameeq)
 		return (NULL);

@@ -15,10 +15,7 @@
 
 //TODO
 //Signal management (Ctrl-C behavior).update heredoc end with ctrl-c
-//here_doc need exec!!!!
 //Environment variable updates (export, unset).
-
-//cd seg fault if no arg
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 {
@@ -74,8 +71,8 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 	env_array = NULL;
 	if (cmd->skip_cmd)
 		data->exit_code = 1;
-	/*else if (is_builtin(cmd->argv[0]))
-		exec_builtin_child(cmd, data, has_next);*/
+	else if (is_builtin(cmd->argv[0]))
+		exec_builtin_child(cmd, data, has_next);
 	if (!resolve_command_path(data, cmd, &path))
 		exit(data->exit_code);
 	if (!setup_redirections(cmd, prev_pipe, data, has_next))
