@@ -5,8 +5,6 @@ CURRENT ISSUES
 
 - ctrl \ needs to be ignored if not in a blocking command (child)
 
-- unset the first environment variable leads to segfault when trying to display the environment list (via env or export)
-
 - how to update the environment variables that change when using commands (pwd, shlvl, old pwd? other?)
 
 

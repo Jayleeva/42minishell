@@ -78,8 +78,9 @@ void	init_data(t_data *data)
 
 int main(int argc, char **argv, char **envp) 
 {
-    t_data  data;
-	int		nvar;
+    t_data  	data;
+	int			nvar;
+	static int	i = 0;
 
 	(void)argv;
     if (argc == 3)
@@ -87,7 +88,8 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	//update_env(data.env, "SHLVL");
+	if (i > 0)
+		update_env(data.env, "SHLVL", "1");
 	minishell_interactive(&data);
 	return (0);
 }
