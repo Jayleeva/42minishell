@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
 /*   Updated: 2025/05/01 23:12:34 by yishan           ###   ########.fr       */
@@ -17,22 +17,22 @@ static t_bool	handle_command(t_data *data, t_token *token, t_cmd *cmd)
 {
 	if (!setup_command_input(data, token, cmd))
 	{
-		if (cmd->infile == -1)
+		if (cmd->infile == -1) //CYCY: == 0; YISHAN: = -1
 		{
 			cmd->skip_cmd = TRUE;
-			cmd->outfile = -1;
+			cmd->outfile = -1; //CYCY: = 1; YISHAN: = -1
 			return (FALSE);
 		}
 		return (FALSE);
 	}
 	if (!setup_command_output(data, token, cmd))
 	{
-		if (cmd->outfile == -1)
+		if (cmd->outfile == -1) //CYCY: == 1; YISHAN: == -1
 		{
-			if (cmd->infile >= 0)
+			if (cmd->infile >= 0) //CYCY: != 0; YISHAN: >=0
 				close(cmd->infile);
 			cmd->skip_cmd = TRUE;
-			cmd->infile = -1;
+			cmd->infile = -1; //CYCY: = 0; YISHAN: = -1
 			return (FALSE);
 		}
 		return (FALSE);
@@ -64,7 +64,7 @@ static t_bool	setup_command(t_data *data, t_token *token)
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
-	if (!cmd_put_in(&data->cmd, -2, -2, NULL))
+	if (!cmd_put_in(&data->cmd, -2, -2, NULL)) //CYCY: 0, 1; YISHAN: -2, -2
 	{
 		cmd_clear(&data->cmd);
 		return (FALSE);

@@ -36,15 +36,15 @@ static void	close_redirections(t_data *data)
 	cmd = data->cmd;
 	while (cmd)
 	{
-		if (cmd->outfile >= 0)
+		if (cmd->outfile >= 0) //CYCY: != 1; YISHAN: >= 0
 		{
 			close(cmd->outfile);
-			cmd->outfile = -1;
+			cmd->outfile = -1; //CYCY: = 1; YISHAN: = -1
 		}
-		if (cmd->infile >= 0)
+		if (cmd->infile >= 0) //CYCY: != 0; YISHAN: >=0;
 		{
 			close(cmd->infile);
-			cmd->infile = -1;
+			cmd->infile = -1; //CYCY: = 0; YISHAN: = -1;
 		}
 		cmd = cmd->next;
 	}

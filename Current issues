@@ -1,13 +1,11 @@
 CURRENT ISSUES 
 ---------------
 
-1. signals can't update their exit codes
+- need to change the cmd->outfile and cmd->infile for echo (without redirection, outfile is et to -2, and so the input isn't printed), but this seems to break execve cmd... --> I've added a condition in my builtin to counter this, it works.
 
-2. unset the first environment variable leads to segfault when trying to display the environment list (via env or export)
+- ctrl \ needs to be ignored if not in a blocking command (child)
 
-3. how to update the environment variables that change when using commands (pwd, shlvl, old pwd? other?)
-
-4. redirections with echo doesn't behave as expected
+- SHLVL needs to be incremented everytime we call minishell inside minishell, and decremented everytime we close one. Every minishell call inside minishell = a child, that becomes the parent of the next child, that becomes the parent of the next child, ...
 
 
 When running cat | cat | ls:

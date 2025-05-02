@@ -16,6 +16,9 @@
 
 void    process_cd(t_data *data, char **argv) 
 {
+    char    *path;
+
+    path = NULL;
     if (argv[2])
     {
         data->exit_code = 1;
@@ -26,7 +29,7 @@ void    process_cd(t_data *data, char **argv)
     {
         data->exit_code = 0;
         chdir(get_env_value(data->env, " HOME")); // must add a space before because the get_env_value function starts the name from name[1] instead of name[0]
-        update_env(data->env, "PWD");
+        update_env(data->env, "PWD", get_env_value(data->env, " HOME"));
         return ;
     }
     if (chdir(argv[1]) == -1)
@@ -35,7 +38,7 @@ void    process_cd(t_data *data, char **argv)
         ft_printf("cd: %s: No such file or directory\n", argv[1]);
         return ;
 	}
-    update_env(data->env, "PWD");
+    update_env(data->env, "PWD", getcwd(path, 0));
     data->exit_code = 0;
 }
 

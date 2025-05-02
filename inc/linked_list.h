@@ -37,7 +37,7 @@ typedef struct s_env
 {
 	char			*var;
 	char			*name;
-	void			*value;
+	char			*value;
 	int				exported;
 	struct s_env	*next;
 }	t_env;

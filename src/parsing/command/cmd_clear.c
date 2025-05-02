@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_clear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:48:24 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 12:24:23 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/01 15:43:48 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ static void	free_all_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 
-	if (cmd->infile >= 3)
+	if (cmd->infile >= 3) //CYCY: != 0; YISHAN: >=3
 		close(cmd->infile);
-	cmd->infile = -2;
+	cmd->infile = -2; //CYCY: = 0; YISHAN: = -2
 
-	if (cmd->outfile >= 3)
+	if (cmd->outfile >= 3) //CYCY: != 1; YISHAN: >= 3
 		close(cmd->outfile);
-	cmd->outfile = -2;
+	cmd->outfile = -2; //CYCY: = 1; YISHAN: = -2
 
 	if (cmd->argv)
 	{
