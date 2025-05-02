@@ -3,7 +3,7 @@ CURRENT ISSUES
 
 - needed to change the cmd->outfile and cmd->infile for echo, but this seems to break execve cmd...
 
-- ctrl \ needs to be ignored if not in a blocking command
+- ctrl \ needs to be ignored if not in a blocking command (child)
 
 - unset the first environment variable leads to segfault when trying to display the environment list (via env or export)
 

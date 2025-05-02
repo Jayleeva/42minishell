@@ -40,8 +40,6 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
             ft_printf("Quit (core dumped)\n"); // only if blocking command! if not, do nothing.
             reset_prompt();
         }
-        else
-            //IGNORE!!!
 	}
 }
 
@@ -58,12 +56,13 @@ void    minishell_interactive(t_data *data)
 	shell.sa_flags = SA_SIGINFO | SA_RESTART;
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
-    shell.sa_handler = SIG_IGN;
+    //shell.sa_handler = SIG_IGN;
     sig = 0;
     g_sig = &sig;
 
     sigaction(SIGINT, &shell, NULL);
-    sigaction(SIGQUIT, &shell, NULL);
+    //sigaction(SIGQUIT, &shell, NULL);
+    signal(SIGQUIT, SIG_IGN);
     while (1)
 	{
         input = NULL;
