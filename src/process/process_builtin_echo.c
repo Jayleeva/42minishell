@@ -16,6 +16,8 @@
 
 void    print_in_output(t_data *data, char *s, int n_flag)
 {
+    if (data->cmd->outfile == -2)
+        data->cmd->outfile = 1;
     ft_putstr_fd(s, data->cmd->outfile);
     if (!n_flag)
         ft_putchar_fd('\n', data->cmd->outfile);
@@ -32,7 +34,7 @@ void    process_echo(t_data *data, char **argv)
     s = ft_strdup("");
     data->exit_code = 0;
     i = 1;
-    if (!ft_strncmp(argv[1], "-n", 2))
+    if (argv[1] && !ft_strncmp(argv[1], "-n", 2))
     {
         i = 2;
         n_flag = 1;

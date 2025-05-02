@@ -45,7 +45,7 @@ static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 			return (FALSE);
 		close(prev_pipe);
 	}
-	if (cmd->outfile >= 0)
+	if (cmd->outfile >= 0) //CYCY: ; YISHAN: >=0
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) < 0)
 			return (FALSE);
