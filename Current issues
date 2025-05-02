@@ -6,3 +6,18 @@ CURRENT ISSUES
 - ctrl \ needs to be ignored if not in a blocking command (child)
 
 
+When running cat | cat | ls:
+
+    First cat should have stdin as TTY (or /dev/pts/X) and stdout as a pipe.
+
+    Second cat should have stdin from the previous pipe, and stdout to the next pipe.
+
+    ls should have stdin from a pipe (optional), stdout = terminal.
+
+If all pipes and FDs are wired up correctly and still it exits early, it’s likely that one of these happens:
+
+    First cat receives EOF and exits.
+
+    A writer FD is closed too early by the parent.
+
+    ls finishes and remaining processes don’t have input to consume.

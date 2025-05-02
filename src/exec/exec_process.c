@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 15:44:24 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/02 10:49:43 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 {
 	if (!has_next)
 		data->last_pid = pid;
-	if (cmd->infile > 0) //CYCY: >= 0; YISHAN: > 0
+	if (cmd->infile >= 0)
+	{
+		//fprintf(stderr, "[parent_process] Closing cmd->infile = %d\n", cmd->infile);
 		close(cmd->infile);
-	if (cmd->infile == -2) //CYCY: == 0; YISHAN: == -2
-		cmd->infile = data->pipe_fd[0];
+	}
+	//fprintf(stderr, "[parent_process] Closing pipe_fd[1] = %d\n", data->pipe_fd[1]);
 	close(data->pipe_fd[1]);
-	if (cmd->next && cmd->next->infile == -2) //CYCY: == 0; YISHAN: == -2
-		cmd->next->infile = data->pipe_fd[0];
-	else
-		close(data->pipe_fd[0]);
 }
 
 static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
@@ -41,7 +39,7 @@ static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 			return (FALSE);
 		close(cmd->infile);
 	}
-	else if (prev_pipe != -1)
+	else if (prev_pipe == -1)
 	{
 		if (dup2(prev_pipe, STDIN_FILENO) < 0)
 			return (FALSE);
@@ -69,14 +67,12 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 
 	path = NULL;
 	env_array = NULL;
-	if (cmd->skip_cmd)
-		data->exit_code = 1;
-	else if (is_builtin(cmd->argv[0]))
-		exec_builtin_child(cmd, data, has_next);
-	if (!resolve_command_path(data, cmd, &path))
-		exit(data->exit_code);
+	/*if (is_builtin(cmd->argv[0]))
+		exec_builtin_child(cmd, data, has_next);*/
 	if (!setup_redirections(cmd, prev_pipe, data, has_next))
 		exit(EXIT_FAILURE);
+	if (!resolve_command_path(data, cmd, &path))
+		exit(data->exit_code);
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{
