@@ -80,7 +80,7 @@ int main(int argc, char **argv, char **envp)
 {
     t_data  	data;
 	int			nvar;
-	static int	i = 0;
+	//static int	i = 0; // doesn't work with a static. I need to know if this current process is a child
 
 	(void)argv;
     if (argc == 3)
@@ -88,8 +88,9 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	if (i > 0)
+	/*if (i > 0) // if a child:
 		update_env(data.env, "SHLVL", "1");
+	i ++;*/
 	minishell_interactive(&data);
 	return (0);
 }
