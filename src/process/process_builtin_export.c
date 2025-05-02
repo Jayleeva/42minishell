@@ -35,6 +35,8 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	t_env	*current;
 
 	current = env;
+	while (current->next)
+		current = current->next;
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
 		return ;

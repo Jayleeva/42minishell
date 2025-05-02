@@ -14,34 +14,6 @@
 #include "../inc/linked_list.h"
 #include "../libft/inc/libft.h"
 
-// Parse the input and execute the corresponding commands
-//tokenizing the input, handling pipes, redirections, etc.
-t_bool	process_input(t_data *data, char *input)
-{
-	if (!check_open_quotes(data, input))
-	{
-		free(input);
-		return (FALSE);
-	}
-	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
-	{
-		free(input);
-		token_clear(&(data->token));
-		return (FALSE);
-	}
-	//print_token_list(data->token);
-	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
-	{
-		free(input);
-		token_clear(&(data->token));
-		cmd_clear(&data->cmd);
-		return (FALSE);
-	}
-	//print_cmd(data->cmd);
-	free(input);
-	return (TRUE);
-}
-
 int	count_var(char **envp)
 {
 	int	i;
@@ -106,8 +78,9 @@ void	init_data(t_data *data)
 
 int main(int argc, char **argv, char **envp) 
 {
-    t_data  data;
-	int		nvar;
+    t_data  	data;
+	int			nvar;
+	static int	i = 0;
 
 	(void)argv;
     if (argc == 3)
@@ -115,7 +88,8 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	//update_env(data.env, "SHLVL");
+	if (i > 0)
+		update_env(data.env, "SHLVL", "1");
 	minishell_interactive(&data);
 	return (0);
 }

@@ -1,13 +1,12 @@
 CURRENT ISSUES 
 ---------------
 
-1. signals can't update their exit codes
+- needed to change the cmd->outfile and cmd->infile for echo, but this seems to break execve cmd...
 
-2. unset the first environment variable leads to segfault when trying to display the environment list (via env or export)
+- ctrl \ needs to be ignored if not in a blocking command (child)
 
-3. how to update the environment variables that change when using commands (pwd, shlvl, old pwd? other?)
+- how to update the environment variables that change when using commands (pwd, shlvl, old pwd? other?)
 
-4. redirections with echo doesn't behave as expected
 
 
 When running cat | cat | ls:
