@@ -38,7 +38,7 @@ t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 		out = dup(1);
 		dup2(cmd->outfile, 1);
 	}
-	process_token_list(data, data->cmd);
+	process_cmd(data, data->cmd);
 	if (cmd->outfile >= 0)
 	{
 		dup2(out, 1);

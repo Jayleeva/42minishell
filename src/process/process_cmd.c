@@ -43,7 +43,7 @@ t_bool	process_input(t_data *data, char *input)
 	return (TRUE);
 }
 
-void    process_token_list(t_data *data, t_cmd *cmd)
+void    process_cmd(t_data *data, t_cmd *cmd)
 {
     if (!ft_strncmp(cmd->argv[0], "exit", 5)) 
         process_exit(data);

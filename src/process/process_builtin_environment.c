@@ -33,3 +33,41 @@ void    process_env(t_data *data, char **argv)
 		current = current->next;
 	}
 }
+
+t_env	*find_var(t_env *head, char *name)
+{
+	t_env	*current;
+
+	current = head;
+    while (current)
+    {
+        if (!ft_strncmp(current->name, name, ft_strlen(name)))
+            return (current);
+        else
+            current = current->next;
+    }
+    return (NULL);
+}
+
+void    update_env(t_env *env, char *name, char *value)
+{
+    t_env   	*current;
+	static int	i = 0;
+	int			temp;
+
+    current = find_var(env, name);
+	if (!ft_strncmp(name, "PWD", 3))
+	{
+		i ++;
+		if (i == 1)
+			add_new_var(env, "OLDPWD", current->value, 1);
+		else
+			update_env(env, "OLDPWD", current->value);
+	}
+	if (!ft_strncmp(name, "SHLVL", 5))
+	{
+		temp = atoi(value);
+		value = ft_itoa(atoi(current->value) + temp);
+	}
+	current->value = ft_strdup(value);
+}

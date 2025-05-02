@@ -28,7 +28,7 @@ char	*get_name(char *s)
 	return (name);
 }
 
-t_env	*unset_env(t_env **head, char *name) // fonctionne une fois sur x??
+t_env	*unset_env(t_env **head, char *name)
 {
 	t_env	*temp;
 	t_env	*current;
