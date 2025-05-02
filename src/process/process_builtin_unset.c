@@ -28,32 +28,44 @@ char	*get_name(char *s)
 	return (name);
 }
 
-void	unset_env(t_env *env, char *name)
+t_env	*unset_env(t_env **head, char *name) // fonctionne une fois sur x??
 {
+	t_env	*temp;
 	t_env	*current;
 	t_env	*prev;
-	int		i;
 
-	i = 0;
-	current = env;
+	prev = NULL;
+	current = *head;
+	if (!ft_strncmp(current->name, name, ft_strlen(name)))
+	{
+		if (current->next)
+		{
+			temp = *head;
+			*head = temp->next;
+			free(temp);
+		}
+		else // if only one element, set it to NULL instead of free so that the list still exists
+			head = NULL;
+		return (*head);
+	}
 	while (current && ft_strncmp(current->name, name, ft_strlen(name)))
 	{
 		prev = current;
-		i ++;
 		current = current->next;
 	}
-	if (!current)
-		return ;
-	if (i == 1)
+	if (current)
+	{
 		prev->next = current->next;
-	else
-		prev->next = current->next;
-	free(current);
+		free(current);
+	}
+	return (*head);
 }
 
 void	process_unset(t_data *data, char **argv)
 {
 	char	*name;
+	t_env	*head;
+
 	data->exit_code = 0;
     if (!argv[1])
 	{
@@ -61,5 +73,6 @@ void	process_unset(t_data *data, char **argv)
         return ;
 	}
 	name = get_name(argv[1]);
-    unset_env(data->env, name);
+	head = data->env;
+    data->env = unset_env(&head, name);
 }
