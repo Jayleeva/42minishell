@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/02 10:46:27 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/02 11:34:51 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 	}
 	else
 	{
-		*prev_pipe = data->pipe_fd[0];
-		close(data->pipe_fd[1]);
+		close(data->pipe_fd[0]);
+		*prev_pipe = -1;
 	}
 }
 

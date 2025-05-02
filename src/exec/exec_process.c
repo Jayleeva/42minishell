@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/02 10:49:43 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/02 11:43:53 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 		//fprintf(stderr, "[parent_process] Closing cmd->infile = %d\n", cmd->infile);
 		close(cmd->infile);
 	}
+	
 	//fprintf(stderr, "[parent_process] Closing pipe_fd[1] = %d\n", data->pipe_fd[1]);
-	close(data->pipe_fd[1]);
+	if (cmd->outfile >= 0)
+		close(cmd->outfile);
 }
 
 static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
