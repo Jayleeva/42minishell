@@ -62,7 +62,7 @@ void    minishell_interactive(t_data *data)
 
     sigaction(SIGINT, &shell, NULL);
     //sigaction(SIGQUIT, &shell, NULL);
-    signal(SIGQUIT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN); // ADAPT FOR CHILD!!!
     while (1)
 	{
         input = NULL;

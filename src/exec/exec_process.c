@@ -33,7 +33,7 @@ void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 				t_data *data, t_bool has_next)
 {
-	if (cmd->infile != 0) //CYCY mod.: was >=0 before;
+	if (cmd->infile >= 0) //CYCY: != 0; YISHAN: >=0
 	{
 		if (dup2(cmd->infile, STDIN_FILENO) < 0)
 			return (FALSE);

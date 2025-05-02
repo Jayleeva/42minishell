@@ -29,13 +29,13 @@ static void	free_all_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 
-	if (cmd->infile != 0) //CYCY mod.: was >=3 before;
+	if (cmd->infile >= 3) //CYCY: != 0; YISHAN: >=3
 		close(cmd->infile);
-	cmd->infile = 0; //CYCY mod.: was = -2 before;
+	cmd->infile = -2; //CYCY: = 0; YISHAN: = -2
 
-	if (cmd->outfile != 1) //CYCY mod.: was >= 3 before;
+	if (cmd->outfile >= 3) //CYCY: != 1; YISHAN: >= 3
 		close(cmd->outfile);
-	cmd->outfile = 1; //CYCY mod.: was = -2 before;
+	cmd->outfile = -2; //CYCY: = 1; YISHAN: = -2
 
 	if (cmd->argv)
 	{

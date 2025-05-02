@@ -17,22 +17,22 @@ static t_bool	handle_command(t_data *data, t_token *token, t_cmd *cmd)
 {
 	if (!setup_command_input(data, token, cmd))
 	{
-		if (cmd->infile == 0) //CYCY mod.: was = -1 before;
+		if (cmd->infile == -1) //CYCY: == 0; YISHAN: = -1
 		{
 			cmd->skip_cmd = TRUE;
-			cmd->outfile = 1; //CYCY mod.: was = -1 before;
+			cmd->outfile = -1; //CYCY: = 1; YISHAN: = -1
 			return (FALSE);
 		}
 		return (FALSE);
 	}
 	if (!setup_command_output(data, token, cmd))
 	{
-		if (cmd->outfile == 1) //CYCY mod.: was = -1 before;
+		if (cmd->outfile == -1) //CYCY: == 1; YISHAN: == -1
 		{
-			if (cmd->infile != 0) //CYCY mod.: was >=0 before;
+			if (cmd->infile >= 0) //CYCY: != 0; YISHAN: >=0
 				close(cmd->infile);
 			cmd->skip_cmd = TRUE;
-			cmd->infile = 0; //CYCY mod.: was = -1 before;
+			cmd->infile = -1; //CYCY: = 0; YISHAN: = -1
 			return (FALSE);
 		}
 		return (FALSE);
@@ -64,7 +64,7 @@ static t_bool	setup_command(t_data *data, t_token *token)
 
 static t_bool	process_command(t_data *data, t_token *current)
 {
-	if (!cmd_put_in(&data->cmd, 0, 1, NULL)) //CYCY mod.: was -2 and -2 before
+	if (!cmd_put_in(&data->cmd, -2, -2, NULL)) //CYCY: 0, 1; YISHAN: -2, -2
 	{
 		cmd_clear(&data->cmd);
 		return (FALSE);
