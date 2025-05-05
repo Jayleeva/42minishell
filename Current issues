@@ -3,8 +3,6 @@ CURRENT ISSUES
 
 - need to change the cmd->outfile and cmd->infile for echo (without redirection, outfile is et to -2, and so the input isn't printed), but this seems to break execve cmd... --> I've added a condition in my builtin to counter this, it works.
 
-- ctrl \ needs to be ignored if not in a blocking command (child)
-
 - SHLVL needs to be incremented everytime we call minishell inside minishell, and decremented everytime we close one. Every minishell call inside minishell = a child, that becomes the parent of the next child, that becomes the parent of the next child, ...
 
 

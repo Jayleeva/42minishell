@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:15:43 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/14 15:04:12 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:03:36 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 t_bool	print_error_token(t_token *token, t_data *data)
 {
-	ft_putstr_fd("syntax error near unexpected token '", 2);
+	ft_putstr_fd("syntax error near unexpected token '", STDERR_FILENO);
 	if (!token->next || token->next == data->token)
-		ft_putstr_fd("newline", 2);
+		ft_putstr_fd("newline", STDERR_FILENO);
 	else
-		ft_putstr_fd(token->next->str, 2);
-	ft_putstr_fd("'\n", 2);
+		ft_putstr_fd(token->next->str, STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
 	return (FALSE);
 }
 

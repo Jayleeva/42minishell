@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/02 10:49:43 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:44:44 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,25 @@ static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 {
 	if (cmd->infile >= 0) //CYCY: != 0; YISHAN: >=0
 	{
-		if (dup2(cmd->infile, STDIN_FILENO) < 0)
+		if (dup2(cmd->infile, STDIN_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
 			return (FALSE);
 		close(cmd->infile);
 	}
 	else if (prev_pipe == -1)
 	{
-		if (dup2(prev_pipe, STDIN_FILENO) < 0)
+		if (dup2(prev_pipe, STDIN_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
 			return (FALSE);
 		close(prev_pipe);
 	}
-	if (cmd->outfile >= 0) //CYCY: ; YISHAN: >=0
+	if (cmd->outfile >= 0) //CYCY: != 1; YISHAN: >=0
 	{
-		if (dup2(cmd->outfile, STDOUT_FILENO) < 0)
+		if (dup2(cmd->outfile, STDOUT_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
 			return (FALSE);
 		close(cmd->outfile);
 	}
 	else if (has_next)
 	{
-		if (dup2(data->pipe_fd[1], STDOUT_FILENO) < 0)
+		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
 			return (FALSE);
 		close(data->pipe_fd[1]);
 	}

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 11:54:13 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:21:42 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    process_cd(t_data *data, char **argv)
     if (argv[2])
     {
         data->exit_code = 1;
-        ft_printf("minishell: cd: too many arguments\n");
+        ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
         return ;
     }
     if (!argv[1]) // si pas d'argument donné, retour à HOME.
@@ -35,7 +35,7 @@ void    process_cd(t_data *data, char **argv)
     if (chdir(argv[1]) == -1)
 	{
 		data->exit_code = 1;
-        ft_printf("cd: %s: No such file or directory\n", argv[1]);
+        printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", argv[1]);
         return ;
 	}
     update_env(data->env, "PWD", getcwd(path, 0));

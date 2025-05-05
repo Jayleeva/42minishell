@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 16:03:06 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/01 23:12:34 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:26:50 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_bool	check_pipe_syntax(t_data *data)
 
 	if (data->token && data->token->type == PIPE)
 	{
-		ft_printf("Error: Unexpected token '|'\n");
+		printf_fd(STDERR_FILENO, "Error: Unexpected token '|'\n");
 		data->exit_code = 1;
 		return (FALSE);
 	}
@@ -116,7 +116,7 @@ t_bool	check_pipe_syntax(t_data *data)
 		return (FALSE);
 	if (last && last->type == PIPE)
 	{
-		ft_printf("Error: Unclosed pipe\n");
+		printf_fd(STDERR_FILENO, "Error: Unclosed pipe\n");
 		data->exit_code = 1;
 		return (FALSE);
 	}
