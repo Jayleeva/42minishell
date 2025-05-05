@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 15:01:57 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:26:26 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void    process_cmd(t_data *data, t_cmd *cmd)
         process_unset(data, cmd->argv);
     else if (!ft_strncmp(cmd->argv[0], "echo", 4))
         process_echo(data, cmd->argv);
-    else
-        process_other(cmd->argv[0], data);
+    /*else
+        process_other(cmd->argv[0], data);*/
 }

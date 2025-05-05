@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 12:06:14 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:27:02 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	process_export(t_data *data, char **argv)
 	i = strchri(argv[1], '=');
 	if (i == 0) // si nom commence par =, pas valable
 	{
-		ft_printf("minishell: export: `=': not a valid identifier\n");
+		printf_fd(STDERR_FILENO, "minishell: export: `=': not a valid identifier\n");
 		return ;
 	}
 	export(data->env, argv[1], i);

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 15:02:22 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:22:45 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void    process_exit(t_data *data)
     exit (0);
 }
 
-void    process_other(char *cmd, t_data *data)
+/*void    process_other(char *cmd, t_data *data)
 {
     data->exit_code = 127;
-    ft_printf("%s: commmand not found\n", cmd);
-}
+    printf_fd("STDERR_FILENO, %s: commmand not found\n", cmd);
+}*/

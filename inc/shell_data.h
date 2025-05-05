@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 15:59:08 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:07:18 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ typedef struct s_data
 	t_cmd	*cmd;
 	t_quote	quote;
 }		t_data;
+
+//print format string in chosen fd
+int		printf_fd(int fd, const char *s, ...);
 
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:39:04 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/01 14:55:00 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:05:24 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_open_quotes(t_data *data, char *input)
 	}
 	if (data->quote.double_quote || data->quote.single_quote)
 	{
-		print_error("open quote found\n");
+		ft_putstr_fd("open quote found\n", STDERR_FILENO);
 		//TODO: add something that allows user to type in an input and ends only once they typed in the closing quote, then gives the correct error message: "minishell: $'%s\n%s': command not found" if no command properly given, or appropriate message if arg doesn't work with the command. Everytime user enters enter without closing the quote, adds a new \n on the %s. 
 		data->exit_code = 1;
 		return (0);

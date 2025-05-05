@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:02:25 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 14:25:31 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:10:03 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 static char	*cmd_not_found(char *cmd)
 {
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(" : command not found\n", 2);
+	printf_fd(STDERR_FILENO, "%s: command not found\n", cmd);
+	/*ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(" : command not found\n", STDERR_FILENO);*/
 	return (NULL);
 }
 
