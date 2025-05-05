@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 15:59:08 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/04 22:02:03 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ typedef struct s_quote
 
 typedef struct s_data
 {
+	pid_t	*child_pids;
+	int		child_count;
 	int		pipe_fd[2];
 	int		last_pid;
 	int		exit_code;
 	int		in_heredoc;
 	char	**paths;
 	t_env	*env;
-  	t_env	*export;
+	t_env	*export;
 	t_token	*token;
 	t_cmd	*cmd;
 	t_quote	quote;

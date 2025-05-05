@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 22:13:32 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/04 22:02:31 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ void	init_data(t_data *data)
 	data->cmd = NULL;
 	data->pipe_fd[0] = -1;
 	data->pipe_fd[1] = -1;
-	data->last_pid = 0;
+	data->last_pid = -1;
+	data->child_pids = NULL;
+	data->child_count = 0;
 }
 
 int main(int argc, char **argv, char **envp) 

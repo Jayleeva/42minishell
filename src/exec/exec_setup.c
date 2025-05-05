@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/01 15:27:44 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/05 21:58:07 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,11 @@ static void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 		close(*prev_pipe);
 	if (has_next)
 	{
-		*prev_pipe = data->pipe_fd[0];
 		close(data->pipe_fd[1]);
+		*prev_pipe = data->pipe_fd[0];
 	}
 	else
-	{
-		close(data->pipe_fd[0]);
 		*prev_pipe = -1;
-	}
 }
 
 static void	close_redirections(t_data *data)
@@ -48,17 +45,40 @@ static void	close_redirections(t_data *data)
 		}
 		cmd = cmd->next;
 	}
+	if (data->child_pids)
+	{
+		free(data->child_pids);
+		data->child_pids = NULL;
+	}
+	data->child_count = 0;
 }
 
 static t_bool	wait_for_child(t_data *data)
 {
-	int		status;
+	int	status;
+	int	last_status;
+	int	i;
 
-	waitpid(data->last_pid, &status, 0);
-	if (WIFEXITED(status))
-		data->exit_code = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		data->exit_code = 128 + WTERMSIG(status);
+	last_status = 0;
+	i = 0;
+	while (i < data->child_count)
+	{
+		if (waitpid(data->child_pids[i], &status, 0) < 0)
+		{
+			perror("minishell: waitpid");
+			i++;
+			continue ;
+		}
+		if (data->child_pids[i] == data->last_pid)
+		{
+			if (WIFEXITED(status))
+				last_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				last_status = 128 + WTERMSIG(status);
+		}
+		i++;
+	}
+	data->exit_code = last_status;
 	return (TRUE);
 }
 
@@ -95,7 +115,7 @@ t_bool	execute_pipeline(t_data *data)
 		has_next = (current->next != NULL);
 		if (has_next && pipe(data->pipe_fd) == -1)
 			return (FALSE);
-		if (is_builtin(current->argv[0]))
+		if (is_builtin(current->argv[0]) && !has_next)
 			return (execute_builtin(data, current));
 		else if (!execute_cmd(data, current, prev_pipe, has_next))
 			return (FALSE);

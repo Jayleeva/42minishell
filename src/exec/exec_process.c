@@ -6,29 +6,35 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/02 14:36:57 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/05 22:05:07 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-//TODO
-//Signal management (Ctrl-C behavior).update heredoc end with ctrl-c
-//Environment variable updates (export, unset).
+static void	add_child_pid(t_data *data, pid_t pid)
+{
+	data->child_pids = realloc(data->child_pids,
+			(data->child_count + 1) * sizeof(pid_t));
+	if (!data->child_pids)
+	{
+		perror("minishell: failed to allocate child PIDs");
+		exit(EXIT_FAILURE);
+	}
+	data->child_pids[data->child_count++] = pid;
+}
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 {
 	if (!has_next)
 		data->last_pid = pid;
-	if (cmd->infile >= 0)
-		close(cmd->infile);
-	if (cmd->infile == -2)
-		cmd->infile = data->pipe_fd[0];
-	close(data->pipe_fd[1]);
+	add_child_pid(data, pid);
+	if (has_next)
+		close(data->pipe_fd[1]);
 	if (cmd->next && cmd->next->infile == -2)
 		cmd->next->infile = data->pipe_fd[0];
-	else
+	else if (has_next)
 		close(data->pipe_fd[0]);
 }
 
@@ -59,6 +65,7 @@ static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 			return (FALSE);
 		close(data->pipe_fd[1]);
 	}
+	close(data->pipe_fd[0]);
 	return (TRUE);
 }
 
