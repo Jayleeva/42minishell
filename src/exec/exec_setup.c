@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/02 10:46:27 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/01 15:27:44 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 	}
 	else
 	{
-		*prev_pipe = data->pipe_fd[0];
-		close(data->pipe_fd[1]);
+		close(data->pipe_fd[0]);
+		*prev_pipe = -1;
 	}
 }
 
@@ -95,9 +95,9 @@ t_bool	execute_pipeline(t_data *data)
 		has_next = (current->next != NULL);
 		if (has_next && pipe(data->pipe_fd) == -1)
 			return (FALSE);
-		if (is_builtin(current->argv[0]) && !has_next && prev_pipe == -1)
+		if (is_builtin(current->argv[0]))
 			return (execute_builtin(data, current));
-		if (!execute_cmd(data, current, prev_pipe, has_next))
+		else if (!execute_cmd(data, current, prev_pipe, has_next))
 			return (FALSE);
 		cleanup_pipes(data, &prev_pipe, has_next);
 		current = current->next;
