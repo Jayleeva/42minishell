@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/06 10:45:01 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:44:27 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,15 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 	path = NULL;
 	env_array = NULL;
 	if (is_builtin(cmd->argv[0]))
+	{
+		printf("Debug: Detected builtin command: %s\n", cmd->argv[0]);
 		exec_builtin_child(cmd, data, has_next);
-	if (!resolve_command_path(data, cmd, &path))
-		exit(data->exit_code);
+	}
+		//exec_builtin_child(cmd, data, has_next);
 	if (!setup_redirections(cmd, prev_pipe, data, has_next))
 		exit(EXIT_FAILURE);
+	if (!resolve_command_path(data, cmd, &path))
+		exit(data->exit_code);
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{

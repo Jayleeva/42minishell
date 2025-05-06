@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/05 21:58:07 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/06 11:16:00 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,16 @@ t_bool	execute_pipeline(t_data *data)
 	prev_pipe = -1;
 	while (current)
 	{
+		printf("Debug: Executing command: %s\n", current->argv[0]);
 		has_next = (current->next != NULL);
 		if (has_next && pipe(data->pipe_fd) == -1)
 			return (FALSE);
 		if (is_builtin(current->argv[0]) && !has_next)
+		{
+			printf("Debug: Detected builtin command: %s\n", current->argv[0]);
 			return (execute_builtin(data, current));
+		}
+			//return (execute_builtin(data, current));
 		else if (!execute_cmd(data, current, prev_pipe, has_next))
 			return (FALSE);
 		cleanup_pipes(data, &prev_pipe, has_next);

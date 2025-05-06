@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/06 10:50:14 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:10:40 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 {
 	if (!line)
 	{
-		printf_fd(STDERR_FILENO, "Warning: here-document delimited by end-of-file \n(wanted '%c')\n", delimiter);
+		printf_fd(STDERR_FILENO, "Warning: here-document delimited by \
+				end-of-file \n(wanted '%c')\n", delimiter);
 		return (FALSE);
 	}
 	if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
