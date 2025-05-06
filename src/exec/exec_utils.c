@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:37:31 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/01 15:59:31 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/06 10:49:19 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static t_bool	check_if_directory(char *path, char *cmd, t_data *data)
 	if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 	{
 		printf_fd(STDERR_FILENO, "%s: Is a directory\n", cmd);
-		/*ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);*/
 		data->exit_code = 126;
 		return (FALSE);
 	}

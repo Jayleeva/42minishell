@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/05 11:15:20 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:50:14 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 	if (!line)
 	{
 		printf_fd(STDERR_FILENO, "Warning: here-document delimited by end-of-file \n(wanted '%c')\n", delimiter);
-		/*print_error("warning: here-document delimited by end-of-file ");
-		print_error("(wanted '");
-		print_error(delimiter);
-		print_error("')\n");*/
 		return (FALSE);
 	}
 	if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
@@ -37,7 +33,6 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 	ft_putstr_fd(line, fd);
 	ft_putchar_fd('\n', fd);
 	free(line);
-	data->in_heredoc = 0;
 	return (TRUE);
 }
 

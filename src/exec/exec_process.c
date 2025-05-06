@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/05 22:05:07 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/06 10:45:01 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 		free(path);
 		exit(1);
 	}
+	// update_env("SHLVL")
 	execve(path, cmd->argv, env_array);
 	perror("execve");
 	free(path);
