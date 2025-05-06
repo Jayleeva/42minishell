@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/06 10:43:08 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:34:06 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	count_var(char **envp)
 {
 	int	i;
 
+	if (!envp)
+		return (0);
 	i = 0;
 	while (envp[i])
 		i ++;
@@ -88,6 +90,10 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	init_data(&data);
 	nvar = count_var(envp);
+	// if (!envp) // backup in case of (env -i) no environment received, in this case you could generate manually your env data if some is critical to the program, or set all to NULL
+	// {
+	// 	data.env = malloc(sizeof(t_env));
+	// }
 	data.env = init_env(envp, nvar);
 	//if (getpid() > getppid()) 			// doesn't work.
 	//	update_env(data.env, "SHLVL", "1");

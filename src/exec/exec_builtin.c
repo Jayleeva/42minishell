@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/06 13:20:11 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/06 15:04:04 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ t_bool	is_builtin(char *cmd)
 	return (FALSE);
 }
 
+void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
+{
+	if (cmd->outfile < 0 && has_next)
+		cmd->outfile = data->pipe_fd[1];
+	else
+		close(data->pipe_fd[1]);
+	close(data->pipe_fd[0]);
+	execute_builtin(data, cmd);
+	exit(data->exit_code);
+}
+
 // t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 // {
 // 	int	out;
@@ -47,71 +58,80 @@ t_bool	is_builtin(char *cmd)
 // 	return (TRUE);
 // }
 
-t_bool execute_builtin(t_data *data, t_cmd *cmd)
+static t_bool setup_builtin_redirections(t_cmd *cmd, int *saved_stdout, int *saved_stdin, 
+                                       int *need_restore_out, int *need_restore_in)
 {
-    int saved_stdout = -1;
-    int saved_stdin = -1;
-    int need_restore_out = 0;
-    int need_restore_in = 0;
-
-    // Handle output redirection
     if (cmd->outfile >= 0)
     {
-        saved_stdout = dup(STDOUT_FILENO);
-        if (saved_stdout == -1) {
+        *saved_stdout = dup(STDOUT_FILENO);
+        if (*saved_stdout == -1) {
             perror("minishell: dup");
             return (FALSE);
         }
         if (dup2(cmd->outfile, STDOUT_FILENO) == -1) {
             perror("minishell: dup2");
-            close(saved_stdout);
+            close(*saved_stdout);
             return (FALSE);
         }
-        need_restore_out = 1;
+        *need_restore_out = 1;
     }
-
-    // Handle input redirection
     if (cmd->infile >= 0)
     {
-        saved_stdin = dup(STDIN_FILENO);
-        if (saved_stdin == -1) {
+        *saved_stdin = dup(STDIN_FILENO);
+        if (*saved_stdin == -1) {
             perror("minishell: dup");
-            if (need_restore_out) {
-                dup2(saved_stdout, STDOUT_FILENO);
-                close(saved_stdout);
+            if (*need_restore_out) {
+                dup2(*saved_stdout, STDOUT_FILENO);
+                close(*saved_stdout);
             }
             return (FALSE);
         }
         if (dup2(cmd->infile, STDIN_FILENO) == -1) {
             perror("minishell: dup2");
-            close(saved_stdin);
-            if (need_restore_out) {
-                dup2(saved_stdout, STDOUT_FILENO);
-                close(saved_stdout);
+            close(*saved_stdin);
+            if (*need_restore_out) {
+                dup2(*saved_stdout, STDOUT_FILENO);
+                close(*saved_stdout);
             }
             return (FALSE);
         }
-        need_restore_in = 1;
+        *need_restore_in = 1;
     }
-
-    // Execute the command
-    process_cmd(data, cmd);
-
-    // Restore stdout if we redirected it
-    if (need_restore_out)
-    {
-        if (dup2(saved_stdout, STDOUT_FILENO) == -1)
-            perror("minishell: dup2 restore");
-        close(saved_stdout);
-    }
-
-    // Restore stdin if we redirected it
-    if (need_restore_in)
-    {
-        if (dup2(saved_stdin, STDIN_FILENO) == -1)
-            perror("minishell: dup2 restore");
-        close(saved_stdin);
-    }
-
+    
     return (TRUE);
+}
+
+static void	restore_builtin_redirections(int saved_stdout, int saved_stdin,
+                                       int need_restore_out, int need_restore_in)
+{
+	if (need_restore_out)
+	{
+		if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+			perror("minishell: dup2 restore");
+		close(saved_stdout);
+	}
+	if (need_restore_in)
+	{
+		if (dup2(saved_stdin, STDIN_FILENO) == -1)
+			perror("minishell: dup2 restore");
+		close(saved_stdin);
+	}
+}
+
+t_bool	execute_builtin(t_data *data, t_cmd *cmd)
+{
+	int	saved_stdout;
+	int	saved_stdin;
+	int	need_restore_out;
+	int	need_restore_in;
+
+	saved_stdout = -1;
+	saved_stdin = -1;
+	need_restore_out = 0;
+	need_restore_in = 0;
+	if (!setup_builtin_redirections(cmd, &saved_stdout, &saved_stdin, &need_restore_out, &need_restore_in))
+		return (FALSE);
+	process_cmd(data, cmd);
+	restore_builtin_redirections(saved_stdout, saved_stdin, need_restore_out, need_restore_in);
+	return (TRUE);
 }
