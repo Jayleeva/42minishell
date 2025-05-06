@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_builtin_other.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/05 11:22:45 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:14:25 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    process_exit(t_data *data)
 {
     data->exit_code = 0;
     ft_printf("exit\n");
-    update_env(data->env, "SHLVL", "-1");
+    //update_env(data->env, "SHLVL", "-1");
     exit (0);
 }
 

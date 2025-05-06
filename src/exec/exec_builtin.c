@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/01 15:18:45 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/06 13:20:11 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,90 @@ t_bool	is_builtin(char *cmd)
 	return (FALSE);
 }
 
-t_bool	execute_builtin(t_data *data, t_cmd *cmd)
-{
-	int	out;
+// t_bool	execute_builtin(t_data *data, t_cmd *cmd)
+// {
+// 	int	out;
 
-	out = -1;
-	if (cmd->outfile >= 0)
-	{
-		out = dup(1);
-		dup2(cmd->outfile, 1);
-	}
-	process_cmd(data, data->cmd);
-	if (cmd->outfile >= 0)
-	{
-		dup2(out, 1);
-		close (out);
-	}
-	return (TRUE);
+// 	out = -1;
+// 	if (cmd->outfile >= 0)
+// 	{
+// 		out = dup(1);
+// 		dup2(cmd->outfile, 1);
+// 	}
+// 	process_cmd(data, data->cmd);
+// 	if (cmd->outfile >= 0)
+// 	{
+// 		dup2(out, 1);
+// 		close (out);
+// 	}
+// 	return (TRUE);
+// }
+
+t_bool execute_builtin(t_data *data, t_cmd *cmd)
+{
+    int saved_stdout = -1;
+    int saved_stdin = -1;
+    int need_restore_out = 0;
+    int need_restore_in = 0;
+
+    // Handle output redirection
+    if (cmd->outfile >= 0)
+    {
+        saved_stdout = dup(STDOUT_FILENO);
+        if (saved_stdout == -1) {
+            perror("minishell: dup");
+            return (FALSE);
+        }
+        if (dup2(cmd->outfile, STDOUT_FILENO) == -1) {
+            perror("minishell: dup2");
+            close(saved_stdout);
+            return (FALSE);
+        }
+        need_restore_out = 1;
+    }
+
+    // Handle input redirection
+    if (cmd->infile >= 0)
+    {
+        saved_stdin = dup(STDIN_FILENO);
+        if (saved_stdin == -1) {
+            perror("minishell: dup");
+            if (need_restore_out) {
+                dup2(saved_stdout, STDOUT_FILENO);
+                close(saved_stdout);
+            }
+            return (FALSE);
+        }
+        if (dup2(cmd->infile, STDIN_FILENO) == -1) {
+            perror("minishell: dup2");
+            close(saved_stdin);
+            if (need_restore_out) {
+                dup2(saved_stdout, STDOUT_FILENO);
+                close(saved_stdout);
+            }
+            return (FALSE);
+        }
+        need_restore_in = 1;
+    }
+
+    // Execute the command
+    process_cmd(data, cmd);
+
+    // Restore stdout if we redirected it
+    if (need_restore_out)
+    {
+        if (dup2(saved_stdout, STDOUT_FILENO) == -1)
+            perror("minishell: dup2 restore");
+        close(saved_stdout);
+    }
+
+    // Restore stdin if we redirected it
+    if (need_restore_in)
+    {
+        if (dup2(saved_stdin, STDIN_FILENO) == -1)
+            perror("minishell: dup2 restore");
+        close(saved_stdin);
+    }
+
+    return (TRUE);
 }
