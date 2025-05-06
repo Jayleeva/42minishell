@@ -19,8 +19,9 @@ static t_bool	check_if_directory(char *path, char *cmd, t_data *data)
 
 	if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 	{
-		ft_putstr_fd(cmd, STDERR_FILENO);
-		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+		printf_fd(STDERR_FILENO, "%s: Is a directory\n", cmd);
+		/*ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);*/
 		data->exit_code = 126;
 		return (FALSE);
 	}

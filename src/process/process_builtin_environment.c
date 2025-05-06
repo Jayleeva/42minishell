@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/04/29 17:01:51 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:00:17 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    process_env(t_data *data, char **argv)
 	if (argv[1])
 	{
 		data->exit_code = 1;
-		ft_printf("minishell: env: too many arguments\n");
+		ft_putstr_fd("minishell: env: too many arguments\n", STDERR_FILENO);
 		return ;
 	}
 	current = data->env;
@@ -59,7 +59,7 @@ void    update_env(t_env *env, char *name, char *value)
 	if (!ft_strncmp(name, "PWD", 3))
 	{
 		i ++;
-		if (i == 1)
+		if (i == 1 && !find_var(env, "OLDPWD"))
 			add_new_var(env, "OLDPWD", current->value, 1);
 		else
 			update_env(env, "OLDPWD", current->value);

@@ -38,6 +38,9 @@ typedef struct s_data
 	t_quote	quote;
 }		t_data;
 
+//print format string in chosen fd
+int		printf_fd(int fd, const char *s, ...);
+
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);
 

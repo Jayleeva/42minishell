@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/01 16:49:48 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:03:23 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	{
         if (rl_line_buffer && *rl_line_buffer)
         {
-            ft_printf("Quit (core dumped)\n"); // only if blocking command! if not, do nothing.
+            ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO); // only if blocking command! if not, do nothing.
             reset_prompt();
         }
 	}

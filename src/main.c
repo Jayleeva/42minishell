@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
 /*   Updated: 2025/05/04 22:02:31 by yishan           ###   ########.fr       */
@@ -82,7 +82,7 @@ int main(int argc, char **argv, char **envp)
 {
     t_data  	data;
 	int			nvar;
-	//static int	i = 0; // doesn't work with a static. I need to know if this current process is a child
+	//static int	i = 0; 				// doesn't work with a static. I need to know if this current process is a child
 
 	(void)argv;
     if (argc == 3)
@@ -90,7 +90,9 @@ int main(int argc, char **argv, char **envp)
 	init_data(&data);
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	/*if (i > 0) // if a child:
+	if (getpid() > getppid()) 			// NEEDS TESTING: must solve the outfile/infile problem first.
+		update_env(data.env, "SHLVL", "1");
+	/*if (i > 0) 						// if is a child:
 		update_env(data.env, "SHLVL", "1");
 	i ++;*/
 	minishell_interactive(&data);
