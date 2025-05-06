@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_builtin_environment.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/05 11:00:17 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:40:42 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void    update_env(t_env *env, char *name, char *value)
 	{
 		temp = atoi(value);
 		value = ft_itoa(atoi(current->value) + temp);
+		printf("value = %s\n", value);
 	}
 	current->value = ft_strdup(value);
 }
