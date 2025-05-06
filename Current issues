@@ -3,3 +3,10 @@ CURRENT ISSUES
 
 - SHLVL needs to be incremented everytime we call minishell inside minishell, and decremented everytime we close one. Every minishell call inside minishell = a child, that becomes the parent of the next child, that becomes the parent of the next child, ...
 - export doesnt handle mutliple args, only exports the first oneclear
+- echo $pwd, maybe need another function to update the env 
+
+- exit agv, for exp  exit 5
+  exit
+  $? (returns the last exit of the cmd)
+  0: command not found  //should prit 5, which is that last exit
+- env -i ./minishell

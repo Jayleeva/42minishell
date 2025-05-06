@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:37:31 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/06 13:08:56 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/06 14:49:30 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,6 @@ t_bool	resolve_command_path(t_data *data, t_cmd *cmd, char **path)
 		return (FALSE);
 	}
 	return (TRUE);
-}
-
-void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
-{
-	if (cmd->outfile < 0 && has_next)
-		cmd->outfile = data->pipe_fd[1];
-	else
-		close(data->pipe_fd[1]);
-	close(data->pipe_fd[0]);
-	execute_builtin(data, cmd);
-	exit(data->exit_code);
 }
 
 static size_t	env_lenght(t_env *list)
