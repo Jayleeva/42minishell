@@ -30,6 +30,7 @@ typedef struct s_data
 	int		last_pid;
 	int		exit_code;
 	char	**paths;
+	char	*expanded_input;
 	t_env	*env;
 	t_env	*export;
 	t_token	*token;
@@ -45,7 +46,7 @@ t_env	*find_var(t_env *head, char *name);
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);
 
-int		dollar_handle(char **input, t_data *data);
+int		dollar_handle(char *input, t_data *data);
 int		put_character(char *current_char, char **buffer, t_data *data, int *i);
 int		put_dollar(char *input, int *i, char **buffer, t_data *data);
 int		check_env_variable(char *input, int *i, t_data *data);

@@ -13,109 +13,64 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-char	*extract_var_name(char *input, int length)
+char    *extract_var_name(char *input, int length)
 {
-	char	*name;
-	int		i;
+    char    *name;
+    int     i;
 
-	name = malloc(sizeof(char) * (length + 1));
-	if (!name)
-		return (NULL);
-	i = 0;
-	while (input[i] && i < length)
-	{
-		name[i] = input[i];
-		i++;
-	}
-	name[i] = '\0';
-	return (name);
+    name = malloc(sizeof(char) * (length + 1));
+    if (!name)
+        return (NULL);
+    i = 0;
+    while (input[i] && i < length)
+    {
+        name[i] = input[i];
+        i++;
+    }
+    name[i] = '\0';
+    return (name);
 }
 
-char	*get_env_value(t_env *env, char *name)
+char    *get_env_value(t_env *env, char *name)
 {
-	t_env	*var;
+    t_env   *var;
 
-	var = find_var(env, name);
-	if (!var)
-		return (NULL);
-	else
-		return (var->value);
-	
-	/*t_env	*current;
-	int		name_len;
-	char	*equal_sign;
-	char	*nameeq;
-
-	nameeq = ft_strjoin(&(name[1]), "=");
-	if (!nameeq)
-		return (NULL);
-	name_len = ft_strlen(nameeq);
-	current = env;
-	while (current)
-	{
-		if (ft_strncmp(current->var, nameeq, name_len) == 0)
-		{
-			equal_sign = ft_strchr(current->var, '=');
-			if (equal_sign)
-			{
-				free(nameeq);
-				return (ft_strdup(equal_sign + 1));
-			}
-		}
-		current = current->next;
-	}
-	free(nameeq);
-	return (NULL);*/
+    var = find_var(env, name);
+    if (!var)
+        return (NULL);
+    else
+        return (var->value);
 }
 
-/*static char	*search_environment(t_env *env, char *var_name, int name_len)
+int get_var_name_length(char *input)
 {
-	char	*equal_sign;
+    int i;
 
-	while (env)
-	{
-		equal_sign = ft_strchr(env->var, '=');
-		if (equal_sign && (equal_sign - env->var) == name_len
-			&& !ft_strncmp(env->var, var_name, name_len))
-		{
-			return (equal_sign + 1);
-		}
-		env = env->next;
-	}
-	return (NULL);
-}*/
+    i = 0;
+    while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+        i++;
+    return (i);
+}
 
-//Extracts and validates variable name length
-/*static int	get_var_name_length(char *input)
+int check_env_variable(char *input, int *i, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
-		i++;
-	return (i);
-}*/
-
-int	check_env_variable(char *input, int *i, t_data *data)
-{
-	//int		name_len;
-	//char	*value;
-
-	if (input[*i + 1] == '?' || input[*i + 1] == '$')
-		return (2);
-	
-	if (!find_var(data->env, input))
-		return (0);
-	else
-		return (1);
-	/*name_len = get_var_name_length(&input[*i + 1]);
-	if (!name_len)
-		return (0);
-	value = search_environment(data->env, &input[*i + 1], name_len);
-	if (value)
-	{
-		*i += name_len + 1;
-		return (1);
-	}
-	return (0);*/
+    int     l;
+    char    *name;
+    t_env   *var;
+    
+    if (input[*i + 1] == '?' || input[*i + 1] == '$')
+        return (2);
+    l = get_var_name_length(&input[*i + 1]);
+    if (l == 0)
+        return (0);
+    name = ft_substr(input, *i + 1, l);
+    var = find_var(data->env, name);
+    if (var)
+    {
+        *i += l + 1;
+        printf("EXISTS\n");
+        return (1);
+    }
+    printf("DOESNT EXIST\n");
+    return (0);
 }

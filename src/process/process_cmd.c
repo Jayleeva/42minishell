@@ -17,41 +17,34 @@
 
 // Parse the input and execute the corresponding commands
 //tokenizing the input, handling pipes, redirections, etc.
-t_bool	process_input(t_data *data, char *input)
+t_bool  process_input(t_data *data, char *input)
 {
-	write(1, "--A--\n", 6);
-	if (!check_open_quotes(data, input))
-	{
-		free(input);
-		return (FALSE);
-	}
-	write(1, "--B--\n", 6);
-	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
-	{
-		
-		free(input);
-		token_clear(&(data->token));
-		return (FALSE);
-	}
-	write(1, "--C--\n", 6);
-	//print_token_list(data->token);
-	if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
-	{
-		
-		free(input);
-		token_clear(&(data->token));
-		cmd_clear(&data->cmd);
-		return (FALSE);
-	}
-	write(1, "--D--\n", 6);
-	//print_cmd(data->cmd);
-	free(input);
-	return (TRUE);
+    if (!check_open_quotes(data, input))
+    {
+        free(input);
+        return (FALSE);
+    }
+    if (!dollar_handle(input, data) ||!create_token_list(&data->token, input))
+    {
+        free(input);
+        token_clear(&(data->token));
+        return (FALSE);
+    }
+    //print_token_list(data->token);
+    if (!data->token || !check_pipe_syntax(data) || !create_cmd_list(data))
+    {
+        free(input);
+        token_clear(&(data->token));
+        cmd_clear(&data->cmd);
+        return (FALSE);
+    }
+    //print_cmd(data->cmd);
+    free(input);
+    return (TRUE);
 }
 
 void    process_cmd(t_data *data, t_cmd *cmd)
 {
-	write(1, "-----A-----\n", 12);
     if (!ft_strncmp(cmd->argv[0], "exit", 5)) 
         process_exit(data, cmd->argv);
     else if (!ft_strncmp(cmd->argv[0], "pwd", 4))
@@ -59,10 +52,7 @@ void    process_cmd(t_data *data, t_cmd *cmd)
     else if (!ft_strncmp(cmd->argv[0], "env", 4))
         process_env(data, cmd->argv);
     else if (!ft_strncmp(cmd->argv[0], "cd", 2))
-	{
-		write(1, "----B----\n", 10);
         process_cd(data, cmd->argv);
-	}
     else if (!ft_strncmp(cmd->argv[0], "export", 6))
         process_export(data, cmd->argv);
     else if (!ft_strncmp(cmd->argv[0], "unset", 5))
