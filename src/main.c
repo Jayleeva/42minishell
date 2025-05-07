@@ -89,14 +89,15 @@ int main(int argc, char **argv, char **envp)
     if (argc == 3)
 		return (1);
 	init_data(&data);
+	if (!envp) // backup in case of (env -i) no environment received, in this case you could generate manually your env data if some is critical to the program, or set all to NULL
+	{
+		ft_putstr_fd("Error: no environment received\n", 2);
+		exit(1);
+	}
 	nvar = count_var(envp);
-	// if (!envp) // backup in case of (env -i) no environment received, in this case you could generate manually your env data if some is critical to the program, or set all to NULL
-	// {
-	// 	data.env = malloc(sizeof(t_env));
-	// }
 	data.env = init_env(envp, nvar);
 	//if (getpid() > getppid()) 			// doesn't work.
-	//	update_env(data.env, "SHLVL", "1");
+	//	update_env(data.env, "SHLVL", "+1");
 	/*if (i > 0) 						// if is a child:
 		update_env(data.env, "SHLVL", "1");
 	i ++;*/

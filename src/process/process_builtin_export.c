@@ -110,6 +110,7 @@ void	export(t_env *env, char *var, int i)
 void	process_export(t_data *data, char **argv)
 {
 	int		i;
+	int		j;
 
 	data->exit_code = 0;
     if (!argv[1]) //si pas d'argument, display la liste
@@ -117,12 +118,14 @@ void	process_export(t_data *data, char **argv)
         display_export(data);
         return;
     }
-	//while () tant qu'il y a des trucs à exporter!! voir plus tard
-	i = strchri(argv[1], '=');
-	if (i == 0) // si nom commence par =, pas valable
+	i = 1;
+	while (argv[i])
 	{
-		printf_fd(STDERR_FILENO, "minishell: export: `=': not a valid identifier\n");
-		return ;
+		j = strchri(argv[i], '=');
+		if (j == 0) // si nom commence par =, pas valable
+			printf_fd(STDERR_FILENO, "minishell: export: `=': not a valid identifier\n");
+		else
+			export(data->env, argv[i], j);
+		i ++;
 	}
-	export(data->env, argv[1], i);
 }

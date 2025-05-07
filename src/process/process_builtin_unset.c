@@ -65,14 +65,20 @@ void	process_unset(t_data *data, char **argv)
 {
 	char	*name;
 	t_env	*head;
+	int		i;
 
 	data->exit_code = 0;
     if (!argv[1])
+		return ;
+	i = 1;
+	while (argv[i])
 	{
-		write(1, "HEY\n", 4);
-        return ;
+		name = get_name(argv[i]);
+		if (name)
+		{
+			head = data->env;
+			data->env = unset_env(&head, name);
+		}
+		i ++;
 	}
-	name = get_name(argv[1]);
-	head = data->env;
-    data->env = unset_env(&head, name);
 }

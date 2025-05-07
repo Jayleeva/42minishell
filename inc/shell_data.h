@@ -97,7 +97,7 @@ void    process_env(t_data *data, char **argv);
 void	process_export(t_data *data, char **argv);
 void	process_unset(t_data *data, char **argv);
 void    process_echo(t_data *data, char **argv);
-void    process_exit(t_data *data);
+void    process_exit(t_data *data, char **argv);
 void    process_other(char *cmd, t_data *data);
 void    process_dollar(t_data *data);
 void	display_export(t_data *data);

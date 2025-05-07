@@ -46,7 +46,7 @@ t_bool	process_input(t_data *data, char *input)
 void    process_cmd(t_data *data, t_cmd *cmd)
 {
     if (!ft_strncmp(cmd->argv[0], "exit", 5)) 
-        process_exit(data);
+        process_exit(data, cmd->argv);
     else if (!ft_strncmp(cmd->argv[0], "pwd", 4))
         process_pwd(data);
     else if (!ft_strncmp(cmd->argv[0], "env", 4))
