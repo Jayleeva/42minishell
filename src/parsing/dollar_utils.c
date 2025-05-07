@@ -42,13 +42,35 @@ char	*get_env_value(t_env *env, char *name)
 		return (var->value);
 }
 
+int	get_var_name_length(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+		i++;
+	return (i);
+}
+
 int	check_env_variable(char *input, int *i, t_data *data)
 {
+	int		l;
+	char	*name;
+	t_env	*var;
+	
 	if (input[*i + 1] == '?' || input[*i + 1] == '$')
 		return (2);
-	
-	if (!find_var(data->env, input))
+	l = get_var_name_length(&input[*i + 1]);
+	if (l == 0)
 		return (0);
-	else
+	name = ft_substr(input, *i + 1, l);
+	var = find_var(data->env, name);
+	if (var)
+	{
+		*i += l + 1;
+		printf("EXISTS\n");
 		return (1);
+	}
+	printf("DOESNT EXIST\n");
+	return (0);
 }

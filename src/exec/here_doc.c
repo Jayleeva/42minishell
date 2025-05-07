@@ -26,8 +26,9 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 		free(line);
 		return (TRUE);
 	}
-	if (!dollar_handle(&line, data))
+	if (!dollar_handle(line, data))
 	{
+		//write(1, "HEY\n", 4);
 		free(line);
 		return (FALSE);
 	}

@@ -52,6 +52,7 @@ int	handle_env_variable(t_data *data, char *input, int length, char **buffer)
 	if (!var_name)
 		return (0);
 	env_value = get_env_value(data->env, var_name);
+	printf("env value = %s\n", env_value);
 	free(var_name);
 	value_to_append = env_value;
 	if (value_to_append == NULL)
@@ -76,17 +77,20 @@ int	put_dollar(char *input, int *i, char **buffer, t_data *data)
 	value = check_env_variable(input, i, data);
 	if (value == 1)
 	{
+		write(1, "-A-\n", 4);
 		return (handle_env_variable(data, &input[org_i],
-				*i - org_i, buffer));
+				*i - org_i, buffer));							// décalé, donc marche pas avec echo.
 	}
 	else if (value == 2)
 	{
+		write(1, "-B-\n", 4);
 		special_char = input[*i + 1];
 		*i += 2;
 		return (handle_special_case(data, buffer, special_char));
 	}
 	else
 	{
+		write(1, "-C-\n", 4);
 		(*i)++;
 		while (input[*i] && (ft_isalnum(input[*i]) || input[*i] == '_'))
 			(*i)++;
@@ -114,15 +118,35 @@ int	put_character(char *current_char, char **buffer, t_data *data, int *i)
 	return (1);
 }
 
-int	dollar_handle(char **input, t_data *data)
+void	expand_dollar()
+
+int	dollar_handle(char *input, t_data *data)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
+	str = ft_strdup("");
 	data->quote.double_quote = FALSE;
 	data->quote.single_quote = FALSE;
-	str = ft_strdup("");
+	while (input[i])
+	{
+		handle_quotes(input[i], &data->quote);
+		if (input[i] == '$')
+		{
+			if (input[i + 1] &&				 													// if there's a char after, and	
+			(ft_isalpha(input[i + 1]) || input[i + 1] == '?' || input[i + 1] == '_') &&			// that char is either a letter, a ? or a _, and 
+			!data->quote.single_quote &&															// there is no single quote, and
+			!expand_dollar(input, i, &str, data))													// expand_dollar worked, then
+				return (0);																			// dollar_handle worked.
+		}
+		/*if (input[i] && !put_character(&input[i], &str, data, &i))							// if there's a char, and put_character didn't worked? worked?, then
+		{	
+			write(1, "-C-\n", 4);
+			return (0);																				// dollar_handle worked.
+		}*/
+	}
+	/*str = ft_strdup("");
 	while ((*input)[i])
 	{
 		handle_quotes((*input)[i], &data->quote);
@@ -136,7 +160,6 @@ int	dollar_handle(char **input, t_data *data)
 			return (0);
 	}
 	free(*input);
-	*input = str;
+	*input = str;*/
 	return (1);
 }
-

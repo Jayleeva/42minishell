@@ -24,7 +24,7 @@ t_bool	process_input(t_data *data, char *input)
 		free(input);
 		return (FALSE);
 	}
-	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
+	if (!dollar_handle(input, data) ||!create_token_list(&data->token, input))
 	{
 		free(input);
 		token_clear(&(data->token));
