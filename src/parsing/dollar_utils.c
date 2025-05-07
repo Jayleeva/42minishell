@@ -33,7 +33,15 @@ char	*extract_var_name(char *input, int length)
 
 char	*get_env_value(t_env *env, char *name)
 {
-	t_env	*current;
+	t_env	*var;
+
+	var = find_var(env, name);
+	if (!var)
+		return (NULL);
+	else
+		return (var->value);
+	
+	/*t_env	*current;
 	int		name_len;
 	char	*equal_sign;
 	char	*nameeq;
@@ -57,10 +65,10 @@ char	*get_env_value(t_env *env, char *name)
 		current = current->next;
 	}
 	free(nameeq);
-	return (NULL);
+	return (NULL);*/
 }
 
-static char	*search_environment(t_env *env, char *var_name, int name_len)
+/*static char	*search_environment(t_env *env, char *var_name, int name_len)
 {
 	char	*equal_sign;
 
@@ -75,10 +83,10 @@ static char	*search_environment(t_env *env, char *var_name, int name_len)
 		env = env->next;
 	}
 	return (NULL);
-}
+}*/
 
 //Extracts and validates variable name length
-static int	get_var_name_length(char *input)
+/*static int	get_var_name_length(char *input)
 {
 	int	i;
 
@@ -86,16 +94,21 @@ static int	get_var_name_length(char *input)
 	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
 		i++;
 	return (i);
-}
+}*/
 
 int	check_env_variable(char *input, int *i, t_data *data)
 {
-	int		name_len;
-	char	*value;
+	//int		name_len;
+	//char	*value;
 
 	if (input[*i + 1] == '?' || input[*i + 1] == '$')
 		return (2);
-	name_len = get_var_name_length(&input[*i + 1]);
+	
+	if (!find_var(data->env, input))
+		return (0);
+	else
+		return (1);
+	/*name_len = get_var_name_length(&input[*i + 1]);
 	if (!name_len)
 		return (0);
 	value = search_environment(data->env, &input[*i + 1], name_len);
@@ -104,5 +117,5 @@ int	check_env_variable(char *input, int *i, t_data *data)
 		*i += name_len + 1;
 		return (1);
 	}
-	return (0);
+	return (0);*/
 }

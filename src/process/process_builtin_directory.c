@@ -18,6 +18,7 @@ void    process_cd(t_data *data, char **argv)
 {
     char    *path;
 
+    write(1, "------A------\n", 14);
     path = NULL;
     if (argv[2])
     {
@@ -28,17 +29,19 @@ void    process_cd(t_data *data, char **argv)
     if (!argv[1]) // si pas d'argument donné, retour à HOME.
     {
         data->exit_code = 0;
-        chdir(get_env_value(data->env, " HOME")); // must add a space before because the get_env_value function starts the name from name[1] instead of name[0]
-        update_env(data->env, "PWD", get_env_value(data->env, " HOME"));
-        return ;
+        path = ft_strdup(get_env_value(data->env, "HOME"));// must add a space before because the get_env_value function starts the name from name[1] instead of name[0]
     }
-    if (chdir(argv[1]) == -1)
+    else
+        path = ft_strdup(argv[1]);
+    if (chdir(path) == -1)
 	{
-		data->exit_code = 1;
-        printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", argv[1]);
+        data->exit_code = 1;
+        printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", path);
+        free(path);
         return ;
 	}
     update_env(data->env, "PWD", getcwd(path, 0));
+    free(path);
     data->exit_code = 0;
 }
 

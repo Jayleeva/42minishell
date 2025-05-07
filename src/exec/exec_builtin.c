@@ -120,6 +120,7 @@ static void	restore_builtin_redirections(int saved_stdout, int saved_stdin,
 
 t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 {
+	write(1, "----A----\n", 10);
 	int	saved_stdout;
 	int	saved_stdin;
 	int	need_restore_out;
@@ -131,7 +132,9 @@ t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 	need_restore_in = 0;
 	if (!setup_builtin_redirections(cmd, &saved_stdout, &saved_stdin, &need_restore_out, &need_restore_in))
 		return (FALSE);
+	write(1, "----B----\n", 10);
 	process_cmd(data, cmd);
+	write(1, "----C----\n", 10);
 	restore_builtin_redirections(saved_stdout, saved_stdin, need_restore_out, need_restore_in);
 	return (TRUE);
 }

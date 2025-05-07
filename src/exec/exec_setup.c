@@ -108,6 +108,7 @@ t_bool	execute_pipeline(t_data *data)
 	t_bool	result;
 	int		prev_pipe;
 
+	write(1, "---A---\n", 8);
 	current = data->cmd;
 	prev_pipe = -1;
 	while (current)
@@ -124,6 +125,7 @@ t_bool	execute_pipeline(t_data *data)
 		if (!current)
 			break ;
 	}
+	write(1, "---B---\n", 8);
 	result = wait_for_child(data);
 	close_redirections(data);
 	return (result);

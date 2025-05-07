@@ -83,7 +83,7 @@ int main(int argc, char **argv, char **envp)
 {
     t_data  	data;
 	int			nvar;
-	//static int	i = 0; 				// doesn't work with a static. I need to know if this current process is a child
+	static int	i = 0; 				// doesn't work with a static. I need to know if this current process is a child
 
 	(void)argv;
     if (argc == 3)
@@ -92,15 +92,18 @@ int main(int argc, char **argv, char **envp)
 	if (!envp) // backup in case of (env -i) no environment received, in this case you could generate manually your env data if some is critical to the program, or set all to NULL
 	{
 		ft_putstr_fd("Error: no environment received\n", 2);
+		data.exit_code = 1;
 		exit(1);
 	}
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
 	//if (getpid() > getppid()) 			// doesn't work.
-	//	update_env(data.env, "SHLVL", "+1");
+	//if (getpid() == 0)						// doesn't work.
+	if (getppid())
+		update_env(data.env, "SHLVL", ft_itoa(i));
 	/*if (i > 0) 						// if is a child:
-		update_env(data.env, "SHLVL", "1");
-	i ++;*/
+		update_env(data.env, "SHLVL", "1");*/
+	i ++;
 	minishell_interactive(&data);
 	return (0);
 }
