@@ -33,16 +33,52 @@ char	*extract_var_name(char *input, int length)
 
 char	*get_env_value(t_env *env, char *name)
 {
-	t_env	*var;
+	t_env	*current;
+	int		name_len;
+	char	*equal_sign;
+	char	*nameeq;
 
-	var = find_var(env, name);
-	if (!var)
+	nameeq = ft_strjoin(&(name[1]), "=");
+	if (!nameeq)
 		return (NULL);
-	else
-		return (var->value);
+	name_len = ft_strlen(nameeq);
+	current = env;
+	while (current)
+	{
+		if (ft_strncmp(current->var, nameeq, name_len) == 0)
+		{
+			equal_sign = ft_strchr(current->var, '=');
+			if (equal_sign)
+			{
+				free(nameeq);
+				return (ft_strdup(equal_sign + 1));
+			}
+		}
+		current = current->next;
+	}
+	free(nameeq);
+	return (NULL);
 }
 
-int	get_var_name_length(char *input)
+static char	*search_environment(t_env *env, char *var_name, int name_len)
+{
+	char	*equal_sign;
+
+	while (env)
+	{
+		equal_sign = ft_strchr(env->var, '=');
+		if (equal_sign && (equal_sign - env->var) == name_len
+			&& !ft_strncmp(env->var, var_name, name_len))
+		{
+			return (equal_sign + 1);
+		}
+		env = env->next;
+	}
+	return (NULL);
+}
+
+//Extracts and validates variable name length
+static int	get_var_name_length(char *input)
 {
 	int	i;
 
@@ -54,23 +90,19 @@ int	get_var_name_length(char *input)
 
 int	check_env_variable(char *input, int *i, t_data *data)
 {
-	int		l;
-	char	*name;
-	t_env	*var;
-	
+	int		name_len;
+	char	*value;
+
 	if (input[*i + 1] == '?' || input[*i + 1] == '$')
 		return (2);
-	l = get_var_name_length(&input[*i + 1]);
-	if (l == 0)
+	name_len = get_var_name_length(&input[*i + 1]);
+	if (!name_len)
 		return (0);
-	name = ft_substr(input, *i + 1, l);
-	var = find_var(data->env, name);
-	if (var)
+	value = search_environment(data->env, &input[*i + 1], name_len);
+	if (value)
 	{
-		*i += l + 1;
-		printf("EXISTS\n");
+		*i += name_len + 1;
 		return (1);
 	}
-	printf("DOESNT EXIST\n");
 	return (0);
 }

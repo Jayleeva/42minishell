@@ -48,7 +48,7 @@ CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_LIB)
-	@${CC} ${CFLAGS} ${OBJ} $(LIBFT_LIB) -o $(NAME) -lreadline 
+	@${CC} ${CFLAGS} ${OBJ} $(LIBFT_LIB) -o $(NAME) -lreadline
 
 $(LIBFT_LIB):
 	@${MAKE} -C libft

@@ -41,7 +41,7 @@ typedef struct s_data
 int		printf_fd(int fd, const char *s, ...);
 //find environment var
 t_env	*find_var(t_env *head, char *name);
-int		get_var_name_length(char *input);
+//int		get_var_name_length(char *input);
 
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);
