@@ -29,25 +29,34 @@ int isnum(char *s)
     return (1);
 }
 
+void    bad_exit(t_data *data, char *arg)
+{
+    ft_printf("exit\n");
+    printf_fd(1, "minishell: exit: %s: numeric argument required\n", arg);
+    data->exit_code = 2;
+    exit (2);
+}
+
 void    process_exit(t_data *data, char **argv)
 {
     data->exit_code = 0;
-    if (argv[2])
-        ft_putstr_fd("minishell: exit: too many arguments\n");
     if (argv[1])
     {
-        if (!isnum(argv[1]))
+        if (isnum(argv[1]))
         {
-            ft_printf("exit\n");
-            printf_fd(1, "minishell: exit: %s: numeric argument required\n", argv[1]);
-            data->exit_code = 2;
-            exit (2);
+            if (argv[2])
+            {
+                ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+                data->exit_code = 1;
+            }
+            else
+            {
+                data->exit_code = ft_atoi(argv[1]) % 256;
+                exit (data->exit_code);
+            }
         }
         else
-        {
-            data->exit_code = ft_atoi(argv[1]) % 256;
-            exit (data->exit_code);
-        }
+            bad_exit(data, argv[1]);
     }
     else
     {

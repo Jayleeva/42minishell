@@ -72,8 +72,11 @@ void    minishell_interactive(t_data *data)
             data->exit_code = 128 + (int)sig;
             sig = 0;
         }
-        if (!input)
-            process_exit(data);  // Handle EOF (Ctrl+D)
+        if (!input) // Handle EOF (Ctrl+D)
+        {
+            data->exit_code = 0;
+            exit (0);
+        } 
         if (*input)
 		{
             add_history(input);
