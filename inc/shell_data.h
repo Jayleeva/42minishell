@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 11:07:15 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 15:57:36 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	display_export(t_data *data);
 void	update_export(t_env *env, char *name, char *value, int exported);
 void	add_empty_export(t_data *data, char *cmd);
 void	add_to_env(t_data *data, char *cmd, int i);
+int		is_valid(char c);
 //other
 void    minishell_interactive(t_data *data);
 void	update_var(char *var, char *cmd, char *name, char *value);

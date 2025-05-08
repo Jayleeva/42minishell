@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 14:14:07 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:25:28 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	init_signals()
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
 	sigaction(SIGINT, &shell, NULL);
+	//sigaction(SIGQUIT, &shell, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
 

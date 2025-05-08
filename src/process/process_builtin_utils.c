@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:52:13 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:56:56 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,12 @@ void	display_export(t_data *data)
 			ft_printf("declare -x %s\n", current->name);
 		current = current->next;
 	}
+}
+
+int	is_valid(char c)
+{
+	if (c == '_' || ft_isalpha(c))
+		return (1);
+	else
+		return (0);
 }
