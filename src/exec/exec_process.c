@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/06 14:45:04 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 11:59:22 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 
 static void	add_child_pid(t_data *data, pid_t pid)
 {
-	data->child_pids = realloc(data->child_pids,
+	pid_t	*new_pids;
+
+	new_pids = ft_realloc(data->child_pids,
+			data->child_count * sizeof(pid_t),
 			(data->child_count + 1) * sizeof(pid_t));
-	if (!data->child_pids)
+	if (!new_pids)
 	{
 		perror("minishell: failed to allocate child PIDs");
 		exit(EXIT_FAILURE);
 	}
+	data->child_pids = new_pids;
 	data->child_pids[data->child_count++] = pid;
 }
 
@@ -76,6 +80,7 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 
 	path = NULL;
 	env_array = NULL;
+	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(cmd->argv[0]))
 		exec_builtin_child(cmd, data, has_next);
 	if (!setup_redirections(cmd, prev_pipe, data, has_next))
