@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:37:31 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 11:02:02 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:45:02 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,16 @@ char	**env_to_array(t_env *env)
 	dst = malloc(sizeof(char *) * (env_lenght(list) + 1));
 	if (!dst)
 		return (NULL);
-	dst[i] = (list->var);
+	dst[i] = ft_strdup(list->name);
+	dst[i] = ft_strjoin(dst[i], "=");
+	dst[i] = ft_strjoin(dst[i], list->value);
 	list = list->next;
 	i++;
 	while (list != env && list != NULL)
 	{
-		dst[i] = (list->var);
+		dst[i] = ft_strdup(list->name);
+		dst[i] = ft_strjoin(dst[i], "=");
+		dst[i] = ft_strjoin(dst[i], list->value);
 		list = list->next;
 		i++;
 	}

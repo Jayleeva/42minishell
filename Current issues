@@ -1,4 +1,3 @@
 CURRENT ISSUES 
 ---------------
-
-- SHLVL needs to be incremented everytime we call minishell inside minishell (and go back to its previous value when closing one). Every minishell call inside minishell = a child, that becomes the parent of the next child, that becomes the parent of the next child, ...
+cheak the leak

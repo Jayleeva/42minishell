@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 12:23:54 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:56:11 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*search_environment(t_env *env, char *var_name, int name_len)
 	{
 		if (!ft_strncmp(env->name, var_name, name_len))
 		{
-			return (env->value);
+			return ft_strdup(env->value);
 		}
 		env = env->next;
 	}

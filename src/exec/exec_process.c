@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 11:59:22 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:47:37 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 	execve(path, cmd->argv, env_array);
 	if (!resolve_command_path(data, cmd, &path))
 		exit(data->exit_code);
+	update_env(data->env, "SHLVL", "+1");
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{
@@ -95,7 +96,6 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 		free(path);
 		exit(1);
 	}
-	//update_env(data->env, "SHLVL", "+1");
 	execve(path, cmd->argv, env_array);
 	perror("execve");
 	free(path);
