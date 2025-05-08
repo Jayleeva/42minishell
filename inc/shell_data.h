@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/06 10:43:33 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:07:15 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ t_bool	resolve_command_path(t_data *data, t_cmd *cmd, char **path);
 char	**env_to_array(t_env *env);
 char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
+
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 //builtin
 void	divide_var(t_env *current, char *env, int exported);
 void	add_new_var(t_env *env, char *name, char *value, int to_export);

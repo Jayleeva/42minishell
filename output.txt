@@ -1,1 +1,0 @@
-/home/yisho/42projects/42minishell

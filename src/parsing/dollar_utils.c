@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/01 15:36:14 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:56:11 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,50 +31,23 @@ char	*extract_var_name(char *input, int length)
 	return (name);
 }
 
-char	*get_env_value(t_env *env, char *name)
-{
-	t_env	*current;
-	int		name_len;
-	char	*equal_sign;
-	char	*nameeq;
-
-	nameeq = ft_strjoin(&(name[1]), "=");
-	if (!nameeq)
-		return (NULL);
-	name_len = ft_strlen(nameeq);
-	current = env;
-	while (current)
-	{
-		if (ft_strncmp(current->var, nameeq, name_len) == 0)
-		{
-			equal_sign = ft_strchr(current->var, '=');
-			if (equal_sign)
-			{
-				free(nameeq);
-				return (ft_strdup(equal_sign + 1));
-			}
-		}
-		current = current->next;
-	}
-	free(nameeq);
-	return (NULL);
-}
 
 static char	*search_environment(t_env *env, char *var_name, int name_len)
 {
-	char	*equal_sign;
-
 	while (env)
 	{
-		equal_sign = ft_strchr(env->var, '=');
-		if (equal_sign && (equal_sign - env->var) == name_len
-			&& !ft_strncmp(env->var, var_name, name_len))
+		if (!ft_strncmp(env->name, var_name, name_len))
 		{
-			return (equal_sign + 1);
+			return ft_strdup(env->value);
 		}
 		env = env->next;
 	}
 	return (NULL);
+}
+
+char	*get_env_value(t_env *env, char *name)
+{
+	return (search_environment(env, &name[1], ft_strlen(name)));
 }
 
 //Extracts and validates variable name length

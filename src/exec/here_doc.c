@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/06 11:10:40 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:25:22 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,29 @@ static t_bool	read_heredoc_input(t_data *data, int fd, char *delimiter)
 
 int	here_doc(t_data *data, char *delimiter)
 {
-	int	fd;
+	int		fd;
+	int		status;
+	pid_t	pid;
 
-	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		return (-1);
-	if (!read_heredoc_input(data, fd, delimiter))
+	pid = fork();
+	if (pid == 0)
 	{
+		fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+			return (-1);
+		if (!read_heredoc_input(data, fd, delimiter))
+		{
+			close(fd);
+			unlink(".heredoc.tmp");
+			return (-1);
+		}
 		close(fd);
-		unlink(".heredoc.tmp");
-		return (-1);
 	}
-	close(fd);
+	else if (pid < 0)
+		return (-1);
+	waitpid(pid, &status, 0);
+	// if (WIFEXITED(status) && WIFSIGNALED(status) != 0)
+	// 	return (-1);
 	fd = open(".heredoc.tmp", O_RDONLY);
 	if (fd >= 0)
 		unlink(".heredoc.tmp");

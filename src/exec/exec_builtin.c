@@ -6,7 +6,7 @@
 /*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/06 15:04:04 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 10:23:08 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,81 +28,49 @@ t_bool	is_builtin(char *cmd)
 	return (FALSE);
 }
 
-void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
+static t_bool	set_output_red(t_cmd *cmd,
+		int *saved_stdout, int *need_restore_out)
 {
-	if (cmd->outfile < 0 && has_next)
-		cmd->outfile = data->pipe_fd[1];
-	else
-		close(data->pipe_fd[1]);
-	close(data->pipe_fd[0]);
-	execute_builtin(data, cmd);
-	exit(data->exit_code);
+	if (cmd->outfile < 0)
+		return (TRUE);
+	*saved_stdout = dup(STDOUT_FILENO);
+	if (*saved_stdout == -1)
+		return (FALSE);
+	if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
+	{
+		close(*saved_stdout);
+		return (FALSE);
+	}
+	*need_restore_out = 1;
+	return (TRUE);
 }
 
-// t_bool	execute_builtin(t_data *data, t_cmd *cmd)
-// {
-// 	int	out;
-
-// 	out = -1;
-// 	if (cmd->outfile >= 0)
-// 	{
-// 		out = dup(1);
-// 		dup2(cmd->outfile, 1);
-// 	}
-// 	process_cmd(data, data->cmd);
-// 	if (cmd->outfile >= 0)
-// 	{
-// 		dup2(out, 1);
-// 		close (out);
-// 	}
-// 	return (TRUE);
-// }
-
-static t_bool setup_builtin_redirections(t_cmd *cmd, int *saved_stdout, int *saved_stdin, 
-                                       int *need_restore_out, int *need_restore_in)
+static t_bool	set_input_red(t_cmd *cmd, int *saved_stdin,
+		int *need_restore_in, int saved_stdout, int need_restore_out)
 {
-    if (cmd->outfile >= 0)
-    {
-        *saved_stdout = dup(STDOUT_FILENO);
-        if (*saved_stdout == -1) {
-            perror("minishell: dup");
-            return (FALSE);
-        }
-        if (dup2(cmd->outfile, STDOUT_FILENO) == -1) {
-            perror("minishell: dup2");
-            close(*saved_stdout);
-            return (FALSE);
-        }
-        *need_restore_out = 1;
-    }
-    if (cmd->infile >= 0)
-    {
-        *saved_stdin = dup(STDIN_FILENO);
-        if (*saved_stdin == -1) {
-            perror("minishell: dup");
-            if (*need_restore_out) {
-                dup2(*saved_stdout, STDOUT_FILENO);
-                close(*saved_stdout);
-            }
-            return (FALSE);
-        }
-        if (dup2(cmd->infile, STDIN_FILENO) == -1) {
-            perror("minishell: dup2");
-            close(*saved_stdin);
-            if (*need_restore_out) {
-                dup2(*saved_stdout, STDOUT_FILENO);
-                close(*saved_stdout);
-            }
-            return (FALSE);
-        }
-        *need_restore_in = 1;
-    }
-    
-    return (TRUE);
+	if (cmd->infile < 0)
+		return (TRUE);
+
+	*saved_stdin = dup(STDIN_FILENO);
+	if (*saved_stdin == -1)
+	{
+		if (need_restore_out)
+			dup2(saved_stdout, STDOUT_FILENO);
+		return (FALSE);
+	}
+	if (dup2(cmd->infile, STDIN_FILENO) == -1)
+	{
+		close(*saved_stdin);
+		if (need_restore_out)
+			dup2(saved_stdout, STDOUT_FILENO);
+		return (FALSE);
+	}
+	*need_restore_in = 1;
+	return (TRUE);
 }
 
-static void	restore_builtin_redirections(int saved_stdout, int saved_stdin,
-                                       int need_restore_out, int need_restore_in)
+static void	restore_builtin_red(int saved_stdout, int saved_stdin,
+	int need_restore_out, int need_restore_in)
 {
 	if (need_restore_out)
 	{
@@ -120,18 +88,27 @@ static void	restore_builtin_redirections(int saved_stdout, int saved_stdin,
 
 t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-	int	need_restore_out;
-	int	need_restore_in;
+	int	save_stdout;
+	int	save_stdin;
+	int	restore_out;
+	int	restore_in;
 
-	saved_stdout = -1;
-	saved_stdin = -1;
-	need_restore_out = 0;
-	need_restore_in = 0;
-	if (!setup_builtin_redirections(cmd, &saved_stdout, &saved_stdin, &need_restore_out, &need_restore_in))
+	save_stdout = -1;
+	save_stdin = -1;
+	restore_out = 0;
+	restore_in = 0;
+	if (!set_output_red(cmd, &save_stdout, &restore_out))
 		return (FALSE);
+	if (!set_input_red(cmd, &save_stdin, &restore_in, save_stdout, restore_out))
+	{
+		if (restore_out)
+		{
+			dup2(save_stdout, STDOUT_FILENO);
+			close(save_stdout);
+		}
+		return (FALSE);
+	}
 	process_cmd(data, cmd);
-	restore_builtin_redirections(saved_stdout, saved_stdin, need_restore_out, need_restore_in);
+	restore_builtin_red(save_stdout, save_stdin, restore_out, restore_in);
 	return (TRUE);
 }
