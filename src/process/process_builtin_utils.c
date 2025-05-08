@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_builtin_echo.c                             :+:      :+:    :+:   */
+/*   process_builtin_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:37:24 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:52:13 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,18 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void	print_in_output(t_data *data, char *s, int n_flag)
+void	display_export(t_data *data)
 {
-	if (data->cmd->outfile == -2)
-		data->cmd->outfile = 1;
-	ft_putstr_fd(s, data->cmd->outfile);
-	if (!n_flag)
-		ft_putchar_fd('\n', data->cmd->outfile);
-}
+	t_env	*current;
 
-void	process_echo(t_data *data, char **argv)
-{
-	char	*s;
-	char	*temp;
-	int		i;
-	int		n_flag;
-
-	n_flag = 0;
-	s = ft_strdup("");
 	data->exit_code = 0;
-	i = 1;
-	if (argv[1] && !ft_strncmp(argv[1], "-n", 2))
+	current = data->env;
+	while (current)
 	{
-		i = 2;
-		n_flag = 1;
+		if (current->exported == 1)
+			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
+		else if (current->exported == 0)
+			ft_printf("declare -x %s\n", current->name);
+		current = current->next;
 	}
-	while (argv[i])
-	{
-		temp = ft_strdup(argv[i]);
-		s = ft_strjoin(s, temp);
-		if (argv[i + 1])
-			s = ft_strjoin(s, " ");
-		free(temp);
-		i ++;
-	}
-	print_in_output(data, s, n_flag);
-	free(s);
 }

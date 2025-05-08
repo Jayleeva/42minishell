@@ -36,6 +36,7 @@ SRC = main.c \
 	process/process_builtin_export.c \
 	process/process_builtin_unset.c \
 	process/process_builtin_exit.c \
+	process/process_builtin_utils.c \
 
 OBJ = $(SRC:.c=.o)
 

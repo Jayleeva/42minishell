@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:05:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:39:44 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_data *data, char **argv)
+void	process_env(t_data *data, char **argv)
 {
 	t_env	*current;
 
@@ -39,23 +39,23 @@ t_env	*find_var(t_env *head, char *name)
 	t_env	*current;
 
 	current = head;
-    while (current)
-    {
-        if (!ft_strncmp(current->name, name, ft_strlen(name)))
-            return (current);
-        else
-            current = current->next;
-    }
-    return (NULL);
+	while (current)
+	{
+		if (!ft_strncmp(current->name, name, ft_strlen(name)))
+			return (current);
+		else
+			current = current->next;
+	}
+	return (NULL);
 }
 
-void    update_env(t_env *env, char *name, char *value)
+void	update_env(t_env *env, char *name, char *value)
 {
-    t_env   	*current;
+	t_env		*current;
 	static int	i = 0;
 	int			temp;
 
-    current = find_var(env, name);
+	current = find_var(env, name);
 	if (!ft_strncmp(name, "PWD", 3))
 	{
 		i ++;

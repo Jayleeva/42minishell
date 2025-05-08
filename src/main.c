@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/06 15:34:06 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/08 14:07:32 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,28 +79,22 @@ void	init_data(t_data *data)
 	data->child_count = 0;
 }
 
-int main(int argc, char **argv, char **envp) 
+int	main(int argc, char **argv, char **envp)
 {
-    t_data  	data;
-	int			nvar;
-	//static int	i = 0; 				// doesn't work with a static. I need to know if this current process is a child
+	t_data	data;
+	int		nvar;
 
 	(void)argv;
-    if (argc == 3)
+	if (argc == 3)
 		return (1);
 	init_data(&data);
-	if (!envp) // backup in case of (env -i) no environment received, in this case you could generate manually your env data if some is critical to the program, or set all to NULL
+	if (!envp)
 	{
 		ft_putstr_fd("Error: no environment received\n", 2);
 		exit(1);
 	}
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar);
-	//if (getpid() > getppid()) 			// doesn't work.
-	//	update_env(data.env, "SHLVL", "+1");
-	/*if (i > 0) 						// if is a child:
-		update_env(data.env, "SHLVL", "1");
-	i ++;*/
 	minishell_interactive(&data);
 	return (0);
 }
