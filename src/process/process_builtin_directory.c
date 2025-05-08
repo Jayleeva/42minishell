@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/05 11:21:42 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:04:17 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void    process_cd(t_data *data, char **argv) 
 {
+    t_env   *var;
     char    *path;
 
     path = NULL;
@@ -28,8 +29,9 @@ void    process_cd(t_data *data, char **argv)
     if (!argv[1]) // si pas d'argument donné, retour à HOME.
     {
         data->exit_code = 0;
-        chdir(get_env_value(data->env, " HOME")); // must add a space before because the get_env_value function starts the name from name[1] instead of name[0]
-        update_env(data->env, "PWD", get_env_value(data->env, " HOME"));
+        var = find_var(data->env, "HOME");
+        chdir(var->value);
+        update_env(data->env, "PWD", var->value);
         return ;
     }
     if (chdir(argv[1]) == -1)
