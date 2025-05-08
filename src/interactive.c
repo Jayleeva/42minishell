@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 15:25:28 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:34:02 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,9 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 		write(1, "\n", 1);
 		reset_prompt();
 	}
-	else if (sig == SIGQUIT)
-	{
-		if (rl_line_buffer && *rl_line_buffer)
-		{
-			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-			reset_prompt();
-		}
-	}
 }
 
-void	init_signals()
+void	init_signals(void)
 {
 	sigset_t			set;
 	struct sigaction	shell;
@@ -55,8 +47,25 @@ void	init_signals()
 	shell.sa_mask = set;
 	shell.sa_sigaction = &handle_signal;
 	sigaction(SIGINT, &shell, NULL);
-	//sigaction(SIGQUIT, &shell, NULL);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	handle_input(t_data *data, char *input)
+{
+	if (!input)
+	{
+		data->exit_code = 0;
+		ft_printf("exit\n");
+		exit (0);
+	}
+	if (*input)
+	{
+		add_history(input);
+		process_input(data, input);
+		execute_pipeline(data);
+		token_clear(&(data->token));
+		cmd_clear(&data->cmd);
+	}
 }
 
 void	minishell_interactive(t_data *data)
@@ -76,20 +85,8 @@ void	minishell_interactive(t_data *data)
 			data->exit_code = 128 + (int)sig;
 			sig = 0;
 		}
-		if (!input)
-		{
-			data->exit_code = 0;
-			ft_printf("exit\n");
-			exit (0);
-		}
-		if (*input)
-		{
-			add_history(input);
-			process_input(data, input);
-			execute_pipeline(data);
-			token_clear(&(data->token));
-			cmd_clear(&data->cmd);
-		}
+		if (!input || *input)
+			handle_input(data, input);
 		else
 		{
 			free(input);
