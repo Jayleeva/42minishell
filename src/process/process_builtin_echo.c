@@ -41,11 +41,13 @@ void	process_echo(t_data *data, char **argv)
 	}
 	while (argv[i])
 	{
-		temp = ft_strdup(argv[i]);
-		s = ft_strjoin(s, temp);
+		s = ft_strjoin(s, argv[i]);
 		if (argv[i + 1])
+		{
+			temp = s;
 			s = ft_strjoin(s, " ");
-		free(temp);
+			free(temp);
+		}
 		i ++;
 	}
 	print_in_output(data, s, n_flag);
