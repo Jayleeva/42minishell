@@ -23,10 +23,29 @@ void	print_in_output(t_data *data, char *s, int n_flag)
 		ft_putchar_fd('\n', data->cmd->outfile);
 }
 
+char	*echo_utils(char *s, char **argv, int i)
+{
+	char	*temp;
+
+	while (argv[i])
+	{
+		temp = s;
+		s = ft_strjoin(s, argv[i]);
+		free(temp);
+		if (argv[i + 1])
+		{
+			temp = s;
+			s = ft_strjoin(s, " ");
+			free(temp);
+		}
+		i ++;
+	}
+	return (s);
+}
+
 void	process_echo(t_data *data, char **argv)
 {
 	char	*s;
-	char	*temp;
 	int		i;
 	int		n_flag;
 
@@ -39,17 +58,7 @@ void	process_echo(t_data *data, char **argv)
 		i = 2;
 		n_flag = 1;
 	}
-	while (argv[i])
-	{
-		s = ft_strjoin(s, argv[i]);
-		if (argv[i + 1])
-		{
-			temp = s;
-			s = ft_strjoin(s, " ");
-			free(temp);
-		}
-		i ++;
-	}
+	s = echo_utils(s, argv, i);
 	print_in_output(data, s, n_flag);
 	free(s);
 }
