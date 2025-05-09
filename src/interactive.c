@@ -56,7 +56,7 @@ void	handle_input(t_data *data, char *input)
 	{
 		data->exit_code = 0;
 		ft_printf("exit\n");
-		exit (0);
+		free_all(data, data->exit_code);
 	}
 	if (*input)
 	{

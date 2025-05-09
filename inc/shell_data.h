@@ -31,7 +31,6 @@ typedef struct s_data
 	int		exit_code;
 	char	**paths;
 	t_env	*env;
-	t_env	*export;
 	t_token	*token;
 	t_cmd	*cmd;
 	t_quote	quote;
@@ -42,6 +41,8 @@ int		printf_fd(int fd, const char *s, ...);
 //find environment var
 t_env	*find_var(t_env *head, char *name);
 //int		get_var_name_length(char *input);
+//free all
+void	free_all(t_data *data, int exit_code)
 
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);
@@ -88,7 +89,7 @@ int		here_doc(t_data *data, char *delimiter);
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 //builtin
-void	divide_var(t_env *current, char *env, int exported);
+int	divide_var(t_env *current, char *env, int exported);
 void	add_new_var(t_env *env, char *name, char *value, int to_export);
 void	update_env(t_env *env, char *name, char *value);
 char	*get_name(char *s);

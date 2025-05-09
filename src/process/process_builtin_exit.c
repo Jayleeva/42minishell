@@ -15,6 +15,12 @@
 #include "../../inc/linked_list.h"
 #include "../../libft/inc/libft.h"
 
+void	free_all(t_data *data, int exit_code)
+{
+	free_env(data->env);
+	exit(exit_code);
+}
+
 int	isnum(char *s)
 {
 	int	i;
@@ -34,7 +40,7 @@ void	bad_exit(t_data *data, char *arg)
 	ft_printf("exit\n");
 	printf_fd(1, "minishell: exit: %s: numeric argument required\n", arg);
 	data->exit_code = 2;
-	exit (2);
+	free_all(data, 2);
 }
 
 void	process_exit(t_data *data, char **argv)
@@ -52,7 +58,7 @@ void	process_exit(t_data *data, char **argv)
 			else
 			{
 				data->exit_code = ft_atoi(argv[1]) % 256;
-				exit (data->exit_code);
+				free_all(data, data->exit_code);
 			}
 		}
 		else
@@ -61,6 +67,6 @@ void	process_exit(t_data *data, char **argv)
 	else
 	{
 		ft_printf("exit\n");
-		exit (0);
+		free_all(data, 0);
 	}
 }

@@ -19,17 +19,17 @@ void	process_cd(t_data *data, char **argv)
 	char	*path;
 
 	path = NULL;
-	if (argv[2])
-	{
-		data->exit_code = 1;
-		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
-		return ;
-	}
 	if (!argv[1])
 	{
 		data->exit_code = 0;
 		chdir(find_var(data->env, "HOME")->value);
 		update_env(data->env, "PWD", find_var(data->env, "HOME")->value);
+		return ;
+	}
+	if (argv[2])
+	{
+		data->exit_code = 1;
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
 		return ;
 	}
 	if (chdir(argv[1]) == -1)

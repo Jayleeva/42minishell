@@ -7,6 +7,7 @@ SRC_DIR = ./src
 SRC = main.c \
 	interactive.c \
 	printf_fd.c \
+	free_all.c \
 	parsing/dollar_handle.c \
 	parsing/dollar_utils.c \
 	parsing/quote_handle.c \
