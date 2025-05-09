@@ -66,8 +66,9 @@ void	update_env(t_env *env, char *name, char *value)
 	}
 	if (!ft_strncmp(name, "SHLVL", 5))
 	{
-		temp = atoi(value);
-		value = ft_itoa(atoi(current->value) + temp);
+		temp = ft_atoi(value);
+		value = ft_itoa(ft_atoi(current->value) + temp);
 	}
 	current->value = ft_strdup(value);
+	free(value);
 }

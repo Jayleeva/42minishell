@@ -42,7 +42,8 @@ int		printf_fd(int fd, const char *s, ...);
 t_env	*find_var(t_env *head, char *name);
 //int		get_var_name_length(char *input);
 //free all
-void	free_all(t_data *data, int exit_code)
+void	free_all(t_data *data, int exit_code);
+void	free_env(t_env **env);
 
 int		check_open_quotes(t_data *data, char *input);
 void	handle_quotes(char c, t_quote *quote);

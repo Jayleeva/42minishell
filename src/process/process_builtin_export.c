@@ -64,6 +64,7 @@ void	update_export(t_env *env, char *name, char *value, int to_export)
 		update_value(current, var, value, to_export);
 	else
 		add_new_var(current, name, value, to_export);
+	//free(var);
 }
 
 void	export(t_env *env, char *var, int i)
@@ -84,6 +85,8 @@ void	export(t_env *env, char *var, int i)
 		value = ft_substr(var, i + 1, ft_strlen(var));
 	}
 	update_export(env, name, value, to_export);
+	//free(name);
+	//free(value);
 }
 
 void	process_export(t_data *data, char **argv)

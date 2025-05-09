@@ -17,7 +17,8 @@
 
 void	free_all(t_data *data, int exit_code)
 {
-	free_env(data->env);
+	//(void)data;
+	free_env(&data->env);
 	exit(exit_code);
 }
 
