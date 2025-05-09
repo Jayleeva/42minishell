@@ -38,7 +38,7 @@ static char	*search_environment(t_env *env, char *var_name, int name_len)
 	{
 		if (!ft_strncmp(env->name, var_name, name_len))
 		{
-			return ft_strdup(env->value);
+			return (ft_strdup(env->value));
 		}
 		env = env->next;
 	}
@@ -75,6 +75,7 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	if (value)
 	{
 		*i += name_len + 1;
+		free(value);
 		return (1);
 	}
 	return (0);
