@@ -6,29 +6,13 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/05 11:27:02 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:58:06 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
-
-void	display_export(t_data *data)
-{
-	t_env	*current;
-
-	data->exit_code = 0;
-	current = data->env;
-	while (current)
-	{
-		if (current->exported == 1)
-			ft_printf("declare -x %s=\"%s\"\n", current->name, current->value);
-		else if (current->exported == 0)
-			ft_printf("declare -x %s\n", current->name);
-		current = current->next;
-	}
-}
 
 void	add_new_var(t_env *env, char *name, char *value, int to_export)
 {
@@ -46,7 +30,6 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	current->next->value = value;
 	current->next->exported = to_export;
 	current->next->next = NULL;
-	//printf("-- has been added -- \n");
 }
 
 void	update_value(t_env *env, char *var, char *value, int to_export)
@@ -54,16 +37,13 @@ void	update_value(t_env *env, char *var, char *value, int to_export)
 	t_env	*current;
 
 	current = env;
-	if (to_export == 1) //si l'argument reçu contient un égal, doit être exporté (sera display par export et par env)
+	if (to_export == 1)
 	{
 		current->var = var;
 		current->value = value;
 		current->exported = 1;
-		//printf("-- has been modified-- \n");
 	}
-	/*else
-		printf("-- nothing changed -- \n");*/
-	return; //if (!exported), return; // si l'argument reçu ne contient pas d'égal, rien ne change: ne rien faire
+	return ;
 }
 
 void	update_export(t_env *env, char *name, char *value, int to_export)
@@ -73,18 +53,18 @@ void	update_export(t_env *env, char *name, char *value, int to_export)
 
 	var = ft_strjoin(name, "=");
 	var = ft_strjoin(var, value);
-	
 	current = env;
 	while (current->next)
 	{
-		if (!ft_strncmp(current->name, name, ft_strlen(name))) // si la var existe déjà (même nom)
+		if (!ft_strncmp(current->name, name, ft_strlen(name)))
 			update_value(current, var, value, to_export);
 		current = current->next;
 	}
-	if (!ft_strncmp(current->name, name, ft_strlen(name))) // si la var existe déjà (même nom)
+	if (!ft_strncmp(current->name, name, ft_strlen(name)))
 		update_value(current, var, value, to_export);
 	else
-		add_new_var(current, name, value, to_export); // si n'existe pas déjà, la créer.
+		add_new_var(current, name, value, to_export);
+	//free(var);
 }
 
 void	export(t_env *env, char *var, int i)
@@ -94,36 +74,39 @@ void	export(t_env *env, char *var, int i)
 	char	*value;
 
 	name = get_name(var);
-	if (i < 0) //si pas de =, doit être ajouté à la liste d'export mais pas display par env.
+	if (i < 0)
 	{
 		to_export = 0;
 		value = ft_strdup("");
 	}
-	else  //si =, doit être ajoutée à la liste d'export et display par new.
+	else
 	{
 		to_export = 1;
 		value = ft_substr(var, i + 1, ft_strlen(var));
 	}
 	update_export(env, name, value, to_export);
+	//free(name);
+	//free(value);
 }
 
 void	process_export(t_data *data, char **argv)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	data->exit_code = 0;
-    if (!argv[1]) //si pas d'argument, display la liste
-    {
-        display_export(data);
-        return;
-    }
+	if (!argv[1])
+	{
+		display_export(data);
+		return ;
+	}
 	i = 1;
 	while (argv[i])
 	{
 		j = strchri(argv[i], '=');
-		if (j == 0) // si nom commence par =, pas valable
-			printf_fd(STDERR_FILENO, "minishell: export: `=': not a valid identifier\n");
+		if (j == 0 || !is_valid(argv[i][0]))
+			printf_fd(STDERR_FILENO,
+				"minishell: export: `%c': not a valid identifier\n", argv[i][0]);
 		else
 			export(data->env, argv[i], j);
 		i ++;
