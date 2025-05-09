@@ -28,6 +28,13 @@ char	*get_name(char *s)
 	return (name);
 }
 
+void	free_env_node(t_env *current)
+{
+	free(current->name);
+	free(current->value);
+	current->var = NULL;
+}
+
 void	save_list(t_env	**head, t_env *current)
 {
 	t_env	*temp;
@@ -36,6 +43,7 @@ void	save_list(t_env	**head, t_env *current)
 	{
 		temp = *head;
 		*head = temp->next;
+		free_env_node(temp);
 		free(temp);
 	}
 	else
@@ -62,6 +70,7 @@ t_env	*unset_env(t_env **head, char *name)
 	if (current)
 	{
 		prev->next = current->next;
+		free_env_node(current);
 		free(current);
 	}
 	return (*head);
