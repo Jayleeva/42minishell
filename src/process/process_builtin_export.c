@@ -17,6 +17,7 @@
 void	add_new_var(t_env *env, char *name, char *value, int to_export)
 {
 	t_env	*current;
+	char	*temp;
 
 	current = env;
 	while (current->next)
@@ -25,7 +26,9 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	if (current->next == NULL)
 		return ;
 	current->next->var = ft_strjoin(name, "=");
+	temp = current->next->var;
 	current->next->var = ft_strjoin(current->next->var, value);
+	free(temp);
 	current->next->name = name;
 	current->next->value = value;
 	current->next->exported = to_export;
@@ -50,9 +53,12 @@ void	update_export(t_env *env, char *name, char *value, int to_export)
 {
 	t_env	*current;
 	char	*var;
+	char	*temp;
 
 	var = ft_strjoin(name, "=");
+	temp = var;
 	var = ft_strjoin(var, value);
+	free(temp);
 	current = env;
 	while (current->next)
 	{
@@ -64,7 +70,7 @@ void	update_export(t_env *env, char *name, char *value, int to_export)
 		update_value(current, var, value, to_export);
 	else
 		add_new_var(current, name, value, to_export);
-	//free(var);
+	free(var);
 }
 
 void	export(t_env *env, char *var, int i)
