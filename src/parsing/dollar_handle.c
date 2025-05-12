@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/12 11:42:46 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:53:28 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-//$? = last exit code
-//*str = "Error: " and buff = "1"
 int	handle_special_case(t_data *data, char **buffer, char special_char)
 {
 	char	*value_str;

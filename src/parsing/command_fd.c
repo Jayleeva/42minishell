@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/05 10:58:28 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:51:16 by yisho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-/*Create pipe (pipe(fd) → fd[0] (read), fd[1] (write))
-Set cmd1's outfile to fd[1] (write end)
-Set cmd2's infile to fd[0] (read end)*/
-//HEREDOC does not read from a file; it reads user input from stdin
-//until it matches a delimiter. reating a temporary file,
-//writing user input to it, and then opening it for reading.
 static int	open_file(t_data *data, char *filename, int type)
 {
 	int	fd;
