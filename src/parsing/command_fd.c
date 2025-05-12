@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:50:13 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 15:51:16 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:57:24 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,3 @@ t_bool	setup_command_output(t_data *data, t_token *token, t_cmd *cmd)
 	}
 	return (TRUE);
 }
-

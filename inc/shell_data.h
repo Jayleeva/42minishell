@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 15:57:36 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:02:28 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	print_cmd(t_cmd *cmd);
 t_bool	execute_pipeline(t_data *data);
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next);
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next);
+void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next);
 
 t_bool	is_builtin(char *cmd);
 t_bool	execute_builtin(t_data *data, t_cmd *cmd);
@@ -89,8 +90,13 @@ char	*find_cmd_path(t_data *data, char *cmd, t_env *env);
 int		here_doc(t_data *data, char *delimiter);
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+t_bool	setup_input_redirection(t_cmd *cmd, int prev_pipe);
+t_bool	setup_output_redirection(t_cmd *cmd, t_data *data, t_bool has_next);
+void	add_child_pid(t_data *data, pid_t pid);
+
+
 //builtin
-int	divide_var(t_env *current, char *env, int exported);
+int		divide_var(t_env *current, char *env, int exported);
 void	add_new_var(t_env *env, char *name, char *value, int to_export);
 void	update_env(t_env *env, char *name, char *value);
 char	*get_name(char *s);

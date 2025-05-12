@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_get.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:02:25 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/05 11:10:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:28:20 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 static char	*cmd_not_found(char *cmd)
 {
 	printf_fd(STDERR_FILENO, "%s: command not found\n", cmd);
-	/*ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(" : command not found\n", STDERR_FILENO);*/
 	return (NULL);
 }
 

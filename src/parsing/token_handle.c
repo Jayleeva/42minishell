@@ -6,21 +6,13 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 14:25:48 by yishan            #+#    #+#             */
-/*   Updated: 2025/03/26 14:52:17 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:53:47 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-/*Create a t_token structure.
-Write a function to detect special characters (<, >, <<, >>, |).
-Write a function to handle command and argument tokens.
-Write a function to handle special tokens.
-Create a tokenizer that: Skips whitespace.
-	Decides if the token is a command, argument, or special character.
-    Builds the linked list dynamically.
-Ensure proper memory allocation and cleanup. */
 static void	copy_token(char *input, int length, char *str, int i)
 {
 	int		j;
@@ -69,9 +61,6 @@ static int	command_length(char *input, int *quotes)
 	return (i);
 }
 
-/* quotes are used to group words together (e.g., "my file.txt" 
-is treated as a single argument), but they are not part of the actual token.
-we need to remove them when copying the token into the final string.*/
 static t_bool	add_command(t_token **head, char **input)
 {
 	int		quotes;
@@ -121,9 +110,6 @@ static t_bool	add_special(t_token **head, char **input)
 	return (TRUE);
 }
 
-//Check if the current input is a special token
-//add the special token to the list
-//else add a regular command token to the list
 t_bool	create_token_list(t_token **head, char *input)
 {
 	while (*input)

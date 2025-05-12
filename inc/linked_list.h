@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:49:27 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/29 16:13:14 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:43:28 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,5 @@ t_bool	cmd_put_in(t_cmd**head, int infile, int outfile, char **argv);
 size_t	cmd_lenght(t_cmd *list);
 
 void	cmd_clear(t_cmd **cmd);
-
 
 #endif

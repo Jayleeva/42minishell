@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:26:14 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/11 10:56:50 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:55:03 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,3 @@ t_bool	cmd_init(t_cmd *cmd, int infile, int outfile, char **argv)
 	cmd->prev = NULL;
 	return (TRUE);
 }
-

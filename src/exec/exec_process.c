@@ -3,30 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/12 13:41:37 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:48:53 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-static void	add_child_pid(t_data *data, pid_t pid)
+void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 {
-	pid_t	*new_pids;
-
-	new_pids = ft_realloc(data->child_pids,
-			data->child_count * sizeof(pid_t),
-			(data->child_count + 1) * sizeof(pid_t));
-	if (!new_pids)
+	if (*prev_pipe != -1)
+		close(*prev_pipe);
+	if (has_next)
 	{
-		perror("minishell: failed to allocate child PIDs");
-		exit(EXIT_FAILURE);
+		close(data->pipe_fd[1]);
+		*prev_pipe = data->pipe_fd[0];
 	}
-	data->child_pids = new_pids;
-	data->child_pids[data->child_count++] = pid;
+	else
+		*prev_pipe = -1;
 }
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
@@ -45,47 +42,21 @@ void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 static t_bool	setup_redirections(t_cmd *cmd, int prev_pipe,
 				t_data *data, t_bool has_next)
 {
-	if (cmd->infile >= 0) //CYCY: != 0; YISHAN: >=0
-	{
-		if (dup2(cmd->infile, STDIN_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
-			return (FALSE);
-		close(cmd->infile);
-	}
-	else if (prev_pipe != -1)
-	{
-		if (dup2(prev_pipe, STDIN_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
-			return (FALSE);
-		close(prev_pipe);
-	}
-	if (cmd->outfile >= 0) //CYCY: != 1; YISHAN: >=0
-	{
-		if (dup2(cmd->outfile, STDOUT_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
-			return (FALSE);
-		close(cmd->outfile);
-	}
-	else if (has_next)
-	{
-		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == -1) //CYCY: == -1; YISHAN: < 0
-			return (FALSE);
-		close(data->pipe_fd[1]);
-	}
-	close(data->pipe_fd[0]);
+	if (!setup_input_redirection(cmd, prev_pipe))
+		return (FALSE);
+	if (!setup_output_redirection(cmd, data, has_next))
+		return (FALSE);
 	return (TRUE);
 }
 
-void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
+static void	execute_external_command(t_data *data, t_cmd *cmd)
 {
 	char	*path;
 	char	**env_array;
 
 	path = NULL;
 	env_array = NULL;
-	signal(SIGQUIT, SIG_DFL);
-	if (is_builtin(cmd->argv[0]))
-		exec_builtin_child(cmd, data, has_next);
-	if (!setup_redirections(cmd, prev_pipe, data, has_next))
-		exit(EXIT_FAILURE);
-	//execve(path, cmd->argv, env_array);
+	execve(path, cmd->argv, env_array);
 	if (!resolve_command_path(data, cmd, &path))
 		exit(data->exit_code);
 	update_env(data->env, "SHLVL", "+1");
@@ -101,4 +72,17 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 	free(path);
 	array_clear(env_array);
 	exit(1);
+}
+
+void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
+{
+	signal(SIGQUIT, SIG_DFL);
+	if (is_builtin(cmd->argv[0]))
+	{
+		exec_builtin_child(cmd, data, has_next);
+		exit(EXIT_SUCCESS);
+	}
+	if (!setup_redirections(cmd, prev_pipe, data, has_next))
+		exit(EXIT_FAILURE);
+	execute_external_command(data, cmd);
 }

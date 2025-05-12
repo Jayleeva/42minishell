@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:23:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/04/25 14:30:10 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/12 15:55:22 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ char	**get_command_arg(t_token *start_token)
 	args[i] = NULL;
 	return (args);
 }
-
