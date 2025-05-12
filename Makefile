@@ -7,6 +7,7 @@ SRC_DIR = ./src
 SRC = main.c \
 	interactive.c \
 	printf_fd.c \
+	free_all.c \
 	parsing/dollar_handle.c \
 	parsing/dollar_utils.c \
 	parsing/quote_handle.c \
@@ -36,6 +37,7 @@ SRC = main.c \
 	process/process_builtin_export.c \
 	process/process_builtin_unset.c \
 	process/process_builtin_exit.c \
+	process/process_builtin_utils.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -49,7 +51,7 @@ CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_LIB)
-	@${CC} ${CFLAGS} ${OBJ} $(LIBFT_LIB) -o $(NAME) -lreadline
+	@${CC} ${CFLAGS} ${OBJ} ${SAN-D} $(LIBFT_LIB) -o $(NAME) -lreadline
 
 $(LIBFT_LIB):
 	@${MAKE} -C libft

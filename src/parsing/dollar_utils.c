@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 12:56:11 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:32:22 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,26 @@ char	*extract_var_name(char *input, int length)
 }
 
 
-static char	*search_environment(t_env *env, char *var_name, int name_len)
+static char	*search_environment(t_env *env, char *var_name)
 {
-	while (env)
+	char	*value;
+
+	value = find_var(env, var_name)->value;
+	return (value);
+	/*while (env)
 	{
 		if (!ft_strncmp(env->name, var_name, name_len))
 		{
-			return ft_strdup(env->value);
+			return (ft_strdup(env->value));
 		}
 		env = env->next;
 	}
-	return (NULL);
+	return (NULL);*/
 }
 
 char	*get_env_value(t_env *env, char *name)
 {
-	return (search_environment(env, &name[1], ft_strlen(name)));
+	return (search_environment(env, &name[1]));
 }
 
 //Extracts and validates variable name length
@@ -71,10 +75,11 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	name_len = get_var_name_length(&input[*i + 1]);
 	if (!name_len)
 		return (0);
-	value = search_environment(data->env, &input[*i + 1], name_len);
+	value = search_environment(data->env, &input[*i + 1]);
 	if (value)
 	{
 		*i += name_len + 1;
+		//free(value);
 		return (1);
 	}
 	return (0);

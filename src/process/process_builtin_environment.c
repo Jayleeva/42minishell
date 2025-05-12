@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_builtin_environment.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/06 14:40:42 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 12:51:22 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void    process_env(t_data *data, char **argv)
+void	process_env(t_data *data, char **argv)
 {
 	t_env	*current;
 
@@ -39,23 +39,24 @@ t_env	*find_var(t_env *head, char *name)
 	t_env	*current;
 
 	current = head;
-    while (current)
-    {
-        if (!ft_strncmp(current->name, name, ft_strlen(name)))
-            return (current);
-        else
-            current = current->next;
-    }
-    return (NULL);
+	while (current)
+	{
+		if (!ft_strncmp(current->name, name, ft_strlen(name)))
+			return (current);
+		else
+			current = current->next;
+	}
+	return (NULL);
 }
 
-void    update_env(t_env *env, char *name, char *value)
+void	update_env(t_env *env, char *name, char *value)
 {
-    t_env   	*current;
+	t_env		*current;
 	static int	i = 0;
 	int			temp;
+	char		*temp2;
 
-    current = find_var(env, name);
+	current = find_var(env, name);
 	if (!ft_strncmp(name, "PWD", 3))
 	{
 		i ++;
@@ -66,9 +67,10 @@ void    update_env(t_env *env, char *name, char *value)
 	}
 	if (!ft_strncmp(name, "SHLVL", 5))
 	{
-		temp = atoi(value);
-		value = ft_itoa(atoi(current->value) + temp);
-		printf("value = %s\n", value);
+		temp = ft_atoi(value);
+		value = ft_itoa(ft_atoi(current->value) + temp);
 	}
-	current->value = ft_strdup(value);
+	temp2 = current->value;
+	current->value = value;
+	free(temp2);
 }

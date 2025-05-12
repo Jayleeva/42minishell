@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 10:03:25 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 13:50:53 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ static void	close_redirections(t_data *data)
 static t_bool	wait_for_child(t_data *data)
 {
 	int	status;
-	int	last_status;
 	int	i;
 
-	last_status = 0;
 	i = 0;
 	while (i < data->child_count)
 	{
@@ -72,13 +70,16 @@ static t_bool	wait_for_child(t_data *data)
 		if (data->child_pids[i] == data->last_pid)
 		{
 			if (WIFEXITED(status))
-				last_status = WEXITSTATUS(status);
+				data->exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				last_status = 128 + WTERMSIG(status);
+			{
+				if (WTERMSIG(status) == SIGQUIT)
+					printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
+				data->exit_code = 128 + WTERMSIG(status);
+			}
 		}
 		i++;
 	}
-	data->exit_code = last_status;
 	return (TRUE);
 }
 
