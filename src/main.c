@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 14:07:32 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:31:50 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,22 @@ int	count_var(char **envp)
 	return (i);
 }
 
-int	divide_var(t_env *current, char *env, int exported)
+int	divide_var(t_env *current, char *var, int exported)
 {
-	//char	*temp_name;
-	//char	*temp_value;
-
-	if (!ft_isalnum(env[0]))
+	if (!ft_isalnum(var[0]))
 		exported = -1;
-
-	//temp_name = current->name;
-	current->name = ft_substr(env, 0, strchri(env, '='));
+	current->name = ft_substr(var, 0, strchri(var, '='));
 	if (!current->name)
 		return (0);
-	//free(temp_name);
-	//temp_value = current->value;
-	current->value = ft_substr(env, strchri(env, '=') + 1, ft_strlen(env));
+	current->value = ft_substr(var, strchri(var, '=') + 1, ft_strlen(var));
 	if (!current->value)
 		return (0);
-	//free(temp_value);
 	current->exported = exported;
 	return (1);
-	/*current->name = ft_substr(env, 0, strchri(env, '='));
-	current->value = ft_substr(env, strchri(env, '=') + 1, ft_strlen(env));
-	current->exported = exported;*/
 }
 
-t_env	*init_env(char **envp, int nvar)
+t_env	*init_env(char **envp, int nvar, int i)
 {
-	int		i;
 	t_env	*export;
 	t_env	*current;
 
@@ -61,9 +49,9 @@ t_env	*init_env(char **envp, int nvar)
 	if (export == NULL)
 		return (NULL);
 	export->var = envp[0];
-	divide_var(export, envp[0], 1);
+	if (!divide_var(export, envp[0], 1))
+		return (NULL);
 	export->next = NULL;
-	i = 1;
 	current = export;
 	while (i < nvar)
 	{
@@ -107,10 +95,10 @@ int	main(int argc, char **argv, char **envp)
 	if (!envp)
 	{
 		ft_putstr_fd("Error: no environment received\n", 2);
-		exit(1);
+		free_all(&data, 1);
 	}
 	nvar = count_var(envp);
-	data.env = init_env(envp, nvar);
+	data.env = init_env(envp, nvar, 1);
 	minishell_interactive(&data);
 	return (0);
 }

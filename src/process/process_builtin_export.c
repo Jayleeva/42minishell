@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 15:58:06 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:31:25 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 void	add_new_var(t_env *env, char *name, char *value, int to_export)
 {
 	t_env	*current;
-	char	*temp;
 
 	current = env;
 	while (current->next)
@@ -25,10 +24,6 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
 		return ;
-	current->next->var = ft_strjoin(name, "=");
-	temp = current->next->var;
-	current->next->var = ft_strjoin(current->next->var, value);
-	free(temp);
 	current->next->name = name;
 	current->next->value = value;
 	current->next->exported = to_export;
@@ -91,8 +86,6 @@ void	export(t_env *env, char *var, int i)
 		value = ft_substr(var, i + 1, ft_strlen(var));
 	}
 	update_export(env, name, value, to_export);
-	//free(name);
-	//free(value);
 }
 
 void	process_export(t_data *data, char **argv)

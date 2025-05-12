@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 13:46:36 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 11:50:09 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:42:46 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	handle_env_variable(t_data *data, char *input, int length, char **buffer)
 	if (value_to_append == NULL)
 		value_to_append = "";
 	new_buffer = ft_strjoin(*buffer, value_to_append);
-	if (env_value)
-		free(env_value);
+	/*if (env_value)
+		free(env_value);*/
 	if (!new_buffer)
 		return (0);
 	free(*buffer);
