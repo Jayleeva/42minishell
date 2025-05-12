@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 16:27:28 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:50:53 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_bool	wait_for_child(t_data *data)
 			else if (WIFSIGNALED(status))
 			{
 				if (WTERMSIG(status) == SIGQUIT)
-					printf_fd(2, "Quit (core dumped)\n");
+					printf_fd(STDERR_FILENO, "Quit (core dumped)\n");
 				data->exit_code = 128 + WTERMSIG(status);
 			}
 		}

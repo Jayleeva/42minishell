@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:44:06 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:46:10 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	free_env(t_env **env)
 		if (current->var)
 		{
 			current->var = NULL;
-			free(current->name);
-			current->name = NULL;
-			free(current->value);
-			current->value = NULL;
+			if (current->name || *current->name)
+				free(current->name);
+			if (current->value || *current->value)
+				free(current->value);
 		}
 		free_env(&(current->next));
 		free (current);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/08 12:47:37 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 13:41:37 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 		exec_builtin_child(cmd, data, has_next);
 	if (!setup_redirections(cmd, prev_pipe, data, has_next))
 		exit(EXIT_FAILURE);
-	execve(path, cmd->argv, env_array);
+	//execve(path, cmd->argv, env_array);
 	if (!resolve_command_path(data, cmd, &path))
 		exit(data->exit_code);
 	update_env(data->env, "SHLVL", "+1");

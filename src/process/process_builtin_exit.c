@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:44:06 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:50:34 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 void	free_all(t_data *data, int exit_code)
 {
-	//(void)data;
-	free_env(&data->env);
+	(void)data;
+	//free_env(&data->env);
 	exit(exit_code);
 }
 
@@ -39,7 +39,8 @@ int	isnum(char *s)
 void	bad_exit(t_data *data, char *arg)
 {
 	ft_printf("exit\n");
-	printf_fd(1, "minishell: exit: %s: numeric argument required\n", arg);
+	printf_fd(STDERR_FILENO,
+		"minishell: exit: %s: numeric argument required\n", arg);
 	data->exit_code = 2;
 	free_all(data, 2);
 }

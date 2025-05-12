@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:39:44 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:51:22 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	update_env(t_env *env, char *name, char *value)
 	t_env		*current;
 	static int	i = 0;
 	int			temp;
+	char		*temp2;
 
 	current = find_var(env, name);
 	if (!ft_strncmp(name, "PWD", 3))
@@ -69,6 +70,7 @@ void	update_env(t_env *env, char *name, char *value)
 		temp = ft_atoi(value);
 		value = ft_itoa(ft_atoi(current->value) + temp);
 	}
-	current->value = ft_strdup(value);
-	free(value);
+	temp2 = current->value;
+	current->value = value;
+	free(temp2);
 }

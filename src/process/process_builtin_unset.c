@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 14:23:13 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:39:50 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	process_unset(t_data *data, char **argv)
 			head = data->env;
 			data->env = unset_env(&head, name);
 		}
+		free(name);
 		i ++;
 	}
 }
