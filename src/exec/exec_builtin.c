@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/12 12:00:01 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/13 17:04:02 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ static t_bool	set_output_red(t_cmd *cmd,
 		return (FALSE);
 	if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
 	{
-		close(*saved_stdout);
+		if (*saved_stdout >= 0)
+			close(*saved_stdout);
 		return (FALSE);
 	}
+	//close(cmd->outfile);
 	*need_restore_out = 1;
 	return (TRUE);
 }
@@ -56,9 +58,11 @@ static t_bool	set_input_red(t_cmd *cmd, int *saved_stdin,
 		return (FALSE);
 	if (dup2(cmd->infile, STDIN_FILENO) == -1)
 	{
-		close(*saved_stdin);
+		if (*saved_stdin >= 0)
+			close(*saved_stdin);
 		return (FALSE);
 	}
+	//close(cmd->infile);
 	*need_restore_in = 1;
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/12 15:56:11 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:45:04 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ char	*extract_var_name(char *input, int length)
 }
 
 
-static char	*search_environment(t_env *env, char *var_name)
+static char	*search_environment(t_env *env, char *var_name, int name_len)
 {
-	char	*value;
+	/*char	*value;
 
 	value = find_var(env, var_name)->value;
-	return (value);
-	/*while (env)
+	return (value);*/
+	while (env)
 	{
 		if (!ft_strncmp(env->name, var_name, name_len))
 		{
@@ -46,12 +46,12 @@ static char	*search_environment(t_env *env, char *var_name)
 		}
 		env = env->next;
 	}
-	return (NULL);*/
+	return (NULL);
 }
 
 char	*get_env_value(t_env *env, char *name)
 {
-	return (search_environment(env, &name[1]));
+	return (search_environment(env, &name[1], ft_strlen(name)));
 }
 
 //Extracts and validates variable name length
@@ -75,11 +75,11 @@ int	check_env_variable(char *input, int *i, t_data *data)
 	name_len = get_var_name_length(&input[*i + 1]);
 	if (!name_len)
 		return (0);
-	value = search_environment(data->env, &input[*i + 1]);
+	value = search_environment(data->env, &input[*i + 1], name_len);
 	if (value)
 	{
 		*i += name_len + 1;
-		//free(value);
+		free(value);
 		return (1);
 	}
 	return (0);

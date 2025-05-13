@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:39:04 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/12 15:52:46 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/13 17:09:56 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_open_quotes(t_data *data, char *input)
 	if (data->quote.double_quote || data->quote.single_quote)
 	{
 		ft_putstr_fd("open quote found\n", STDERR_FILENO);
-		//TODO: add something that allows user to type in an input and ends only once they typed in the closing quote, then gives the correct error message: "minishell: $'%s\n%s': command not found" if no command properly given, or appropriate message if arg doesn't work with the command. Everytime user enters enter without closing the quote, adds a new \n on the %s. 
+		//TODO: add something that allows user to type in an input and ends only once they typed in the closing quote, then gives the correct error message: "minishell: $'%s\n%s': command not found" if no command properly given, or appropriate message if arg doesn't work with the command. Everytime user enters enter without closing the quote, adds a new \n on the %s. ry a command like : echo "cat lol.c | cat > lol.c"
 		data->exit_code = 1;
 		return (0);
 	}

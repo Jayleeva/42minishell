@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/12 14:48:53 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:49:26 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void	execute_external_command(t_data *data, t_cmd *cmd)
 
 	path = NULL;
 	env_array = NULL;
-	execve(path, cmd->argv, env_array);
 	if (!resolve_command_path(data, cmd, &path))
 		exit(data->exit_code);
 	update_env(data->env, "SHLVL", "+1");
