@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 21:10:44 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/05 11:02:02 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:55:43 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ int	ft_is_special(char *str)
 	return (0);
 }
 
-
-/*void	print_error(char *msg)
-{
-	ft_putstr_fd(msg, STDERR_FILENO);
-}*/
-
 t_bool	is_redirection(t_token_type type)
 {
 	return (type == INPUT || type == HEREDOC
@@ -66,4 +60,3 @@ void	print_token_list(t_token *head)
 	}
 	printf("Type : %d, [%s]\n", head->type, head->str);
 }
-

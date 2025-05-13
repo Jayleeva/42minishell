@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 15:56:31 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 14:32:06 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 {
 	if (!line)
 	{
-		printf_fd(STDERR_FILENO, "Warning: here-document delimited by \
-				end-of-file \n(wanted '%c')\n", delimiter);
+		ft_printf("warning: here-document delimited by end-of-file ");
+		ft_printf("(wanted '");
+		ft_printf(delimiter);
+		ft_printf("')\n");
+		return (FALSE);
 		return (FALSE);
 	}
 	if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
@@ -59,63 +62,49 @@ static t_bool	read_heredoc_input(t_data *data, int fd, char *delimiter)
 	return (TRUE);
 }
 
+static void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	write(STDERR_FILENO, "\n", 1);
+	exit(130);
+}
+
+static int	heredoc_child(t_data *data, char *delimiter)
+{
+	int	fd;
+
+	signal(SIGINT, handle_heredoc_sigint);
+	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		exit(1);
+	if (!read_heredoc_input(data, fd, delimiter))
+	{
+		close(fd);
+		unlink(".heredoc.tmp");
+		exit(1);
+	}
+	close(fd);
+	exit(0);
+}
+
 int	here_doc(t_data *data, char *delimiter)
 {
 	int		fd;
 	int		status;
 	pid_t	pid;
 
-	// pid = fork();
-	// if (pid == 0)
-	// {
-	// 	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	// 	if (fd < 0)
-	// 		return (-1);
-	// 	if (!read_heredoc_input(data, fd, delimiter))
-	// 	{
-	// 		close(fd);
-	// 		unlink(".heredoc.tmp");
-	// 		return (-1);
-	// 	}
-	// 	close(fd);
-	// }
-	// else if (pid < 0)
-	// 	return (-1);
-	// waitpid(pid, &status, 0);
-	// fd = open(".heredoc.tmp", O_RDONLY);
-	// if (fd >= 0)
-	// 	unlink(".heredoc.tmp");
-	// return (fd);
-
 	pid = fork();
-	if (pid == -1)
+	if (pid < -1)
 		return (-1);
 	if (pid == 0)
-	{
-		signal(SIGINT, handle_heredoc_signal);
-		signal(SIGQUIT, handle_heredoc_signal);
-		fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd < 0)
-			exit(1);
-		if (!read_heredoc_input(data, fd, delimiter) || g_heredoc_interrupt)
-		{
-			close(fd);
-			unlink(".heredoc.tmp");
-			exit(1);
-		}
-		close(fd);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		//dup2(stdin_backup, STDIN_FILENO); // Restore stdin
-		close(stdin_backup);
-		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			return (-1);
-		fd = open(".heredoc.tmp", O_RDONLY);
-		if (fd >= 0)
-			unlink(".heredoc.tmp");
-		return (fd);
-	}
+		heredoc_child(data, delimiter);
+	else if (pid < 0)
+		return (-1);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		return (-1);
+	fd = open(".heredoc.tmp", O_RDONLY);
+	if (fd >= 0)
+		unlink(".heredoc.tmp");
+	return (fd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 10:23:08 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/12 12:00:01 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,17 @@ static t_bool	set_output_red(t_cmd *cmd,
 }
 
 static t_bool	set_input_red(t_cmd *cmd, int *saved_stdin,
-		int *need_restore_in, int saved_stdout, int need_restore_out)
+			int *need_restore_in)
 {
 	if (cmd->infile < 0)
 		return (TRUE);
 
 	*saved_stdin = dup(STDIN_FILENO);
 	if (*saved_stdin == -1)
-	{
-		if (need_restore_out)
-			dup2(saved_stdout, STDOUT_FILENO);
 		return (FALSE);
-	}
 	if (dup2(cmd->infile, STDIN_FILENO) == -1)
 	{
 		close(*saved_stdin);
-		if (need_restore_out)
-			dup2(saved_stdout, STDOUT_FILENO);
 		return (FALSE);
 	}
 	*need_restore_in = 1;
@@ -99,7 +93,7 @@ t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 	restore_in = 0;
 	if (!set_output_red(cmd, &save_stdout, &restore_out))
 		return (FALSE);
-	if (!set_input_red(cmd, &save_stdin, &restore_in, save_stdout, restore_out))
+	if (!set_input_red(cmd, &save_stdin, &restore_in))
 	{
 		if (restore_out)
 		{

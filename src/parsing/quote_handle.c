@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quote_handle.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 09:39:04 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/05 11:05:24 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:52:46 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
-/*checks if the current character is a quote (' or ")
-If it’s a quote and not already inside a quote, it starts a new quote(' or ")
-If it’s a quote and inside a matching quote, find ends of current quote.
-If an index pointer is provided, it increments the index.*/
+
 void	handle_quotes(char c, t_quote *quote)
 {
 	if (!quote->double_quote && !quote->single_quote)
@@ -38,10 +35,6 @@ void	handle_quotes(char c, t_quote *quote)
 	}
 }
 
-/*if the character is not a quote, increments the index.
-After processing the entire string, it checks if any quote is still open.
-If an open quote is found, it prints an error, sets the exit code, and returns 1.
-If no open quotes are found, it returns 0.*/
 int	check_open_quotes(t_data *data, char *input)
 {
 	int		i;
