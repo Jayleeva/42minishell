@@ -99,7 +99,7 @@ void	add_child_pid(t_data *data, pid_t pid);
 int		divide_var(t_env *current, char *env, int exported);
 void	add_new_var(t_env *env, char *name, char *value, int to_export);
 void	update_env(t_env *env, char *name, char *value);
-char	*get_name(char *s);
+char	*get_name( char *s);
 void	process_cmd(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);

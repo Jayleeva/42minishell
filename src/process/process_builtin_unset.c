@@ -25,13 +25,19 @@ char	*get_name(char *s)
 		name = ft_substr(s, 0, i);
 	else if (i == -1)
 		name = ft_strdup(s);
+	//free(s);
 	return (name);
 }
 
 void	free_env_node(t_env *current)
 {
-	free(current->name);
-	free(current->value);
+	if (current->added)
+	{
+		write(1, "--A--\n", 6);
+		free(current->value);
+	}
+	//free(current->name);
+	current->name = NULL;
 	current->var = NULL;
 }
 
@@ -82,6 +88,7 @@ void	process_unset(t_data *data, char **argv)
 	t_env	*head;
 	int		i;
 
+	name = NULL;
 	data->exit_code = 0;
 	if (!argv[1])
 		return ;
