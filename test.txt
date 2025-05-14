@@ -1,1 +1,4 @@
-5
+jkl
+abracada
+/root
+$HOME

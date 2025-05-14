@@ -14,11 +14,19 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void	process_cd(t_data *data, char **argv)
+void	process_cd_utils(t_data *data)
 {
 	char	*path;
 
 	path = NULL;
+	path = getcwd(path, 0);
+	update_env(data->env, "PWD", path);
+	free(path);
+	data->exit_code = 0;
+}
+
+void	process_cd(t_data *data, char **argv)
+{
 	if (!argv[1])
 	{
 		data->exit_code = 0;
@@ -38,9 +46,7 @@ void	process_cd(t_data *data, char **argv)
 		printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", argv[1]);
 		return ;
 	}
-	update_env(data->env, "PWD", getcwd(path, 0));
-	free(path);
-	data->exit_code = 0;
+	process_cd_utils(data);
 }
 
 void	process_pwd(t_data *data)
@@ -49,7 +55,7 @@ void	process_pwd(t_data *data)
 
 	path = NULL;
 	path = getcwd(path, 0);
-	if (path == NULL)
+	if (!path)
 	{
 		data->exit_code = 1;
 		return ;
