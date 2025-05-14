@@ -72,5 +72,6 @@ void	update_env(t_env *env, char *name, char *value)
 	}
 	temp2 = current->value;
 	current->value = ft_strdup(value);
+	current->added = 1;
 	free(temp2);
 }

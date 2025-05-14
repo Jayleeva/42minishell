@@ -43,7 +43,7 @@ OBJ = $(SRC:.c=.o)
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC))
 
-SAN- = -fsanitize=address -fsanitize=leak
+SAN-D = -fsanitize=address -fsanitize=leak
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I ./inc -I ./libft/inc 

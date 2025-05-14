@@ -49,7 +49,7 @@ int	check_open_quotes(t_data *data, char *input)
 	}
 	if (data->quote.double_quote || data->quote.single_quote)
 	{
-		//ft_putstr_fd("open quote found\n", STDERR_FILENO);
+		ft_putstr_fd("open quote found\n", STDERR_FILENO);
 		return (1);
 	}
 	return (0);

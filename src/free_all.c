@@ -20,14 +20,17 @@ void	free_env(t_env **env)
 
 	if (env && *env)
 	{
+		write(1, "-A-\n", 4);
 		current = *env;
 		if (current->added)
 		{
+			write(1, "-B-\n", 4);
 			current->var = NULL;
-			if (current->name || *current->name)
-				free(current->name);
-			if (current->value || *current->value)
-				free(current->value);
+			current->name = NULL;
+			/*if (current->name || *current->name)
+				free(current->name);*/
+			free(current->value);
+			current->value = NULL;
 		}
 		free_env(&(current->next));
 		free (current);
