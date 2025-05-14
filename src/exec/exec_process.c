@@ -3,27 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/13 16:49:26 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:42:49 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
+void	close_redirections(t_data *data)
 {
-	if (*prev_pipe != -1)
-		close(*prev_pipe);
-	if (has_next)
+	t_cmd	*cmd;
+
+	cmd = data->cmd;
+	while (cmd)
 	{
-		close(data->pipe_fd[1]);
-		*prev_pipe = data->pipe_fd[0];
+		if (cmd->outfile >= 0)
+		{
+			close(cmd->outfile);
+			cmd->outfile = -1;
+		}
+		if (cmd->infile >= 0)
+		{
+			close(cmd->infile);
+			cmd->infile = -1;
+		}
+		cmd = cmd->next;
 	}
-	else
-		*prev_pipe = -1;
+	if (data->child_pids)
+	{
+		free(data->child_pids);
+		data->child_pids = NULL;
+	}
+	data->child_count = 0;
 }
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)

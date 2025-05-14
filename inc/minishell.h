@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:29 by yisho             #+#    #+#             */
-/*   Updated: 2025/04/23 15:02:24 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/14 22:49:54 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ typedef unsigned char	t_bool;
 # define FALSE 0
 
 #endif
-

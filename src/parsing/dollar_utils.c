@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/13 16:45:04 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:52:08 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*extract_var_name(char *input, int length)
 	name[i] = '\0';
 	return (name);
 }
-
 
 static char	*search_environment(t_env *env, char *var_name, int name_len)
 {

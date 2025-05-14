@@ -1,4 +1,0 @@
-jkl
-abracada
-/root
-$HOME
