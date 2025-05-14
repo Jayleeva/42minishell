@@ -71,6 +71,6 @@ void	update_env(t_env *env, char *name, char *value)
 		value = ft_itoa(ft_atoi(current->value) + temp);
 	}
 	temp2 = current->value;
-	current->value = value;
+	current->value = ft_strdup(value);
 	free(temp2);
 }

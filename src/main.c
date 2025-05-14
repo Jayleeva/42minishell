@@ -51,6 +51,7 @@ t_env	*init_env(char **envp, int nvar, int i)
 	export->var = envp[0];
 	if (!divide_var(export, envp[0], 1))
 		return (NULL);
+	export->added = 0;
 	export->next = NULL;
 	current = export;
 	while (i < nvar)
@@ -63,6 +64,7 @@ t_env	*init_env(char **envp, int nvar, int i)
 		current->next->var = envp[i];
 		if (!divide_var(current->next, envp[i], 1))
 			return (NULL);
+		current->next->added = 0;
 		current->next->next = NULL;
 		i ++;
 	}

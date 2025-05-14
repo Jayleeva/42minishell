@@ -25,8 +25,9 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	if (current->next == NULL)
 		return ;
 	current->next->name = name;
-	current->next->value = value;
+	current->next->value = ft_strdup(value);
 	current->next->exported = to_export;
+	current->next->added = 1;
 	current->next->next = NULL;
 }
 

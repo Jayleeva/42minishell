@@ -21,7 +21,7 @@ void	free_env(t_env **env)
 	if (env && *env)
 	{
 		current = *env;
-		if (current->var)
+		if (current->added)
 		{
 			current->var = NULL;
 			if (current->name || *current->name)

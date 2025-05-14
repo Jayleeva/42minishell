@@ -25,7 +25,7 @@ char	*handle_open_quotes(t_data *data, char *input)
 		input = ft_strjoin(input, "\n");
 		free (buffer);
 		buffer = input;
-		input = ft_strjoin(input, readline("> "));
+		input = ft_strjoin(input, readline("> ")); // should be interrupted by ctrl + C...
 		free(buffer);
 	}
 	//printf("input = %s\n", input);
