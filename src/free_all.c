@@ -32,7 +32,7 @@ void	free_env(t_env **env)
 			current->value = NULL;
 		}
 		free_env(&(current->next));
-		free (current);
+		free(current);
 		*env = NULL;
 	}
 }

@@ -34,6 +34,7 @@ int	divide_var(t_env *current, char *var, int exported)
 	current->name = ft_substr(var, 0, strchri(var, '='));
 	if (!current->name)
 		return (0);
+	current->value = NULL;
 	current->value = ft_substr(var, strchri(var, '=') + 1, ft_strlen(var));
 	if (!current->value)
 		return (0);
@@ -102,6 +103,11 @@ int	main(int argc, char **argv, char **envp)
 	}
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar, 1);
+	if (!data.env)
+	{
+		free_env(&data.env);
+		exit (1);
+	}
 	minishell_interactive(&data);
 	free_all(&data, 0);
 	return (0);
