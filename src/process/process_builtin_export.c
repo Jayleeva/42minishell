@@ -23,8 +23,9 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 		current = current->next;
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
-		return ;
-	current->next->name = name;
+		return ;	
+	current->next->name = ft_strdup(name);
+	//current->next->name = name;
 	current->next->value = ft_strdup(value);
 	current->next->exported = to_export;
 	current->next->added = 1;
@@ -75,6 +76,7 @@ void	export(t_env *env, char *var, int i)
 	char	*name;
 	char	*value;
 
+	name = NULL;
 	name = get_name(var);
 	if (i < 0)
 	{
