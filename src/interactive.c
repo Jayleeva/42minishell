@@ -94,5 +94,4 @@ void	minishell_interactive(t_data *data)
 		}
 	}
 	input = NULL;
-	rl_clear_history();
 }

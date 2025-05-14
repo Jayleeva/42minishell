@@ -42,7 +42,7 @@ t_bool	token_addback(t_token **head, t_token *new_token)
 	return (TRUE);
 }
 
-t_bool	token_put_in(t_token **head, const	char *str, int type)
+t_bool	token_put_in(t_token **head, char *str, int type)
 {
 	t_token	*new_token;
 

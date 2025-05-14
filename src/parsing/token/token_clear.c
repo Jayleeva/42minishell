@@ -19,8 +19,10 @@ void	token_clear(t_token **token)
 	if (token && *token)
 	{
 		current = *token;
+		//write(1, "-A-\n", 4);
 		if (current->str)
 		{
+			//write(1, "-B-\n", 4);
 			free(current->str);
 			current->str = NULL;
 		}
