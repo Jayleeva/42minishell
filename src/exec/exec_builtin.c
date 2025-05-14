@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:02 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/13 17:04:02 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:50:35 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static t_bool	set_output_red(t_cmd *cmd,
 			close(*saved_stdout);
 		return (FALSE);
 	}
-	//close(cmd->outfile);
 	*need_restore_out = 1;
 	return (TRUE);
 }
@@ -52,7 +51,6 @@ static t_bool	set_input_red(t_cmd *cmd, int *saved_stdin,
 {
 	if (cmd->infile < 0)
 		return (TRUE);
-
 	*saved_stdin = dup(STDIN_FILENO);
 	if (*saved_stdin == -1)
 		return (FALSE);
@@ -62,7 +60,6 @@ static t_bool	set_input_red(t_cmd *cmd, int *saved_stdin,
 			close(*saved_stdin);
 		return (FALSE);
 	}
-	//close(cmd->infile);
 	*need_restore_in = 1;
 	return (TRUE);
 }
@@ -108,5 +105,6 @@ t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 	}
 	process_cmd(data, cmd);
 	restore_builtin_red(save_stdout, save_stdin, restore_out, restore_in);
+	close_redirections(data);
 	return (TRUE);
 }
