@@ -35,12 +35,15 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 void	update_value(t_env *env, char *var, char *value, int to_export)
 {
 	t_env	*current;
+	char	*buffer;
 
 	current = env;
 	if (to_export == 1)
 	{
 		current->var = var;
-		current->value = value;
+		buffer = current->value;
+		current->value = ft_strdup(value);
+		free(buffer);
 		current->exported = 1;
 	}
 	return ;
