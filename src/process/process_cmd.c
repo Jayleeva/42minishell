@@ -15,13 +15,32 @@
 #include "../../inc/linked_list.h"
 #include "../../libft/inc/libft.h"
 
+char	*handle_open_quotes(t_data *data, char *input)
+{
+	char	*buffer;
+
+	while (check_open_quotes(data, input))
+	{
+		buffer = input;
+		input = ft_strjoin(input, "\n");
+		free (buffer);
+		buffer = input;
+		input = ft_strjoin(input, readline("> "));
+		free(buffer);
+	}
+	//printf("input = %s\n", input);
+	return (input);
+}
+
+
 t_bool	process_input(t_data *data, char *input)
 {
-	if (!check_open_quotes(data, input))
+	handle_open_quotes(data, input);
+	/*if (check_open_quotes(data, input))
 	{
 		free(input);
 		return (FALSE);
-	}
+	}*/
 	if (!dollar_handle(&input, data) ||!create_token_list(&data->token, input))
 	{
 		free(input);
