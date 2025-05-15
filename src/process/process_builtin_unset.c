@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/12 11:39:50 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:48:18 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,17 @@
 #include "../../inc/shell_data.h"
 #include "../../libft/inc/libft.h"
 
-char	*get_name(char *s)
-{
-	int		i;
-	char	*name;
-
-	name = NULL;
-	i = strchri(s, '=');
-	if (i > 0)
-		name = ft_substr(s, 0, i);
-	else if (i == -1)
-		name = ft_strdup(s);
-	return (name);
-}
-
 void	free_env_node(t_env *current)
 {
-	if (current->added)
+	if (current)
+	{
+		free(current->name);
+		current->name = NULL;
 		free(current->value);
-	current->name = NULL;
-	current->var = NULL;
+		current->value = NULL;
+		current->var = NULL;
+	}
+	free(current);
 }
 
 void	save_list(t_env	**head, t_env *current)
@@ -72,7 +63,6 @@ t_env	*unset_env(t_env **head, char *name)
 	{
 		prev->next = current->next;
 		free_env_node(current);
-		free(current);
 	}
 	return (*head);
 }

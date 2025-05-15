@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 10:09:17 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:54:37 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ void	update_export(t_env *env, char *name, char *value, int to_export)
 		current = current->next;
 	}
 	if (!ft_strncmp(current->name, name, ft_strlen(name)))
+	{
 		update_value(current, var, value, to_export);
+		free(name);
+	}
 	else
 		add_new_var(current, name, value, to_export);
 	free(var);
@@ -79,8 +82,6 @@ void	export(t_env *env, char *var, int i)
 	char	*name;
 	char	*value;
 
-	name = NULL;
-	name = get_name(var);
 	if (i < 0)
 	{
 		to_export = 0;
@@ -91,8 +92,10 @@ void	export(t_env *env, char *var, int i)
 		to_export = 1;
 		value = ft_substr(var, i + 1, ft_strlen(var));
 	}
+	name = NULL;
+	name = get_name(var);
 	update_export(env, name, value, to_export);
-	free(name);
+	//free(name);	cause des erreurs de read.
 	free(value);
 }
 
