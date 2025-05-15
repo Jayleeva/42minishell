@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:53:30 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 10:44:02 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:46:30 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ void	token_clear(t_token **token)
 	if (token && *token)
 	{
 		current = *token;
-		//write(1, "-A-\n", 4);
 		if (current->str)
 		{
-			//write(1, "-B-\n", 4);
 			free(current->str);
 			current->str = NULL;
 		}

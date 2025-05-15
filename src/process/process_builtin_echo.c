@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/13 16:40:50 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:43:39 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 
 void	print_in_output(t_data *data, char *s, int n_flag)
 {
-	int	target_fd;
+	int	temp;
 
-	target_fd = data->cmd->outfile;
-	if (target_fd == -2)
-	target_fd = 1;
-	ft_putstr_fd(s, target_fd);
+	temp = data->cmd->outfile;
+	if (temp == -2)
+		temp = 1;
+	ft_putstr_fd(s, temp);
 	if (!n_flag)
-		ft_putchar_fd('\n', target_fd);
+		ft_putchar_fd('\n', temp);
 }
 
 char	*echo_utils(char *s, char **argv, int i)

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/12 12:51:22 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:36:37 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,5 @@ void	update_env(t_env *env, char *name, char *value)
 	}
 	temp2 = current->value;
 	current->value = ft_strdup(value);
-	current->added = 1;
 	free(temp2);
 }

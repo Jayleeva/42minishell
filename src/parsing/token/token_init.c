@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:00:00 by yisho             #+#    #+#             */
-/*   Updated: 2025/03/26 12:44:18 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:46:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_bool	token_init(t_token *token, char *str, int type)
 {
 	token->str = NULL;
 	token->str = ft_strdup(str);
-	//free(str);
 	if (!token->str)
 		return (FALSE);
 	token->type = type;

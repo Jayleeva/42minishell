@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 11:54:37 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:36:36 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 		current = current->next;
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
-		return ;	
-	//current->next->name = ft_strdup(name);
+		return ;
 	current->next->name = name;
 	current->next->value = ft_strdup(value);
 	current->next->exported = to_export;
-	current->next->added = 1;
 	current->next->next = NULL;
 }
 
@@ -95,7 +93,6 @@ void	export(t_env *env, char *var, int i)
 	name = NULL;
 	name = get_name(var);
 	update_export(env, name, value, to_export);
-	//free(name);	cause des erreurs de read.
 	free(value);
 }
 

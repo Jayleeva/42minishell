@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 10:33:21 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:30:14 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_env	*init_env(char **envp, int nvar, int i)
 	export->var = envp[0];
 	if (!divide_var(export, envp[0], 1))
 		return (NULL);
-	export->added = 0;
 	export->next = NULL;
 	current = export;
 	while (i < nvar)
@@ -66,7 +65,6 @@ t_env	*init_env(char **envp, int nvar, int i)
 		current->next->var = envp[i];
 		if (!divide_var(current->next, envp[i], 1))
 			return (NULL);
-		current->next->added = 0;
 		current->next->next = NULL;
 		i ++;
 	}
@@ -109,6 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_exit(&data, 1);
 	}
 	minishell_interactive(&data);
+	free_env(&data.env);
 	ft_exit(&data, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 10:33:57 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:48:30 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ typedef struct s_data
 int		printf_fd(int fd, const char *s, ...);
 //find environment var
 t_env	*find_var(t_env *head, char *name);
-//int		get_var_name_length(char *input);
-//free all
+
 void	ft_exit(t_data *data, int exit_code);
 void	free_env(t_env **env);
 
@@ -94,7 +93,6 @@ t_bool	setup_input_redirection(t_cmd *cmd, int prev_pipe);
 t_bool	setup_output_redirection(t_cmd *cmd, t_data *data, t_bool has_next);
 void	add_child_pid(t_data *data, pid_t pid);
 
-
 //builtin
 int		divide_var(t_env *current, char *env, int exported);
 void	add_new_var(t_env *env, char *name, char *value, int to_export);
@@ -103,23 +101,23 @@ char	*get_name( char *s);
 void	process_cmd(t_data *data, t_cmd *cmd);
 char	*get_home(t_data *data);
 t_bool	process_input(t_data *data, char *input);
-char    *first_word(char *s);
-void    process_cd(t_data *data, char **argv);
-void    process_pwd(t_data *data);
-void    process_env(t_data *data, char **argv);
+char	*first_word(char *s);
+void	process_cd(t_data *data, char **argv);
+void	process_pwd(t_data *data);
+void	process_env(t_data *data, char **argv);
 void	process_export(t_data *data, char **argv);
 void	process_unset(t_data *data, char **argv);
-void    process_echo(t_data *data, char **argv);
-void    process_exit(t_data *data, char **argv);
-void    process_other(char *cmd, t_data *data);
-void    process_dollar(t_data *data);
+void	process_echo(t_data *data, char **argv);
+void	process_exit(t_data *data, char **argv);
+void	process_other(char *cmd, t_data *data);
+void	process_dollar(t_data *data);
 void	display_export(t_data *data);
 void	update_export(t_env *env, char *name, char *value, int exported);
 void	add_empty_export(t_data *data, char *cmd);
 void	add_to_env(t_data *data, char *cmd, int i);
 int		is_valid(char c);
 //other
-void    minishell_interactive(t_data *data);
+void	minishell_interactive(t_data *data);
 void	update_var(char *var, char *cmd, char *name, char *value);
 
 #endif

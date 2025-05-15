@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:25:40 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/14 22:52:08 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:46:19 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ char	*extract_var_name(char *input, int length)
 
 static char	*search_environment(t_env *env, char *var_name, int name_len)
 {
-	/*char	*value;
-
-	value = find_var(env, var_name)->value;
-	return (value);*/
 	while (env)
 	{
 		if (!ft_strncmp(env->name, var_name, name_len))
@@ -53,7 +49,6 @@ char	*get_env_value(t_env *env, char *name)
 	return (search_environment(env, &name[1], ft_strlen(name)));
 }
 
-//Extracts and validates variable name length
 static int	get_var_name_length(char *input)
 {
 	int	i;
