@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 13:36:59 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:03:01 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ void	minishell_interactive(t_data *data)
 			input = NULL;
 		}
 	}
+	//free(data->cmd);
 	input = NULL;
 }

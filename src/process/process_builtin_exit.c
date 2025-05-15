@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 13:25:13 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:07:23 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_exit(t_data *data, int exit_code)
 	rl_clear_history();
 	free_env(&data->env);
 	data->exit_code = exit_code;
+	token_clear(&data->token);
+	cmd_clear(&data->cmd);
 	exit(data->exit_code);
 }
 
