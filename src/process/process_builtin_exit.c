@@ -19,6 +19,7 @@ void	free_all(t_data *data, int exit_code)
 {
 	(void)data;
 	//free_env(&data->env);
+	rl_clear_history();
 	exit(exit_code);
 }
 

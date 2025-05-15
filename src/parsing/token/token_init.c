@@ -12,7 +12,7 @@
 
 #include "../../inc/linked_list.h"
 
-t_token	*token_create(const char *str, int type)
+t_token	*token_create(char *str, int type)
 {
 	t_token	*new_token;
 
@@ -27,9 +27,11 @@ t_token	*token_create(const char *str, int type)
 	return (new_token);
 }
 
-t_bool	token_init(t_token *token, const char *str, int type)
+t_bool	token_init(t_token *token, char *str, int type)
 {
+	token->str = NULL;
 	token->str = ft_strdup(str);
+	//free(str);
 	if (!token->str)
 		return (FALSE);
 	token->type = type;
