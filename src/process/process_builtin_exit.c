@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 15:07:23 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:21:43 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,16 @@ int	isnum(char *s)
 	return (1);
 }
 
-void	bad_exit(t_data *data, char *arg, char **argv)
+void	bad_exit(t_data *data, char *arg)
 {
-	array_clear(argv);
 	ft_printf("exit\n");
 	printf_fd(STDERR_FILENO,
 		"minishell: exit: %s: numeric argument required\n", arg);
 	ft_exit(data, 2);
 }
 
-void	exit_utils(t_data *data, int exit_code, char **argv)
+void	exit_utils(t_data *data, int exit_code)
 {
-	array_clear(argv);
 	ft_printf("exit\n");
 	ft_exit(data, exit_code);
 }
@@ -72,11 +70,11 @@ void	process_exit(t_data *data, char **argv)
 			else
 			{
 				data->exit_code = ft_atoi(argv[1]) % 256;
-				exit_utils(data, data->exit_code, argv);
+				exit_utils(data, data->exit_code);
 			}
 		}
 		else
-			bad_exit(data, argv[1], argv);
+			bad_exit(data, argv[1]);
 	}
-	exit_utils(data, 0, argv);
+	exit_utils(data, 0);
 }
