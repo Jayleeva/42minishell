@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 10:33:50 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:47:12 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 void	ft_exit(t_data *data, int exit_code)
 {
-	(void)data;
-	//free_env(&data->env);
 	rl_clear_history();
-	exit(exit_code);
+	//free_env(&data->env);
+	data->exit_code = exit_code;
+	exit(data->exit_code);
 }
 
 int	isnum(char *s)
