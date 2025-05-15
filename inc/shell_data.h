@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/14 22:43:43 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/15 10:33:57 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		printf_fd(int fd, const char *s, ...);
 t_env	*find_var(t_env *head, char *name);
 //int		get_var_name_length(char *input);
 //free all
-void	free_all(t_data *data, int exit_code);
+void	ft_exit(t_data *data, int exit_code);
 void	free_env(t_env **env);
 
 int		check_open_quotes(t_data *data, char *input);

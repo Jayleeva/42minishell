@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:32:09 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/08 16:34:02 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:32:44 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_input(t_data *data, char *input)
 	{
 		data->exit_code = 0;
 		ft_printf("exit\n");
-		free_all(data, data->exit_code);
+		ft_exit(data, data->exit_code);
 	}
 	if (*input)
 	{

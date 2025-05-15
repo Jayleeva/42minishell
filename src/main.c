@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:27:40 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/12 12:31:50 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:33:21 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,17 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data);
 	if (!envp)
 	{
-		ft_putstr_fd("Error: no environment received\n", 2);
-		free_all(&data, 1);
+		ft_putstr_fd("Error: no environment received\n", STDERR_FILENO);
+		ft_exit(&data, 1);
 	}
 	nvar = count_var(envp);
 	data.env = init_env(envp, nvar, 1);
 	if (!data.env)
 	{
 		free_env(&data.env);
-		exit (1);
+		ft_exit(&data, 1);
 	}
 	minishell_interactive(&data);
-	free_all(&data, 0);
+	ft_exit(&data, 0);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yisho <yisho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:37:31 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/08 12:45:02 by yisho            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:35:44 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	exec_builtin_child(t_cmd *cmd, t_data *data, t_bool has_next)
 		close(data->pipe_fd[1]);
 	close(data->pipe_fd[0]);
 	execute_builtin(data, cmd);
-	exit(data->exit_code);
+	ft_exit(data, data->exit_code);
 }
 
 static size_t	env_lenght(t_env *list)

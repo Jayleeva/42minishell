@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/14 22:42:49 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/15 10:35:29 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,20 @@ static void	execute_external_command(t_data *data, t_cmd *cmd)
 	path = NULL;
 	env_array = NULL;
 	if (!resolve_command_path(data, cmd, &path))
-		exit(data->exit_code);
+		ft_exit(data, data->exit_code);
 	update_env(data->env, "SHLVL", "+1");
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{
 		perror("env_to_array");
 		free(path);
-		exit(1);
+		ft_exit(data, 1);
 	}
 	execve(path, cmd->argv, env_array);
 	perror("execve");
 	free(path);
 	array_clear(env_array);
-	exit(1);
+	ft_exit(data, 1);
 }
 
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
@@ -93,9 +93,9 @@ void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 	if (is_builtin(cmd->argv[0]))
 	{
 		exec_builtin_child(cmd, data, has_next);
-		exit(EXIT_SUCCESS);
+		ft_exit(data, 0);
 	}
 	if (!setup_redirections(cmd, prev_pipe, data, has_next))
-		exit(EXIT_FAILURE);
+		ft_exit(data, 1);
 	execute_external_command(data, cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/12 13:50:34 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:33:50 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../../inc/linked_list.h"
 #include "../../libft/inc/libft.h"
 
-void	free_all(t_data *data, int exit_code)
+void	ft_exit(t_data *data, int exit_code)
 {
 	(void)data;
 	//free_env(&data->env);
@@ -43,7 +43,7 @@ void	bad_exit(t_data *data, char *arg)
 	printf_fd(STDERR_FILENO,
 		"minishell: exit: %s: numeric argument required\n", arg);
 	data->exit_code = 2;
-	free_all(data, 2);
+	ft_exit(data, 2);
 }
 
 void	process_exit(t_data *data, char **argv)
@@ -55,13 +55,13 @@ void	process_exit(t_data *data, char **argv)
 		{
 			if (argv[2])
 			{
-				ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+				ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 				data->exit_code = 1;
 			}
 			else
 			{
 				data->exit_code = ft_atoi(argv[1]) % 256;
-				free_all(data, data->exit_code);
+				ft_exit(data, data->exit_code);
 			}
 		}
 		else
@@ -70,6 +70,6 @@ void	process_exit(t_data *data, char **argv)
 	else
 	{
 		ft_printf("exit\n");
-		free_all(data, 0);
+		ft_exit(data, 0);
 	}
 }

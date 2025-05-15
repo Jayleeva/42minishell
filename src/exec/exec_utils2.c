@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:02:22 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/12 14:47:03 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/15 10:36:01 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	add_child_pid(t_data *data, pid_t pid)
 	if (!new_pids)
 	{
 		perror("minishell: failed to allocate child PIDs");
-		exit(EXIT_FAILURE);
+		ft_exit(data, 1);
 	}
 	data->child_pids = new_pids;
 	data->child_pids[data->child_count++] = pid;
