@@ -6,7 +6,7 @@
 /*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/12 16:02:28 by yishan           ###   ########.fr       */
+/*   Updated: 2025/05/14 22:43:43 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	print_cmd(t_cmd *cmd);
 t_bool	execute_pipeline(t_data *data);
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next);
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next);
-void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next);
+void	close_redirections(t_data *data);
 
 t_bool	is_builtin(char *cmd);
 t_bool	execute_builtin(t_data *data, t_cmd *cmd);
