@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/12 12:31:25 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:09:17 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	add_new_var(t_env *env, char *name, char *value, int to_export)
 	current->next = (t_env *)malloc(sizeof(t_env));
 	if (current->next == NULL)
 		return ;	
-	current->next->name = ft_strdup(name);
-	//current->next->name = name;
+	//current->next->name = ft_strdup(name);
+	current->next->name = name;
 	current->next->value = ft_strdup(value);
 	current->next->exported = to_export;
 	current->next->added = 1;
