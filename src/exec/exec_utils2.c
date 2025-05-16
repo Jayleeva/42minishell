@@ -49,7 +49,7 @@ t_bool	setup_output_redirection(t_cmd *cmd, t_data *data, t_bool has_next)
 			close(data->pipe_fd[1]);
 	}
 	if (data->pipe_fd[0] != -1)
-	close(data->pipe_fd[0]);
+		close(data->pipe_fd[0]);
 	return (TRUE);
 }
 

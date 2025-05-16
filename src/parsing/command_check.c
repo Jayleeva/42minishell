@@ -20,7 +20,7 @@ static t_bool	handle_command(t_data *data, t_token *token, t_cmd *cmd)
 		if (cmd->infile == -1)
 		{
 			cmd->skip_cmd = TRUE;
-			cmd->outfile = -1; // tried to modify this, doesn't solve it
+			cmd->outfile = -1;
 			return (FALSE);
 		}
 		return (FALSE);
@@ -32,7 +32,7 @@ static t_bool	handle_command(t_data *data, t_token *token, t_cmd *cmd)
 			if (cmd->infile >= 0)
 				close(cmd->infile);
 			cmd->skip_cmd = TRUE;
-			cmd->infile = -1; // tried to modify this, doesn't solve it
+			cmd->infile = -1;
 			return (FALSE);
 		}
 		return (FALSE);

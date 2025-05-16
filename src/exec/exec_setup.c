@@ -19,12 +19,12 @@ static void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 		close(*prev_pipe);
 	if (has_next)
 	{
-		if (data->pipe_fd[1] != -1) //added this, doesn't solve it
+		if (data->pipe_fd[1] != -1)
 			close(data->pipe_fd[1]);
 		*prev_pipe = data->pipe_fd[0];
 	}
-	else 				// tried to comment it, doesn't solve it
-		*prev_pipe = -1; // tried to modify this, doesn't solve it 
+	else
+		*prev_pipe = -1;
 }
 
 static t_bool	wait_for_child(t_data *data)
@@ -108,7 +108,7 @@ t_bool	execute_pipeline(t_data *data)
 	int		prev_pipe;
 	t_bool	result;
 
-	prev_pipe = -1; // when modified, same warning + error (if set to 1: "standard output : Bad file decriptor". if set to 0: "-: Bad file descriptor")
+	prev_pipe = -1;
 	if (!execute_pipeline_commands(data, &prev_pipe))
 		return (FALSE);
 	result = wait_for_child(data);

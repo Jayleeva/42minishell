@@ -62,10 +62,18 @@ static t_bool	read_heredoc_input(t_data *data, int fd, char *delimiter)
 	return (TRUE);
 }
 
+/*static void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	write(STDERR_FILENO, "\n", 1);
+	exit(130);
+}*/
+
 static void	heredoc_child(t_data *data, char *delimiter)
 {
 	int	fd;
 
+	//signal(SIGINT, handle_heredoc_sigint);
 	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_exit(data, 1);

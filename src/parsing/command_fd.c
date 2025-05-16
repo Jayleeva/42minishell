@@ -17,7 +17,7 @@ static int	open_file(t_data *data, char *filename, int type)
 {
 	int	fd;
 
-	fd = -1; // tried to modify this, doesn't solve it
+	fd = -1;
 	if (type == INPUT)
 		fd = open(filename, O_RDONLY);
 	else if (type == HEREDOC)
@@ -33,7 +33,6 @@ static int	open_file(t_data *data, char *filename, int type)
 
 static t_bool	process_input_redirect(t_data *data, t_token *token, t_cmd *cmd)
 {
-	//printf("token = %s\n", token->str);
 	if (token->type == INPUT || token->type == HEREDOC)
 	{
 		if (!token->next || token->next->type == PIPE
