@@ -29,6 +29,7 @@ typedef struct s_data
 	int		pipe_fd[2];
 	int		last_pid;
 	int		exit_code;
+	//char	*prompt;
 	char	**paths;
 	t_env	*env;
 	t_token	*token;
@@ -40,7 +41,8 @@ typedef struct s_data
 int		printf_fd(int fd, const char *s, ...);
 //find environment var
 t_env	*find_var(t_env *head, char *name);
-
+//update pwd in the prompt
+char	*update_prompt(t_env *env);
 void	ft_exit(t_data *data, int exit_code);
 void	free_env(t_env **env);
 

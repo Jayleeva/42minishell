@@ -23,12 +23,12 @@ void	close_redirections(t_data *data)
 		if (cmd->outfile >= 0)
 		{
 			close(cmd->outfile);
-			cmd->outfile = -1;
+			cmd->outfile =  -1; // tried to modify this, doesn't solve it
 		}
 		if (cmd->infile >= 0)
 		{
 			close(cmd->infile);
-			cmd->infile = -1;
+			cmd->infile =  -1; // tried to modify this, doesn't solve it
 		}
 		cmd = cmd->next;
 	}

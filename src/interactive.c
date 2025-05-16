@@ -16,13 +16,6 @@
 
 volatile sig_atomic_t	*g_sig;
 
-void	reset_prompt(void)
-{
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
 void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
@@ -31,7 +24,9 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
-		reset_prompt();
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
@@ -67,31 +62,42 @@ void	handle_input(t_data *data, char *input)
 	}
 }
 
+void	interactive_utils(t_data *data, char *input)
+{
+	if (!input || *input)
+		handle_input(data, input);
+	else
+	{
+		free(input);
+		input = NULL;
+	}
+}
+
 void	minishell_interactive(t_data *data)
 {
 	char				*input;
 	sig_atomic_t		sig;
+	char				*prompt;
+	char				*buffer;
 
 	sig = 0;
 	g_sig = &sig;
 	init_signals();
+	prompt = NULL;
 	while (1)
 	{
 		input = NULL;
-		input = readline("minishell> ");
+		buffer = prompt;
+		prompt = update_prompt(data->env);
+		free(buffer);
+		input = readline(prompt);
 		if (sig != 0)
 		{
 			data->exit_code = 128 + (int)sig;
 			sig = 0;
 		}
-		if (!input || *input)
-			handle_input(data, input);
-		else
-		{
-			free(input);
-			input = NULL;
-		}
+		interactive_utils(data, input);
 	}
-	//free(data->cmd);
+	free(prompt);
 	input = NULL;
 }

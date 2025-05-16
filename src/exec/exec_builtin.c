@@ -88,8 +88,8 @@ t_bool	execute_builtin(t_data *data, t_cmd *cmd)
 	int	restore_out;
 	int	restore_in;
 
-	save_stdout = -1;
-	save_stdin = -1;
+	save_stdout = -1; // tried to modify this, doesn't solve it
+	save_stdin = -1; // tried to modify this, doesn't solve it
 	restore_out = 0;
 	restore_in = 0;
 	if (!set_output_red(cmd, &save_stdout, &restore_out))

@@ -23,7 +23,7 @@ static void	cleanup_pipes(t_data *data, int *prev_pipe, t_bool has_next)
 		*prev_pipe = data->pipe_fd[0];
 	}
 	else
-		*prev_pipe = -1;
+		*prev_pipe = -1; // tried to modify this, doesn't solve it 
 }
 
 static t_bool	wait_for_child(t_data *data)
@@ -107,7 +107,7 @@ t_bool	execute_pipeline(t_data *data)
 	int		prev_pipe;
 	t_bool	result;
 
-	prev_pipe = -1;
+	prev_pipe = -1; // when modified, same warning + error "bad file descriptor"
 	if (!execute_pipeline_commands(data, &prev_pipe))
 		return (FALSE);
 	result = wait_for_child(data);
