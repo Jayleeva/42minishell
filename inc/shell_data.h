@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_data.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:11:55 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 12:48:30 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:14:24 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 t_bool	setup_input_redirection(t_cmd *cmd, int prev_pipe);
 t_bool	setup_output_redirection(t_cmd *cmd, t_data *data, t_bool has_next);
 void	add_child_pid(t_data *data, pid_t pid);
+void	init_signals(void);
+void	exec_sigint(int sig);
 
 //builtin
 int		divide_var(t_env *current, char *env, int exported);

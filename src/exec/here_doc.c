@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/15 10:42:17 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:12:15 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,18 @@ static t_bool	read_heredoc_input(t_data *data, int fd, char *delimiter)
 	return (TRUE);
 }
 
-/*static void	handle_heredoc_sigint(int sig)
+static void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	write(STDERR_FILENO, "\n", 1);
 	exit(130);
-}*/
+}
 
 static void	heredoc_child(t_data *data, char *delimiter)
 {
 	int	fd;
 
-	//signal(SIGINT, handle_heredoc_sigint);
+	signal(SIGINT, &handle_heredoc_sigint);
 	fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		ft_exit(data, 1);
@@ -100,7 +100,9 @@ int	here_doc(t_data *data, char *delimiter)
 		heredoc_child(data, delimiter);
 	else if (pid < 0)
 		return (-1);
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	init_signals();
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 		return (-1);
 	fd = open(".heredoc.tmp", O_RDONLY);

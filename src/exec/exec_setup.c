@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:42:06 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 10:25:53 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/16 14:54:14 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_bool	execute_pipeline(t_data *data)
 	if (!execute_pipeline_commands(data, &prev_pipe))
 		return (FALSE);
 	result = wait_for_child(data);
+	init_signals();
 	close_redirections(data);
 	return (result);
 }

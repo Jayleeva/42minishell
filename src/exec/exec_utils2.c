@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:02:22 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 10:36:01 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:16:28 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,10 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 		free(ptr);
 	}
 	return (new_ptr);
+}
+
+void	exec_sigint(int sig)
+{
+	(void)sig;
+	printf("\n");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: yishan <yishan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:08:02 by yisho             #+#    #+#             */
-/*   Updated: 2025/05/15 10:35:29 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:14:48 by yishan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	close_redirections(t_data *data)
 
 void	parent_process(t_data *data, pid_t pid, t_cmd *cmd, t_bool has_next)
 {
+	signal(SIGINT, &exec_sigint);
 	if (!has_next)
 		data->last_pid = pid;
 	add_child_pid(data, pid);
@@ -90,6 +91,7 @@ static void	execute_external_command(t_data *data, t_cmd *cmd)
 void	child_process(t_data *data, t_cmd *cmd, int prev_pipe, t_bool has_next)
 {
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	if (is_builtin(cmd->argv[0]))
 	{
 		exec_builtin_child(cmd, data, has_next);
