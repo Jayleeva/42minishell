@@ -77,13 +77,11 @@ void	minishell_interactive(t_data *data)
 {
 	char				*input;
 	sig_atomic_t		sig;
-	//char				*prompt;
 	char				*buffer;
 
 	sig = 0;
 	g_sig = &sig;
 	init_signals();
-	//data->prompt = NULL;
 	while (1)
 	{
 		input = NULL;

@@ -43,7 +43,8 @@ void	process_cd(t_data *data, char **argv)
 	if (chdir(argv[1]) == -1)
 	{
 		data->exit_code = 1;
-		printf_fd(STDERR_FILENO, "cd: %s: No such file or directory\n", argv[1]);
+		printf_fd(STDERR_FILENO,
+			"cd: %s: No such file or directory\n", argv[1]);
 		return ;
 	}
 	process_cd_utils(data);

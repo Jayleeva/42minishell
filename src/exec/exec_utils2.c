@@ -19,13 +19,15 @@ t_bool	setup_input_redirection(t_cmd *cmd, int prev_pipe)
 	{
 		if (dup2(cmd->infile, STDIN_FILENO) == -1)
 			return (FALSE);
-		close(cmd->infile);
+		if (cmd->infile != -1)
+			close(cmd->infile);
 	}
 	else if (prev_pipe != -1)
 	{
 		if (dup2(prev_pipe, STDIN_FILENO) == -1)
 			return (FALSE);
-		close(prev_pipe);
+		if (prev_pipe != -1)
+			close(prev_pipe);
 	}
 	return (TRUE);
 }
@@ -36,14 +38,17 @@ t_bool	setup_output_redirection(t_cmd *cmd, t_data *data, t_bool has_next)
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
 			return (FALSE);
-		close(cmd->outfile);
+		if (cmd->outfile != -1)
+			close(cmd->outfile);
 	}
 	else if (has_next)
 	{
 		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == -1)
 			return (FALSE);
-		close(data->pipe_fd[1]);
+		if (data->pipe_fd[1] != -1)
+			close(data->pipe_fd[1]);
 	}
+	if (data->pipe_fd[0] != -1)
 	close(data->pipe_fd[0]);
 	return (TRUE);
 }

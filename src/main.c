@@ -78,7 +78,7 @@ void	init_data(t_data *data)
 	data->token = NULL;
 	data->env = NULL;
 	data->cmd = NULL;
-	data->pipe_fd[0] = -1; //when modified, error "Bad file decriptor"
+	data->pipe_fd[0] = -1; //when modified, error (if set to 1: "standard output : Bad file decriptor". if set to 0: "standard input: Bad file descriptor")
 	data->pipe_fd[1] = -1; // tried to modify this, doesn't solve it
 	data->last_pid = -1; // tried to modify this, doesn't solve it
 	data->child_pids = NULL;

@@ -113,7 +113,8 @@ void	process_export(t_data *data, char **argv)
 		j = strchri(argv[i], '=');
 		if (j == 0 || !is_valid(argv[i][0]))
 			printf_fd(STDERR_FILENO,
-				"minishell: export: `%c': not a valid identifier\n", argv[i][0]);
+				"minishell: export: `%c': not a valid identifier\n",
+				argv[i][0]);
 		else
 			export(data->env, argv[i], j);
 		i ++;
