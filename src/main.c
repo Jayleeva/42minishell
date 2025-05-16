@@ -83,7 +83,7 @@ void	init_data(t_data *data)
 	data->last_pid = -1; // tried to modify this, doesn't solve it
 	data->child_pids = NULL;
 	data->child_count = 0;
-	//data->prompt = NULL;
+	data->prompt = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

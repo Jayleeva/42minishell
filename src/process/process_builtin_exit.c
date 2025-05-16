@@ -18,7 +18,7 @@
 void	ft_exit(t_data *data, int exit_code)
 {
 	rl_clear_history();
-	//free(data->prompt);
+	free(data->prompt);
 	free_env(&data->env);
 	data->exit_code = exit_code;
 	token_clear(&data->token);

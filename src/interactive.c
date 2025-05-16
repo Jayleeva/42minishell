@@ -77,20 +77,20 @@ void	minishell_interactive(t_data *data)
 {
 	char				*input;
 	sig_atomic_t		sig;
-	char				*prompt;
+	//char				*prompt;
 	char				*buffer;
 
 	sig = 0;
 	g_sig = &sig;
 	init_signals();
-	prompt = NULL;
+	//data->prompt = NULL;
 	while (1)
 	{
 		input = NULL;
-		buffer = prompt;
-		prompt = update_prompt(data->env);
+		buffer = data->prompt;
+		data->prompt = update_prompt(data->env);
 		free(buffer);
-		input = readline(prompt);
+		input = readline(data->prompt);
 		if (sig != 0)
 		{
 			data->exit_code = 128 + (int)sig;
@@ -98,6 +98,6 @@ void	minishell_interactive(t_data *data)
 		}
 		interactive_utils(data, input);
 	}
-	free(prompt);
+	free(data->prompt);
 	input = NULL;
 }

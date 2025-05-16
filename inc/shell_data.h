@@ -29,7 +29,7 @@ typedef struct s_data
 	int		pipe_fd[2];
 	int		last_pid;
 	int		exit_code;
-	//char	*prompt;
+	char	*prompt;
 	char	**paths;
 	t_env	*env;
 	t_token	*token;
