@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 15:21:43 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/19 13:46:05 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ void	ft_exit(t_data *data, int exit_code)
 	token_clear(&data->token);
 	cmd_clear(&data->cmd);
 	exit(data->exit_code);
-}
-
-int	isnum(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
-		i ++;
-	}
-	return (1);
 }
 
 void	bad_exit(t_data *data, char *arg)
@@ -58,7 +44,7 @@ void	process_exit(t_data *data, char **argv)
 {
 	if (argv[1])
 	{
-		if (isnum(argv[1]))
+		if (is_int(argv[1]))
 		{
 			if (argv[2])
 			{
@@ -77,5 +63,5 @@ void	process_exit(t_data *data, char **argv)
 		else
 			bad_exit(data, argv[1]);
 	}
-	exit_utils(data, 0);
+	exit_utils(data, data->exit_code);
 }

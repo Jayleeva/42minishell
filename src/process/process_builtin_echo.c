@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:20:12 by cyglardo          #+#    #+#             */
-/*   Updated: 2025/05/15 12:43:39 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:41:00 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ void	process_echo(t_data *data, char **argv)
 	i = 1;
 	if (argv[1] && !ft_strncmp(argv[1], "-n", 2))
 	{
-		i = 2;
-		n_flag = 1;
+		if (!argv[1][2])
+		{
+			i = 2;
+			n_flag = 1;
+		}
 	}
 	s = echo_utils(s, argv, i);
 	print_in_output(data, s, n_flag);
