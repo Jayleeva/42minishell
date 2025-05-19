@@ -6,7 +6,7 @@
 /*   By: cyglardo <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:58:45 by yishan            #+#    #+#             */
-/*   Updated: 2025/05/19 10:22:03 by cyglardo         ###   ########.fr       */
+/*   Updated: 2025/05/19 10:28:50 by cyglardo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static t_bool	handle_line(t_data *data, int fd, char *line, char *delimiter)
 {
 	if (!line)
 	{
-		printf_fd(2, "warning: here-document delimited by end-of-file (wanted `%s'\n)", delimiter);
+		printf_fd(STDERR_FILENO,
+			"warning: here-document delimited by end-of-file (wanted `%s'\n)",
+			delimiter);
 		return (FALSE);
 		return (FALSE);
 	}
